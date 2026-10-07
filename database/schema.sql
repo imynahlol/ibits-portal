@@ -1,28 +1,40 @@
 -- iBITS Portal - Initial Database Schema
 
 -- =====================================================
--- USERS TABLE
--- Stores all members, officers, and admins
+-- USERS DB TABLE
+-- stores members, officers, advisers, and admins
+-- id_number format:
+--   Students : 20XX-XXXXX-LQ-0  (e.g. 2025-00122-LQ-0)
+--   Advisers : XXXXX            (e.g. 00812)
 -- =====================================================
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     full_name VARCHAR(100) NOT NULL,
-    student_number VARCHAR(20) NOT NULL UNIQUE,
-    sex ENUM('Male','Female','Other') NOT NULL,
-    program VARCHAR(50) NOT NULL,
-    year_level VARCHAR(20) NOT NULL,
+    id_number VARCHAR(20) NOT NULL UNIQUE,
+    sex ENUM('Female','Male','Non-Binary') NOT NULL,
+    program VARCHAR(50) DEFAULT NULL,        -- NULL for advisers
+    year_level VARCHAR(20) DEFAULT NULL,     -- NULL for advisers
     password_hash VARCHAR(255) NOT NULL,
     role VARCHAR(30) NOT NULL DEFAULT 'member',
     profile_picture VARCHAR(255) DEFAULT NULL,
     birthday DATE DEFAULT NULL,
     status ENUM('active','inactive') DEFAULT 'active',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    CONSTRAINT chk_id_number_format
+        CHECK (
+            id_number REGEXP '^[0-9]{4}-[0-9]{5}-LQ-[0-9]$'  -- student
+            OR
+            id_number REGEXP '^[0-9]{5}$'                     -- adviser
+        )
 );
+
+CREATE INDEX idx_users_role ON users(role);
+CREATE INDEX idx_users_status ON users(status);
 
 -- =====================================================
 -- FINES TABLE
--- Stores fines issued to members
 -- =====================================================
 CREATE TABLE fines (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -38,9 +50,11 @@ CREATE TABLE fines (
     FOREIGN KEY (created_by) REFERENCES users(id)
 );
 
+CREATE INDEX idx_fines_user ON fines(user_id);
+CREATE INDEX idx_fines_status ON fines(status);
+
 -- =====================================================
 -- EVENTS TABLE
--- Stores GPOA events
 -- =====================================================
 CREATE TABLE events (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -55,9 +69,11 @@ CREATE TABLE events (
     FOREIGN KEY (created_by) REFERENCES users(id)
 );
 
+CREATE INDEX idx_events_category ON events(category);
+CREATE INDEX idx_events_start ON events(start_datetime);
+
 -- =====================================================
--- TICKETS TABLE
--- Help Desk / STRAW Support tickets
+-- TICKETS TABLE (Help Desk / STRAW Support)
 -- =====================================================
 CREATE TABLE tickets (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -72,6 +88,8 @@ CREATE TABLE tickets (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (assigned_to) REFERENCES users(id) ON DELETE SET NULL
 );
+
+CREATE INDEX idx_tickets_status ON tickets(status);
 
 -- =====================================================
 -- TICKET REPLIES TABLE
@@ -99,14 +117,20 @@ CREATE TABLE faqs (
 
 -- =====================================================
 -- CBL DOCUMENTS TABLE
--- Org By Laws documents
 -- =====================================================
 CREATE TABLE cbl_documents (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(150) NOT NULL,
     version VARCHAR(20) NOT NULL,
     file_path VARCHAR(255) NOT NULL,
-    status ENUM('draft','pending_adviser','pending_president','pending_vp','published','rejected') DEFAULT 'draft',
+    status ENUM(
+        'draft',
+        'pending_adviser',
+        'pending_president',
+        'pending_vp',
+        'published',
+        'rejected'
+    ) DEFAULT 'draft',
     created_by INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -115,7 +139,7 @@ CREATE TABLE cbl_documents (
 
 -- =====================================================
 -- CBL APPROVALS TABLE
--- Tracks Adviser -> President -> VP approval chain
+-- Adviser -> President -> VP approval chain
 -- =====================================================
 CREATE TABLE cbl_approvals (
     id INT AUTO_INCREMENT PRIMARY KEY,
