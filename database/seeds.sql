@@ -1,6 +1,6 @@
 USE ibits_portal;
 
-INSERT INTO users (full_name, id_number, program, role, password_hash) VALUES
+INSERT INTO users (full_name, student_id, program, role, password_hash) VALUES
 ('Johahnie Ynah Marise Capistrano Gilbuena','2024-0001-LQ-0','BSIT - 3rd Yr','Vice President',NULL),
 ('Ada Lovelace','2023-0012-LQ-0','BSIT - 4th Yr','President',NULL);
 
