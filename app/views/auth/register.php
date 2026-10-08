@@ -42,7 +42,7 @@
         placeholder="2025-00122-LQ-0"
         required
     >
-    <small id="id_hint">Students: <code>20XX-XXXXX-LQ-0</code></small>
+    <small id="id_hint">Students: <code>20XX-XXXXX-LQ-X</code></small>
 
     <label>Sex</label>
     <select name="sex" required>
@@ -87,7 +87,7 @@
         } else {
             idInput.placeholder = '2025-00122-LQ-0';
             idInput.pattern     = '^[0-9]{4}-[0-9]{5}-LQ-[0-9]$';
-            idHint.innerHTML    = 'Students: <code>20XX-XXXXX-LQ-0</code>';
+            idHint.innerHTML    = 'Students: <code>20XX-XXXXX-LQ-X</code>';
             studentBlock.style.display = 'block';
             studentBlock.querySelectorAll('input').forEach(i => i.required = true);
         }
