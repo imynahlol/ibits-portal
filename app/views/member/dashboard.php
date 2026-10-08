@@ -1,105 +1,81 @@
-<?php
-    $rightSideClass = ' wide';
-    $showTopNav     = true;
-    $activeNav      = 'dashboard';
-    require __DIR__ . '/../layouts/header.php';
-
-$roleLabel = [
-    'member'         => 'Member',
-    'president'      => 'President',
-    'vice_president' => 'Vice President',
-    'secretary'      => 'Secretary',
-    'treasurer'      => 'Treasurer',
-    'auditor'        => 'Auditor',
-    'adviser'        => 'Adviser',
-]
-    [$role] ?? ucfirst($role);
-?>
-
-<div class="card wide">
-    <div class="header-row">
+<!-- View: Member Dashboard -->
+<div id="view-dashboard" class="view-section <?= $currentView === 'dashboard' ? 'active' : '' ?> w-full p-6 lg:p-10">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 animate-fade-in">
         <div>
-            <h2 style="text-align:left; margin-bottom:4px;">
-                Welcome, <?= e($user_name) ?>
-            </h2>
-            <p class="subtitle" style="text-align:left; margin:0;">
-                Signed in as <span class="badge"><?= e($roleLabel) ?></span>
+            <h1 class="text-2xl font-bold text-primary dark:text-white">Dashboard Overview</h1>
+            <p class="text-textMuted text-sm">
+                Welcome back, <span id="dash-greeting-name" class="font-medium text-primary dark:text-gray-300">Member</span>!
             </p>
         </div>
-    </div>
-
-    <!-- KPI cards -->
-    <div class="kpi-grid">
-        <div class="kpi <?= $fine_summary['unpaid_count'] > 0 ? 'kpi-danger' : 'kpi-ok' ?>">
-            <div class="kpi-label">Unpaid Fines</div>
-            <div class="kpi-value">
-                <?= $fine_summary['unpaid_count'] > 0
-                    ? '₱' . number_format($fine_summary['unpaid'], 2)
-                    : 'None' ?>
-            </div>
-        </div>
-
-        <div class="kpi kpi-warn">
-            <div class="kpi-label">Upcoming Events</div>
-            <div class="kpi-value"><?= count($upcoming) ?></div>
-        </div>
-
-        <div class="kpi <?= $ticket_count > 0 ? 'kpi-warn' : 'kpi-ok' ?>">
-            <div class="kpi-label">Open Tickets</div>
-            <div class="kpi-value"><?= (int)$ticket_count ?></div>
+        <div class="mt-4 md:mt-0 flex gap-3">
+            <button class="bg-surface border border-gray-200 p-2 rounded-lg text-textMuted hover:text-primary transition-colors shadow-sm">
+                <i class="fa-regular fa-bell"></i>
+            </button>
         </div>
     </div>
 
-    <!-- quick access -->
-    <section class="section">
-        <h2>Quick Access</h2>
-        <div class="grid-3">
-            <div class="card">
-                <h2>My Fines</h2>
-                <p class="muted">View your personal fines and status.</p>
-                <a class="btn btn-sm" href="<?= e($_ENV['APP_URL']) ?>/fines">Open</a>
+    <!-- Widgets -->
+    <div class="grid md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-surface rounded-2xl p-6 shadow-sm border border-gray-100 hover-card tilt animate-slide-up" style="animation-delay: 0.1s;">
+            <div class="flex justify-between items-start mb-4">
+                <div class="w-12 h-12 rounded-xl bg-red-50 text-red-500 flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                </div>
+                <span class="px-2 py-1 bg-red-100 text-red-600 text-xs font-bold rounded-md">Pending</span>
             </div>
-            <div class="card">
-                <h2>Events / GPOA</h2>
-                <p class="muted">Check the organization calendar.</p>
-                <a class="btn btn-sm" href="<?= e($_ENV['APP_URL']) ?>/my-events">Open</a>
+            <h3 class="text-gray-500 text-sm font-medium">My Total Fines</h3>
+            <div id="dash-fines" class="text-3xl font-bold text-primary mt-1">₱0.00</div>
+            <button onclick="navigate('fines')" class="text-xs text-primary font-medium mt-4 hover:underline flex items-center gap-1">
+                View Details <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+
+        <div class="bg-surface rounded-2xl p-6 shadow-sm border border-gray-100 hover-card tilt animate-slide-up" style="animation-delay: 0.2s;">
+            <div class="flex justify-between items-start mb-4">
+                <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-500 flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-calendar-check"></i>
+                </div>
+                <span id="dash-event-badge" class="px-2 py-1 bg-blue-100 text-blue-600 text-xs font-bold rounded-md">Upcoming</span>
             </div>
-            <div class="card">
-                <h2>Forms Hub</h2>
-                <p class="muted">Excuse Letter, CBL, and more.</p>
-                <a class="btn btn-sm" href="#" onclick="alert('Coming soon'); return false;">Open</a>
+            <h3 class="text-gray-500 text-sm font-medium">Upcoming Events</h3>
+            <div id="dash-event" class="text-xl font-bold text-primary mt-1 truncate">No upcoming events</div>
+            <div id="dash-event-date" class="text-xs text-textMuted"></div>
+            <button onclick="navigate('events')" class="text-xs text-primary font-medium mt-4 hover:underline flex items-center gap-1">
+                View Calendar <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+
+        <div class="bg-surface rounded-2xl p-6 shadow-sm border border-gray-100 hover-card tilt animate-slide-up" style="animation-delay: 0.3s;">
+            <div class="flex justify-between items-start mb-4">
+                <div class="w-12 h-12 rounded-xl bg-green-50 text-green-500 flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-ticket-alt"></i>
+                </div>
+                <span class="px-2 py-1 bg-green-100 text-green-600 text-xs font-bold rounded-md">Active</span>
             </div>
-            <div class="card">
-                <h2>Help Desk</h2>
-                <p class="muted">Submit &amp; track STRAW support tickets.</p>
-                <a class="btn btn-sm" href="#" onclick="alert('Coming soon'); return false;">Open</a>
+            <h3 class="text-gray-500 text-sm font-medium">Open Tickets</h3>
+            <div id="dash-tickets" class="text-3xl font-bold text-primary mt-1">0</div>
+            <button onclick="navigate('helpdesk')" class="text-xs text-primary font-medium mt-4 hover:underline flex items-center gap-1">
+                Go to Help Desk <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Role-specific banner -->
+    <div id="admin-banner"
+         class="bg-gradient-to-r from-primary to-primaryLight rounded-2xl p-6 text-white shadow-lg mb-8 animate-slide-up flex flex-col md:flex-row justify-between items-center"
+         style="animation-delay: 0.4s;">
+        <div class="flex items-center gap-4 mb-4 md:mb-0">
+            <div class="w-12 h-12 rounded-full bg-secondary flex items-center justify-center text-primary text-xl">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <div>
+                <h3 class="font-bold text-lg">Admin Access Active</h3>
+                <p class="text-sm text-blue-200">You have elevated privileges. Manage Org structure and verify CBL updates.</p>
             </div>
         </div>
-    </section>
-
-    <!-- upcoming events preview -->
-    <?php if (!empty($upcoming)): ?>
-        <section class="section">
-            <h2>Next Events</h2>
-            <div class="event-grid">
-                <?php foreach ($upcoming as $ev): ?>
-                    <div class="event-card">
-                        <span class="badge badge-<?= e($ev['category']) ?>">
-                            <?= e(ucfirst($ev['category'])) ?>
-                        </span>
-                        <h3><?= e($ev['title']) ?></h3>
-                        <p class="meta">
-                            <?= e(date('M d, Y · g:i A', strtotime($ev['start_datetime']))) ?>
-                            <?php if (!empty($ev['location'])): ?>
-                                · <?= e($ev['location']) ?>
-                            <?php endif; ?>
-                        </p>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        </section>
-    <?php endif; ?>
-
+        <button onclick="navigate('admin-cbl')"
+                class="bg-secondary text-primary px-5 py-2 rounded-lg text-sm font-bold shadow hover:bg-white transition-colors">
+            Review Pending CBL
+        </button>
+    </div>
 </div>
-
-<?php require __DIR__ . '/../layouts/footer.php'; ?>

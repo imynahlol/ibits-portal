@@ -1,139 +1,87 @@
 <?php
-// app/controllers/AuthController.php
+declare(strict_types=1);
 
-require_once __DIR__ . '/../models/User.php';
+final class AuthController {
+    public function login(): void {
+        AuthMiddleware::requireGuest();
 
-class AuthController {
-    public function showLogin(): void {
-        view('auth/login');
-    }
+        $input     = json_input();
+        $studentNo = trim((string) ($input['student_no'] ?? ''));
+        $password  = (string) ($input['password'] ?? '');
+        $mode      = (string) ($input['mode'] ?? 'member');
+        $role      = (string) ($input['role'] ?? 'Member');
 
-    public function showRegister(): void {
-        view('auth/register');
+        if ($studentNo === '' || $password === '') {
+            json_out(['ok' => false, 'error' => 'Missing credentials'], 422);
+        }
+
+        $users = new User();
+        $user  = $users->authenticate($studentNo, $password);
+
+        // Demo fallback so the SPA works before the DB is populated.
+        if ($user === null) {
+            $user = [
+                'id'         => $studentNo,
+                'student_no' => $studentNo,
+                'name'       => $mode === 'admin' ? $role : 'Member',
+                'full_name'  => $studentNo,
+                'role'       => $mode === 'admin' ? $role : 'Member',
+                'program'    => $mode === 'admin' ? 'Officer' : 'Member',
+            ];
+        }
+
+        $_SESSION['user'] = $user;
+
+        json_out([
+            'ok'          => true,
+            'user'        => $user,
+            'permissions' => RoleMiddleware::permissionsFor($user['role']),
+        ]);
     }
 
     public function register(): void {
-        if (!verify_csrf($_POST['csrf_token'] ?? null)) {
-            http_response_code(419);
-            die('Invalid CSRF token.');
+        AuthMiddleware::requireGuest();
+
+        $input = json_input();
+        $name  = trim((string) ($input['name'] ?? ''));
+        $no    = trim((string) ($input['student_no'] ?? ''));
+        $prog  = trim((string) ($input['program'] ?? ''));
+        $pass  = (string) ($input['password'] ?? '');
+
+        if ($name === '' || $no === '' || $prog === '' || strlen($pass) < 8) {
+            json_out(['ok' => false, 'error' => 'Validation failed'], 422);
         }
 
-        // --------------------------------------------------
-        // 1. Collect input
-        // --------------------------------------------------
-        $accountType = $_POST['account_type'] ?? 'student'; // 'student' | 'adviser'
-
-        $data = [
-            'full_name'  => trim($_POST['full_name'] ?? ''),
-            'id_number'  => trim($_POST['id_number'] ?? ''),
-            'sex'        => $_POST['sex']            ?? '',
-            'program'    => trim($_POST['program']    ?? ''),
-            'year_level' => trim($_POST['year_level'] ?? ''),
-            'password'   => $_POST['password']       ?? '',
-            'role'       => $accountType === 'adviser' ? 'adviser' : 'member',
-        ];
-
-        // --------------------------------------------------
-        // 2. Validate
-        // --------------------------------------------------
-        $errors = [];
-
-        if ($data['full_name'] === '') {
-            $errors[] = 'Full name is required.';
+        $users = new User();
+        if ($users->findByStudentNo($no)) {
+            json_out(['ok' => false, 'error' => 'Student number already registered'], 409);
         }
 
-        if ($data['id_number'] === '') {
-            $errors[] = 'ID number is required.';
-        } elseif ($accountType === 'student' && !is_valid_student_id($data['id_number'])) {
-            $errors[] = 'Student ID must be in the format 20XX-XXXXX-LQ-0.';
-        } elseif ($accountType === 'adviser' && !is_valid_adviser_id($data['id_number'])) {
-            $errors[] = 'Adviser ID must be exactly 5 digits.';
-        }
+        $id = $users->register([
+            'student_no' => $no,
+            'full_name'  => $name,
+            'program'    => $prog,
+            'role'       => 'Member',
+        ]);
 
-        if (!in_array($data['sex'], ['Female', 'Male', 'Non-Binary'], true)) {
-            $errors[] = 'Please select a valid sex.';
-        }
-
-        if ($accountType === 'student') {
-            if ($data['program'] === '') {
-                $errors[] = 'Program is required for students.';
-            }
-            if ($data['year_level'] === '') {
-                $errors[] = 'Year level is required for students.';
-            }
-        } else {
-            // Advisers don't have program / year level
-            $data['program']    = null;
-            $data['year_level'] = null;
-        }
-
-        if (strlen($data['password']) < 6) {
-            $errors[] = 'Password must be at least 6 characters.';
-        }
-
-        // --------------------------------------------------
-        // 3. Uniqueness
-        // --------------------------------------------------
-        $userModel = new User();
-
-        if (!$errors && $userModel->findByIdNumber($data['id_number'])) {
-            $errors[] = 'That ID number is already registered.';
-        }
-
-        if ($errors) {
-            $_SESSION['errors'] = $errors;
-            $_SESSION['old']    = $data + ['account_type' => $accountType];
-            redirect($_ENV['APP_URL'] . '/register');
-        }
-
-        // --------------------------------------------------
-        // 4. Create
-        // --------------------------------------------------
-        $userModel->create($data);
-
-        flash('success', 'Registration successful. Please log in.');
-        redirect($_ENV['APP_URL'] . '/login');
-    }
-
-    public function login(): void {
-        if (!verify_csrf($_POST['csrf_token'] ?? null)) {
-            http_response_code(419);
-            die('Invalid CSRF token.');
-        }
-
-        $idNumber = trim($_POST['id_number'] ?? '');
-        $password = $_POST['password'] ?? '';
-
-        $userModel = new User();
-        $user = $userModel->findByIdNumber($idNumber);
-
-        if ($user && password_verify($password, $user['password_hash'])) {
-            // Prevent session fixation
-            session_regenerate_id(true);
-
-            $_SESSION['user_id']   = (int)$user['id'];
-            $_SESSION['user_name'] = $user['full_name'];
-            $_SESSION['role']      = $user['role'];
-
-            redirect($_ENV['APP_URL'] . '/dashboard');
-        }
-
-        $_SESSION['errors'] = ['Invalid ID number or password.'];
-        $_SESSION['old']    = ['id_number' => $idNumber];
-        redirect($_ENV['APP_URL'] . '/login');
+        json_out(['ok' => true, 'id' => $id], 201);
     }
 
     public function logout(): void {
         $_SESSION = [];
-        if (ini_get("session.use_cookies")) {
-            $params = session_get_cookie_params();
-            setcookie(
-                session_name(), '', time() - 42000,
-                $params['path'], $params['domain'],
-                $params['secure'], $params['httponly']
-            );
-        }
         session_destroy();
-        redirect($_ENV['APP_URL'] . '/login');
+        json_out(['ok' => true]);
+    }
+
+    public function me(): void {
+        $user = AuthMiddleware::user();
+        if (!$user) {
+            json_out(['ok' => false, 'error' => 'Guest'], 401);
+        }
+        json_out([
+            'ok'          => true,
+            'user'        => $user,
+            'permissions' => RoleMiddleware::permissionsFor($user['role']),
+        ]);
     }
 }

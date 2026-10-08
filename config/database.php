@@ -1,5 +1,6 @@
 <?php
-declare(strict_types=1);
+    declare(strict_types=1);
+
 function env(string $key, mixed $default = null): mixed
 {
     static $vars = null;
@@ -60,6 +61,6 @@ function db(): PDO
         http_response_code(500);
         exit('Database unavailable.');
     }
-    
+
     return $pdo;
 }

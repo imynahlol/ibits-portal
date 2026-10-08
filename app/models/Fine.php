@@ -1,42 +1,26 @@
 <?php
-class Fine {
-    private PDO $db;
+declare(strict_types=1);
 
-    public function __construct() {
-        $this->db = db();
+final class Fine extends Model{
+    protected string $table = 'fines';
+
+    public function forUser(string $studentNo): array {
+        return $this->where('student_no', $studentNo, 'issued_on DESC');
     }
 
-    //fines for a specific user
-    public function getByUser(int $userId): array {
-        $stmt = $this->db->prepare("
-            SELECT id, amount, reason, status, due_date, created_at
-            FROM fines
-            WHERE user_id = ?
-            ORDER BY status ASC, due_date DESC
-        ");
-        $stmt->execute([$userId]);
-        return $stmt->fetchAll();
+    public function unpaidTotal(string $studentNo): float {
+        $stmt = $this->pdo()->prepare(
+            "SELECT COALESCE(SUM(amount),0) FROM fines
+             WHERE student_no = :s AND status <> 'Paid'"
+        );
+        $stmt->execute(['s' => $studentNo]);
+        return (float) $stmt->fetchColumn();
     }
 
-    //gets summary of fines for a specific user, dbquery returns total amount, unpaid amount, total count, and unpaid count
-    public function getSummaryByUser(int $userId): array {
-        $stmt = $this->db->prepare("
-            SELECT
-                COALESCE(SUM(amount), 0)                              AS total,
-                COALESCE(SUM(CASE WHEN status='unpaid' THEN amount END), 0) AS unpaid,
-                COUNT(*)                                              AS count,
-                SUM(CASE WHEN status='unpaid' THEN 1 ELSE 0 END)      AS unpaid_count
-            FROM fines
-            WHERE user_id = ?
-        ");
-        $stmt->execute([$userId]);
-        $row = $stmt->fetch();
-
-        return [
-            'total'        => (float)($row['total'] ?? 0),
-            'unpaid'       => (float)($row['unpaid'] ?? 0),
-            'count'        => (int)($row['count'] ?? 0),
-            'unpaid_count' => (int)($row['unpaid_count'] ?? 0),
-        ];
+    public function markPaid(int $id): bool {
+        return $this->update($id, [
+            'status'  => 'Paid',
+            'paid_on' => date('Y-m-d'),
+        ]);
     }
 }

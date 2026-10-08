@@ -1,64 +1,50 @@
 <?php
-// front controller: every request goes through here.
+declare(strict_types=1);
 
 session_start();
 
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../app/helpers/functions.php';
+require_once dirname(__DIR__) . '/app/helpers/functions.php';
+require_once dirname(__DIR__) . '/app/helpers/Csrf.php';
+require_once dirname(__DIR__) . '/config/database.php';
+require_once dirname(__DIR__) . '/app/middleware/AuthMiddleware.php';
+require_once dirname(__DIR__) . '/app/middleware/RoleMiddleware.php';
 
-// small router
+foreach (glob(dirname(__DIR__) . '/app/models/*.php') as $m)      require_once $m;
+foreach (glob(dirname(__DIR__) . '/app/controllers/*.php') as $c) require_once $c;
 
-$base = '/ibits-portal/public';
-$uri  = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$path = str_replace($base, '', $uri);
-$path = trim($path, '/');
-$method = $_SERVER['REQUEST_METHOD'];
+if (env('APP_DEBUG') === 'true') {
+    ini_set('display_errors', '1');
+    error_reporting(E_ALL);
+} else {
+    ini_set('display_errors', '0');
+}
 
-// route table: 'method path' => [Controller, method]
-$routes = [
-    // B-Public 
-    'GET '          => ['PageController', 'home'],
-    'GET home'      => ['PageController', 'home'],
-    'GET about'     => ['PageController', 'about'],
-    'GET events'    => ['PageController', 'events'],
-    'GET faqs'      => ['PageController', 'faqs'],
+$route = $_GET['route'] ?? 'public-home';
 
-    // A-Auth
-    'GET login'     => ['AuthController', 'showLogin'],
-    'GET register'  => ['AuthController', 'showRegister'],
-    'POST login'    => ['AuthController', 'login'],
-    'POST register' => ['AuthController', 'register'],
-    'GET logout'    => ['AuthController', 'logout'],
-
-    // C-Member
-    'GET dashboard' => ['DashboardController', 'index'],
-    'GET fines'     => ['FinesController', 'myFines'],    
-    'GET my-events' => ['EventsController', 'memberIndex'],
+$allowed = [
+    'public-home', 'public-about', 'public-org', 'public-events', 'public-faqs',
+    'login', 'register', 'dashboard', 'fines', 'events', 'forms', 'helpdesk',
+    'settings', 'admin-org', 'admin-cbl',
 ];
 
-$key = $method . ' ' . $path;
-$key = rtrim($key, ' '); 
+$currentView = in_array($route, $allowed, true) ? $route : 'public-home';
 
-// fallback: if path is empty and method is GET, treat as login
-if ($path === '' && $method === 'GET') {
-    $key = 'GET ';
+$guestOnly = ['login', 'register'];
+$protected = ['dashboard', 'fines', 'events', 'forms', 'helpdesk', 'settings', 'admin-org', 'admin-cbl'];
+
+if (in_array($currentView, $guestOnly, true)) {
+    AuthMiddleware::requireGuest();
 }
 
-if (!isset($routes[$key])) {
-    http_response_code(404);
-    echo "<h1>404 - Page Not Found</h1>";
-    echo "<p>No route for <code>" . e($method . ' /' . $path) . "</code></p>";
-    exit;
+if (in_array($currentView, $protected, true)) {
+    AuthMiddleware::requireLogin();
 }
 
-[$controller, $action] = $routes[$key];
-
-$controllerFile = __DIR__ . "/../app/controllers/$controller.php";
-if (!file_exists($controllerFile)) {
-    http_response_code(500);
-    die("Controller not found: $controller");
+if ($currentView === 'admin-org' || $currentView === 'admin-cbl') {
+    RoleMiddleware::requireAny(['admin_org', 'admin_cbl']);
 }
 
-require_once $controllerFile;
-$instance = new $controller();
-$instance->$action();
+view('layouts.app', [
+    'title'       => 'iBITS Portal | We Code as One',
+    'currentView' => $currentView,
+]);

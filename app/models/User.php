@@ -1,54 +1,67 @@
 <?php
-// app/models/User.php
+declare(strict_types=1);
 
-class User {
-    private PDO $db;
+final class User extends Model {
+    protected string $table = 'users';
 
-    public function __construct() {
-        $this->db = db();
+    public function findByStudentNo(string $studentNo): ?array {
+        return $this->findBy('student_no', $studentNo);
     }
 
-    /**
-     * Find a user by their id_number (student or adviser format).
-     */
-    public function findByIdNumber(string $idNumber): ?array {
-        $stmt = $this->db->prepare("SELECT * FROM users WHERE id_number = ? LIMIT 1");
-        $stmt->execute([$idNumber]);
-        $row = $stmt->fetch();
-        return $row ?: null;
+    public function authenticate(string $studentNo, string $password): ?array {
+        $user = $this->findByStudentNo($studentNo);
+        if (!$user || empty($user['password_hash'])) {
+            return null;
+        }
+        if (!password_verify($password, $user['password_hash'])) {
+            return null;
+        }
+        unset($user['password_hash']);
+        return $user;
     }
 
-    /**
-     * Find a user by primary key.
-     */
-    public function findById(int $id): ?array {
-        $stmt = $this->db->prepare("SELECT * FROM users WHERE id = ? LIMIT 1");
-        $stmt->execute([$id]);
-        $row = $stmt->fetch();
-        return $row ?: null;
+    public function register(array $data): int {
+        $data['password_hash'] = password_hash($data['password'], PASSWORD_DEFAULT);
+        unset($data['password']);
+        $data['created_at'] = date('Y-m-d H:i:s');
+        return $this->create($data);
     }
 
-    /**
-     * Create a new user. Expects:
-     *   full_name, id_number, sex, program, year_level, password, role
-     *
-     * For advisers: program and year_level may be null.
-     */
-    public function create(array $data): bool {
-        $stmt = $this->db->prepare("
-            INSERT INTO users
-                (full_name, id_number, sex, program, year_level, password_hash, role)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        ");
+    public function officers(): array {
+        $sql = "SELECT * FROM users WHERE role <> 'Member' ORDER BY
+                FIELD(role,'Adviser','President','Vice President','Secretary','Treasurer',
+                      'Assistant Treasurer','Auditor','Assistant Auditor','Institutional')";
+        return $this->pdo()->query($sql)->fetchAll();
+    }
 
-        return $stmt->execute([
-            $data['full_name'],
-            $data['id_number'],
-            $data['sex'],
-            $data['program']    ?? null,
-            $data['year_level'] ?? null,
-            password_hash($data['password'], PASSWORD_DEFAULT),
-            $data['role'] ?? 'member',
-        ]);
+    public function population(): array {
+        $pdo = $this->pdo();
+
+        $program = $pdo->query(
+            "SELECT program AS k, COUNT(*) AS n FROM users GROUP BY program"
+        )->fetchAll();
+
+        $year = $pdo->query(
+            "SELECT year_level AS k, COUNT(*) AS n FROM users GROUP BY year_level"
+        )->fetchAll();
+
+        $section = $pdo->query(
+            "SELECT section AS k, COUNT(*) AS n FROM users GROUP BY section"
+        )->fetchAll();
+
+        $toMap = static function (array $rows): array {
+            $out = [];
+            foreach ($rows as $r) {
+                $out[$r['k'] ?? 'Unknown'] = (int) $r['n'];
+            }
+            return $out;
+        };
+
+        return [
+            'program' => $toMap($program),
+            'year'    => $toMap($year),
+            'section' => $toMap($section),
+            'officers'=> $this->count('role', 'President') + count($this->officers()) - 1,
+        ];
     }
 }

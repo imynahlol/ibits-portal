@@ -1,0 +1,21 @@
+<!-- View: Public FAQs -->
+<div id="view-public-faqs" class="view-section <?= $currentView === 'public-faqs' ? 'active' : '' ?> w-full min-h-full pt-28 pb-20">
+    <div class="container mx-auto px-6 max-w-3xl">
+        <h2 class="text-3xl font-bold text-primary mb-8 text-center">Frequently Asked Questions</h2>
+
+        <details class="card3d p-5 mb-3">
+            <summary class="font-semibold text-primary cursor-pointer">Who can join iBITS?</summary>
+            <p class="text-textMuted text-sm mt-2">Any registered IT or DIT student. Create an account using your student number.</p>
+        </details>
+
+        <details class="card3d p-5 mb-3">
+            <summary class="font-semibold text-primary cursor-pointer">How do I check my fines?</summary>
+            <p class="text-textMuted text-sm mt-2">Log in and open My Fines. You can only see your own.</p>
+        </details>
+
+        <details class="card3d p-5 mb-3">
+            <summary class="font-semibold text-primary cursor-pointer">Where is the excuse letter?</summary>
+            <p class="text-textMuted text-sm mt-2">Open Forms Hub after logging in. Fill the template, then save or print.</p>
+        </details>
+    </div>
+</div>

@@ -1,81 +1,50 @@
-<?php
-    $rightSideClass = ' wide';
-    $showTopNav     = true;
-    $activeNav      = 'dashboard';
-    require __DIR__ . '/../layouts/header.php';
-?>
-
-<div class="card wide">
-    <div class="header-row">
-        <div>
-            <h2 style="text-align:left; margin-bottom:4px;">My Fines</h2>
-            <p class="subtitle" style="text-align:left; margin:0;">
-                Your personal fines record
-            </p>
-        </div>
-        <a class="btn btn-secondary btn-sm"
-           href="<?= e($_ENV['APP_URL']) ?>/dashboard">← Back to Dashboard</a>
+<!-- View: My Fines -->
+<div id="view-fines" class="view-section <?= $currentView === 'fines' ? 'active' : '' ?> w-full p-6 lg:p-10">
+    <div class="mb-8">
+        <h1 class="text-2xl font-bold text-primary dark:text-white">My Fines</h1>
+        <p class="text-textMuted text-sm">Track and manage your organizational penalties.</p>
     </div>
 
-    <!-- Summary KPIs -->
-    <div class="kpi-grid">
-        <div class="kpi">
-            <div class="kpi-label">Total Fines</div>
-            <div class="kpi-value">₱<?= number_format($summary['total'], 2) ?></div>
+    <div class="bg-surface rounded-2xl shadow-sm border border-gray-100 overflow-hidden animate-slide-up">
+        <div class="p-6 border-b border-gray-100 bg-red-50 flex justify-between items-center">
+            <div>
+                <h3 class="text-red-800 font-bold">Unpaid Balance</h3>
+                <p class="text-sm text-red-600">Please settle your fines before the end of the semester.</p>
+            </div>
+            <div class="text-2xl font-bold text-red-600" id="fines-total">₱150.00</div>
         </div>
-        <div class="kpi <?= $summary['unpaid'] > 0 ? 'kpi-danger' : 'kpi-ok' ?>">
-            <div class="kpi-label">Unpaid Balance</div>
-            <div class="kpi-value">₱<?= number_format($summary['unpaid'], 2) ?></div>
-        </div>
-        <div class="kpi">
-            <div class="kpi-label">Record Count</div>
-            <div class="kpi-value"><?= (int)$summary['count'] ?></div>
-        </div>
-    </div>
 
-    <!-- fines table -->
-    <?php if (empty($fines)): ?>
-        <p class="muted" style="margin-top:20px;">
-            You have no fines on record. 🎉
-        </p>
-    <?php else: ?>
-        <div class="table-wrap">
-            <table class="table">
-                <thead>
+        <div class="p-0">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-gray-50">
                     <tr>
-                        <th>#</th>
-                        <th>Reason</th>
-                        <th>Amount</th>
-                        <th>Status</th>
-                        <th>Due Date</th>
-                        <th>Issued</th>
+                        <th class="p-4 font-medium text-gray-500">Date</th>
+                        <th class="p-4 font-medium text-gray-500">Reason</th>
+                        <th class="p-4 font-medium text-gray-500">Amount</th>
+                        <th class="p-4 font-medium text-gray-500">Status</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <?php foreach ($fines as $i => $fine): ?>
-                        <tr>
-                            <td><?= $i + 1 ?></td>
-                            <td><?= e($fine['reason']) ?></td>
-                            <td>₱<?= number_format((float)$fine['amount'], 2) ?></td>
-                            <td>
-                                <?php if ($fine['status'] === 'paid'): ?>
-                                    <span class="status-paid">Paid</span>
-                                <?php else: ?>
-                                    <span class="status-unpaid">Unpaid</span>
-                                <?php endif; ?>
-                            </td>
-                            <td><?= e(date('M d, Y', strtotime($fine['due_date']))) ?></td>
-                            <td><?= e(date('M d, Y', strtotime($fine['created_at']))) ?></td>
-                        </tr>
-                    <?php endforeach; ?>
+                <tbody id="fines-table">
+                    <tr class="border-t border-gray-100">
+                        <td class="p-4 text-textDark">Oct 5, 2026</td>
+                        <td class="p-4 font-medium text-primary">Late to Gen Assembly</td>
+                        <td class="p-4 text-textDark">₱50.00</td>
+                        <td class="p-4"><span class="px-2 py-1 bg-red-100 text-red-600 rounded text-xs font-bold">Unpaid</span></td>
+                    </tr>
+                    <tr class="border-t border-gray-100">
+                        <td class="p-4 text-textDark">Sep 20, 2026</td>
+                        <td class="p-4 font-medium text-primary">Absent - IT Week Day 1</td>
+                        <td class="p-4 text-textDark">₱100.00</td>
+                        <td class="p-4"><span class="px-2 py-1 bg-red-100 text-red-600 rounded text-xs font-bold">Unpaid</span></td>
+                    </tr>
+                    <tr class="border-t border-gray-100 bg-gray-50 opacity-60">
+                        <td class="p-4 text-textDark">Aug 15, 2026</td>
+                        <td class="p-4 font-medium text-primary">No ID Lanyard</td>
+                        <td class="p-4 text-textDark">₱20.00</td>
+                        <td class="p-4"><span class="px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-bold">Paid</span></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
-    <?php endif; ?>
-
-    <div class="nav-footer">
-        Disputes? Submit a ticket via the Help Desk.
     </div>
 </div>
-
-<?php require __DIR__ . '/../layouts/footer.php'; ?>
