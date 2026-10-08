@@ -152,3 +152,23 @@ CREATE TABLE cbl_approvals (
     FOREIGN KEY (cbl_id) REFERENCES cbl_documents(id) ON DELETE CASCADE,
     FOREIGN KEY (approved_by) REFERENCES users(id) ON DELETE SET NULL
 );
+
+-- =====================================================
+-- FINANCES TABLE
+-- =====================================================
+CREATE TABLE finances (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    date_ DATE NOT NULL,
+    event_ TEXT NOT NULL,                -- Holds additional text notes/descriptions
+    event_id INT NOT NULL,               -- Foreign key pointing to your master events table
+    budget DECIMAL(10,2) NOT NULL,
+    expense DECIMAL(10,2) NOT NULL,
+    inflow DECIMAL(10,2) NOT NULL,
+    created_by INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    
+    -- Corrected target table name to match your schema ('events'):
+    FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE,
+    FOREIGN KEY (created_by) REFERENCES users(id)
+);
