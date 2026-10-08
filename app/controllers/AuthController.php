@@ -21,13 +21,16 @@ class AuthController {
         // --------------------------------------------------
         // 1. Collect input
         // --------------------------------------------------
+        $accountType = $_POST['account_type'] ?? 'student'; // 'student' | 'adviser'
+
         $data = [
-            'full_name'  => trim($_POST['full_name']  ?? ''),
-            'id_number'  => trim($_POST['id_number']  ?? ''),
-            'sex'        => $_POST['sex']             ?? '',
+            'full_name'  => trim($_POST['full_name'] ?? ''),
+            'id_number'  => trim($_POST['id_number'] ?? ''),
+            'sex'        => $_POST['sex']            ?? '',
             'program'    => trim($_POST['program']    ?? ''),
             'year_level' => trim($_POST['year_level'] ?? ''),
-            'password'   => $_POST['password']        ?? '',
+            'password'   => $_POST['password']       ?? '',
+            'role'       => $accountType === 'adviser' ? 'adviser' : 'member',
         ];
 
         // --------------------------------------------------
@@ -41,20 +44,27 @@ class AuthController {
 
         if ($data['id_number'] === '') {
             $errors[] = 'ID number is required.';
-        } elseif (!is_valid_id_number($data['id_number'])) {
-            $errors[] = 'ID number must match 20XX-XXXXX-LQ-0 (students) or XXXXX (advisers).';
+        } elseif ($accountType === 'student' && !is_valid_student_id($data['id_number'])) {
+            $errors[] = 'Student ID must be in the format 20XX-XXXXX-LQ-0.';
+        } elseif ($accountType === 'adviser' && !is_valid_adviser_id($data['id_number'])) {
+            $errors[] = 'Adviser ID must be exactly 5 digits.';
         }
 
         if (!in_array($data['sex'], ['Female', 'Male', 'Non-Binary'], true)) {
             $errors[] = 'Please select a valid sex.';
         }
 
-        if ($data['program'] === '') {
-            $errors[] = 'Program is required.';
-        }
-
-        if ($data['year_level'] === '') {
-            $errors[] = 'Year level is required.';
+        if ($accountType === 'student') {
+            if ($data['program'] === '') {
+                $errors[] = 'Program is required for students.';
+            }
+            if ($data['year_level'] === '') {
+                $errors[] = 'Year level is required for students.';
+            }
+        } else {
+            // Advisers don't have program / year level
+            $data['program']    = null;
+            $data['year_level'] = null;
         }
 
         if (strlen($data['password']) < 6) {
@@ -62,7 +72,7 @@ class AuthController {
         }
 
         // --------------------------------------------------
-        // 3. Uniqueness check
+        // 3. Uniqueness
         // --------------------------------------------------
         $userModel = new User();
 
@@ -70,17 +80,14 @@ class AuthController {
             $errors[] = 'That ID number is already registered.';
         }
 
-        // --------------------------------------------------
-        // 4. On error, flash + redirect back
-        // --------------------------------------------------
         if ($errors) {
             $_SESSION['errors'] = $errors;
-            $_SESSION['old']    = $data;
+            $_SESSION['old']    = $data + ['account_type' => $accountType];
             redirect($_ENV['APP_URL'] . '/register');
         }
 
         // --------------------------------------------------
-        // 5. Create user (role defaults to 'member')
+        // 4. Create
         // --------------------------------------------------
         $userModel->create($data);
 

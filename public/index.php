@@ -16,12 +16,21 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 // route table: 'method path' => [Controller, method]
 $routes = [
-    'GET '   => ['AuthController', 'showLogin'],
-    'GET login'    => ['AuthController', 'showLogin'],
-    'GET register' => ['AuthController', 'showRegister'],
+    // Public
+    'GET '          => ['PageController', 'home'],
+    'GET home'      => ['PageController', 'home'],
+    'GET about'     => ['PageController', 'about'],
+    'GET events'    => ['PageController', 'events'],
+    'GET faqs'      => ['PageController', 'faqs'],
+
+    // Auth
+    'GET login'     => ['AuthController', 'showLogin'],
+    'GET register'  => ['AuthController', 'showRegister'],
     'POST login'    => ['AuthController', 'login'],
     'POST register' => ['AuthController', 'register'],
     'GET logout'    => ['AuthController', 'logout'],
+
+    // Member
     'GET dashboard' => ['DashboardController', 'index'],
 ];
 
