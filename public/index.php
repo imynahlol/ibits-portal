@@ -16,26 +16,28 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 // route table: 'method path' => [Controller, method]
 $routes = [
-    // Public
+    // B-Public 
     'GET '          => ['PageController', 'home'],
     'GET home'      => ['PageController', 'home'],
     'GET about'     => ['PageController', 'about'],
     'GET events'    => ['PageController', 'events'],
     'GET faqs'      => ['PageController', 'faqs'],
 
-    // Auth
+    // A-Auth
     'GET login'     => ['AuthController', 'showLogin'],
     'GET register'  => ['AuthController', 'showRegister'],
     'POST login'    => ['AuthController', 'login'],
     'POST register' => ['AuthController', 'register'],
     'GET logout'    => ['AuthController', 'logout'],
 
-    // Member
+    // C-Member
     'GET dashboard' => ['DashboardController', 'index'],
+    'GET fines'     => ['FinesController', 'myFines'],    
+    'GET my-events' => ['EventsController', 'memberIndex'],
 ];
 
 $key = $method . ' ' . $path;
-$key = rtrim($key, ' '); // normalize '' case
+$key = rtrim($key, ' '); 
 
 // fallback: if path is empty and method is GET, treat as login
 if ($path === '' && $method === 'GET') {
