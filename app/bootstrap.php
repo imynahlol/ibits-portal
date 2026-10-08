@@ -13,6 +13,12 @@ if (is_file($envFile)) {
     }
 }
 
+define('BASE_URL', rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '')), '/'));
+
+function asset(string $path): string {
+    return BASE_URL . '/' . ltrim($path, '/');
+}
+
 require_once dirname(__DIR__) . '/config/database.php';
 require_once __DIR__ . '/helpers/auth.php';
 require_once __DIR__ . '/helpers/view.php';
