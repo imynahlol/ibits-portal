@@ -9,17 +9,20 @@
 
         <div class="relative z-10 px-6 max-w-4xl mx-auto flex flex-col items-center">
 
-            <!-- LOGO -->
-            <div class="relative mb-6 animate-slide-up">
-                <img src="<?= asset('assets/images/ibits-logo.png') ?>"
-                     alt="iBITS Logo - Institute of Brilliant Information Technology Students"
-                     class="w-44 md:w-72 h-auto rounded-full relative z-10"
-                     style="filter: drop-shadow(0 18px 30px rgba(10, 36, 99, 0.25));">
-                <!-- soft floor shadow under the logo -->
-                <div class="absolute left-1/2 -bottom-3 -translate-x-1/2 w-3/4 h-5 rounded-full"
-                     style="background: radial-gradient(ellipse at center, rgba(10,36,99,0.25), transparent 70%);
-                            transform: translateX(-50%);"></div>
+        <!-- LOGO -->
+        <div class="relative mb-6 animate-slide-up">
+        <div class="coin-wrap">
+            <div class="coin">
+                <img alt="iBITS logo" class="w-full h-auto rounded-full relative z-10"
+                    style="border: none; box-shadow: none; filter: drop-shadow(0 18px 30px rgba(10, 36, 99, 0.25));" 
+                    src="<?= asset('assets/images/ibits-logo.png') ?>" />
             </div>
+            <div class="absolute left-1/2 -bottom-3 -translate-x-1/2 w-3/4 h-5 rounded-full"
+                style="background: radial-gradient(ellipse at center, rgba(10,36,99,0.25), transparent 70%);
+                        transform: translateX(-50%);">
+            </div>
+        </div>
+    </div>
 
             <!-- BADGE -->
             <span class="px-4 py-1 rounded-full
@@ -34,7 +37,7 @@
             <!-- iBITS MOTTO -->
             <h1 class="text-5xl md:text-7xl font-light text-white mb-6 leading-tight animate-slide-up"
                 style="animation-delay: 0.1s;">
-                <b class="font-bold">WE CODE AS ONE.</b>
+                <b class="font-bold">WE CODE AS ONE</b>
             </h1>
 
             <!-- DESCRIPTION -->
