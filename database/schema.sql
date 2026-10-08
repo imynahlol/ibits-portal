@@ -105,17 +105,6 @@ CREATE TABLE ticket_replies (
 );
 
 -- =====================================================
--- FAQS TABLE
--- =====================================================
-CREATE TABLE faqs (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    question VARCHAR(255) NOT NULL,
-    answer TEXT NOT NULL,
-    is_public TINYINT(1) DEFAULT 1,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- =====================================================
 -- CBL DOCUMENTS TABLE
 -- =====================================================
 CREATE TABLE cbl_documents (
