@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__ . '/../../helpers/functions.php';
 
 if (session_status() === PHP_SESSION_NONE) {
@@ -19,7 +20,6 @@ $success = flash('success');
 
 $logoUrl = e($_ENV['APP_URL']) . '/assets/images/ibits-logo.png';
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,13 +42,14 @@ $logoUrl = e($_ENV['APP_URL']) . '/assets/images/ibits-logo.png';
 
 <body data-login-app data-logo="<?= $logoUrl ?>">
 
-    <h2>SECURE ACCESS</h2>
-    <p data-auth-sub>IDENTIFY YOURSELF TO PROCEED.</p>
+    <h2>Login</h2>
 
     <form method="POST"
           action="<?= e($_ENV['APP_URL']) ?>/login"
           class="form">
 
+        <!-- Hidden input to track selected role (member or admin) -->
+        <input type="hidden" name="role" id="user_role" value="">
         <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
 
         <label>ID Number</label>
