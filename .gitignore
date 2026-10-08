@@ -1,14 +1,28 @@
-# Ignore uploaded files
-/uploads/*
-!/uploads/.gitkeep
-
-# Ignore environment configs (if you use them)
+# Environment
 .env
+.env.local
+.env.*.local
 
-# OS generated files
+# Dependencies
+/vendor/
+/node_modules/
+
+# Logs & cache
+/storage/logs/*.log
+/storage/cache/*
+!/storage/logs/.gitkeep
+
+# Uploads (keep the folder, ignore user files)
+/public/uploads/*
+!/public/uploads/.gitkeep
+
+# Build artefacts
+/public/assets/css/*.map
+/public/assets/js/*.map
 .DS_Store
 Thumbs.db
 
-# VSCode settings
-.vscode/*
-!.vscode/extensions.json
+# IDE
+.idea/
+.vscode/
+*.swp
