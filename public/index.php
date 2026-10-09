@@ -3,7 +3,7 @@ declare(strict_types=1);
 require_once dirname(__DIR__) . '/app/bootstrap.php';
 
 $pop    = population();
-$events = home_events(4);
+$events = home_events(50);
 
 /* Cover photos uploaded by the secretary (Events page) -> shown on the home event cards.
    Looked up separately so this works even if home_events() doesn't select the `image` column. */
