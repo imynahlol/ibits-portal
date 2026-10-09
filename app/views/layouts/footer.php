@@ -1,6 +1,6 @@
 <style>
 footer#app-footer.ibits-footer{background:#0b1f4d!important;border:0!important}
-footer#app-footer.ibits-footer a{color:rgba(219,234,254,.8)!important}
+footer#app-footer.ibits-footer a{color:rgba(219,234,254,.8)!important;cursor:pointer}
 footer#app-footer.ibits-footer a:hover{color:#fff!important}
 footer#app-footer.ibits-footer .social a:hover{color:#f5c26b!important}
 footer#app-footer.ibits-footer .text-white{color:#fff!important}
@@ -24,9 +24,9 @@ footer#app-footer.ibits-footer .text-white{color:#fff!important}
 <div>
 <h4 class="font-mono text-xs font-bold tracking-[0.2em] uppercase text-[#f5c26b] mb-5">About</h4>
 <ul class="space-y-3 text-base">
-<li><a class="transition-colors" href="#" onclick="navigate('public-about');return false">Who We Are</a></li>
-<li><a class="transition-colors" href="#" onclick="navigate('public-about');return false">Mission &amp; Vision</a></li>
-<li><a class="transition-colors" href="#" onclick="navigate('public-org');return false">Org Structure</a></li>
+<li><a class="transition-colors" href="#" onclick="ibitsGo('public-about');return false">Who We Are</a></li>
+<li><a class="transition-colors" href="#" onclick="ibitsGo('public-about','#view-public-about .grid');return false">Mission &amp; Vision</a></li>
+<li><a class="transition-colors" href="#" onclick="ibitsGo('public-org');return false">Org Structure</a></li>
 </ul>
 </div>
 
@@ -34,9 +34,9 @@ footer#app-footer.ibits-footer .text-white{color:#fff!important}
 <div>
 <h4 class="font-mono text-xs font-bold tracking-[0.2em] uppercase text-[#f5c26b] mb-5">Community</h4>
 <ul class="space-y-3 text-base">
-<li><a class="transition-colors" href="#" onclick="navigate('public-org');return false">Members</a></li>
-<li><a class="transition-colors" href="#" onclick="navigate('public-faqs');return false">FAQs</a></li>
-<li><a class="transition-colors" href="#" onclick="navigate('login');return false">Help Desk</a></li>
+<li><a class="transition-colors" href="#" onclick="ibitsGo('public-org');return false">Members</a></li>
+<li><a class="transition-colors" href="#" onclick="ibitsGo('public-faqs');return false">FAQs</a></li>
+<li><a class="transition-colors" href="#" onclick="ibitsGo('login');return false">Help Desk</a></li>
 </ul>
 </div>
 
@@ -44,9 +44,9 @@ footer#app-footer.ibits-footer .text-white{color:#fff!important}
 <div>
 <h4 class="font-mono text-xs font-bold tracking-[0.2em] uppercase text-[#f5c26b] mb-5">Portal</h4>
 <ul class="space-y-3 text-base">
-<li><a class="transition-colors" href="#" onclick="navigate('public-events');return false">Events</a></li>
-<li><a class="transition-colors" href="#" onclick="navigate('register');return false">Get ID</a></li>
-<li><a class="transition-colors" href="#" onclick="navigate('login');return false">Log in</a></li>
+<li><a class="transition-colors" href="#" onclick="ibitsGo('public-events');return false">Events</a></li>
+<li><a class="transition-colors" href="#" onclick="ibitsGo('register');return false">Get ID</a></li>
+<li><a class="transition-colors" href="#" onclick="ibitsGo('login');return false">Log in</a></li>
 </ul>
 </div>
 
@@ -78,3 +78,19 @@ footer#app-footer.ibits-footer .text-white{color:#fff!important}
 </div>
 </div>
 </footer>
+
+<script>
+/* Footer navigation: opens a portal page, then optionally scrolls to a section on it */
+function ibitsGo(view, target) {
+    navigate(view);
+    setTimeout(function () {
+        var box = document.getElementById('content-viewport');
+        var el  = target ? document.querySelector(target) : null;
+        if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else if (box) {
+            box.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }, 80);
+}
+</script>
