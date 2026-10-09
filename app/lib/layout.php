@@ -63,10 +63,10 @@ function public_nav(): void {
 .pnav{position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:1000;width:min(1400px,calc(100% - 48px));
   display:flex;align-items:center;justify-content:space-between;gap:16px;
   padding:7px 20px 7px 16px;font-family:'Poppins',system-ui,sans-serif;
-  background:linear-gradient(180deg,rgba(86,91,106,.97),rgba(100,104,118,.97));
-  -webkit-backdrop-filter:blur(16px) saturate(160%);backdrop-filter:blur(16px) saturate(160%);
-  border:1px solid rgba(255,255,255,.16);border-radius:38px;
-  box-shadow:0 22px 44px -16px rgba(0,0,0,.7),0 4px 0 rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.2),inset 0 -2px 0 rgba(0,0,0,.22);
+  background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.06));
+  -webkit-backdrop-filter:blur(18px) saturate(170%);backdrop-filter:blur(18px) saturate(170%);
+  border:1px solid rgba(255,255,255,.22);border-radius:38px;
+  box-shadow:0 22px 44px -16px rgba(0,0,0,.55),0 4px 0 rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.3),inset 0 -2px 0 rgba(0,0,0,.12);
   transition:background .3s,box-shadow .3s}
 .pnav-brand{display:flex;align-items:center;gap:14px;color:#fff;font-weight:700;font-size:19px;letter-spacing:.01em}
 .pnav-brand img{width:38px;height:38px;border-radius:50%;object-fit:cover;background:#000;filter:drop-shadow(0 2px 6px rgba(0,0,0,.45))}
@@ -77,7 +77,7 @@ function public_nav(): void {
 .pnav-dd{position:relative}
 .pnav-dd.open .chev{transform:rotate(180deg)}
 .pnav-menu{position:absolute;top:calc(100% + 14px);left:0;min-width:200px;padding:10px;
-  background:rgba(24,28,44,.72);-webkit-backdrop-filter:blur(16px) saturate(160%);backdrop-filter:blur(16px) saturate(160%);
+  background:rgba(24,28,44,.6);-webkit-backdrop-filter:blur(16px) saturate(160%);backdrop-filter:blur(16px) saturate(160%);
   border:1px solid rgba(255,255,255,.12);border-radius:18px;box-shadow:0 18px 40px -12px rgba(0,0,0,.6);
   opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .18s,transform .18s,visibility .18s}
 .pnav-menu::before{content:"";position:absolute;left:0;right:0;top:-14px;height:14px}
@@ -97,6 +97,7 @@ function public_nav(): void {
 }
 @media (max-width:860px){
   .pnav{top:10px;width:calc(100% - 20px);border-radius:28px;flex-wrap:wrap;padding:10px 18px}
+  .pnav.open{background:linear-gradient(180deg,rgba(20,26,44,.78),rgba(20,26,44,.7))}
   .pnav-burger{display:block}
   .pnav-links{display:none;width:100%;flex-direction:column;align-items:stretch;gap:2px;padding:8px 0 6px}
   .pnav.open .pnav-links{display:flex}
@@ -129,7 +130,6 @@ function public_nav(): void {
     <div class="pnav-dd">
       <button class="pnav-dd-btn" type="button" aria-expanded="false">Community <?= $chev ?></button>
       <div class="pnav-menu">
-        <a href="<?= e(url('members.php')) ?>">Members</a>
         <a href="<?= e(url('faqs.php')) ?>">FAQs</a>
         <a href="<?= e(url('member/helpdesk.php')) ?>">Help Desk</a>
       </div>
