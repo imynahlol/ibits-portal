@@ -10,11 +10,11 @@ INSERT INTO users (full_name,id_number,sex,program,year_level,password_hash,acco
 ('Irish Nicole J. Japone',          '2025-00127-LQ-0','Female',     'BSIT', '2nd Year',@pw,'admin','Treasurer',1),
 ('Harvey S. Pumariga',              '2025-00589-LQ-0','Male',       'DIT','2nd Year',@pw,'admin','Auditor',1),
 ('Angel Ivy D. Prada',              '2025-00138-LQ-0','Female',     'BSIT','2nd Year',@pw,'admin','STRAW',1),
-('Kathleen V. Maceda',              '2025-00125-LQ-0','Female',     'BSIT','2nd Year',@member_pw,'member','STRAW',1),
-('Sheryn C. Hina',                  '2025-00118-LQ-0','Non-Binary', 'BSIT', '2nd Year', @member_pw, 'member', NULL, 1);
+('Kathleen V. Maceda',              '2025-00125-LQ-0','Female',     'BSIT','2nd Year',@pw,'admin','STRAW',1),
 
 INSERT INTO events (title,description,category,start_datetime,end_datetime,location,is_public,created_by) VALUES
 ('IT Week 2026','Technology week with contests, seminars and exhibits.','Technology','2026-10-12 08:00','2026-10-16 17:00','PUP Lopez Campus',1,1),
+<<<<<<< HEAD
 ('Hackathon: Build as One','24 hours of building together.','Competition','2026-12-05 08:00','2026-12-06 08:00','Computer Lab',1,1);
 
 
@@ -318,3 +318,6 @@ INSERT INTO users (full_name,id_number,sex,program,year_level,password_hash,acco
 ('Alexis Jericho M. Pedragoza', '2023-00853-LQ-0','Male', 'DIT','3rd Year','3f221b98a4ef5a20961e153c0c3eb19dc43ec94fb5977e95386b0c1f1fdb801e','member','Member',1),
 ('Mark Andrey D. Venus', '2023-00817-LQ-0','Male', 'DIT','3rd Year','3d6ea523b2b82c5306d8cbc1bb05e7e3b76d5d2fcb5ae387686d03adb6d9d97d','member','Member',1),
 ('Ralph Rayniel Z. Villaos', '2023-00881-LQ-0','Male', 'DIT','3rd Year','89d3bc841fcb4f33d333e28ce276999002f5da584445ac72256f9efc7a89a20d','member','Member',1);SELECT * FROM `users` WHERE 1
+=======
+('Hackathon: Build as One','24 hours of building together.','Competition','2026-12-05 08:00','2026-12-06 08:00','Computer Lab',1,1);
+>>>>>>> 34b81c15d2e9cbe5d5d23bff4dcdaabb3025c510
