@@ -134,8 +134,8 @@ CREATE TABLE cbl_approvals (
 CREATE TABLE finances (
     id INT AUTO_INCREMENT PRIMARY KEY,
     date_ DATE NOT NULL,
-    event_ TEXT NOT NULL,     -- holds additional text notes/descriptions
-    event_id INT NOT NULL,    -- foreign key pointing to your master events table
+    event_ TEXT NOT NULL, 
+    event_id INT NOT NULL,
     budget DECIMAL(10,2) NOT NULL,
     expense DECIMAL(10,2) NOT NULL,
     inflow DECIMAL(10,2) NOT NULL,
@@ -143,13 +143,12 @@ CREATE TABLE finances (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     
-    -- corrected target table name to match your schema ('events'):
     FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE,
     FOREIGN KEY (created_by) REFERENCES users(id)
 );
 
 CREATE TABLE faq_categories (
-    id SERIAL PRIMARY KEY, -- Evaluates to BIGINT UNSIGNED
+    id SERIAL PRIMARY KEY, 
     name VARCHAR(100) NOT NULL,
     slug VARCHAR(100) UNIQUE NOT NULL,
     display_order INT DEFAULT 0
@@ -158,7 +157,6 @@ CREATE TABLE faq_categories (
 -- 2. FAQs Table
 CREATE TABLE faqs (
     id SERIAL PRIMARY KEY,
-    -- Fixed Type Mismatch: Upgraded to BIGINT UNSIGNED to match faq_categories(id)
     category_id BIGINT UNSIGNED, 
     question TEXT NOT NULL,
     answer TEXT NOT NULL,
@@ -167,12 +165,10 @@ CREATE TABLE faqs (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     
-    -- Explicitly declared constraint name for cleaner error tracking
     CONSTRAINT fk_faq_category 
         FOREIGN KEY (category_id) 
         REFERENCES faq_categories(id) 
         ON DELETE SET NULL
 );
 
--- Performance Index to accelerate category filtration lookups on the frontend
 CREATE INDEX idx_faqs_category ON faqs(category_id);

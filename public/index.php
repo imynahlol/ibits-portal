@@ -3,9 +3,6 @@ declare(strict_types=1);
 
 require_once dirname(__DIR__) . '/app/bootstrap.php';
 
-/* -------------------------------------------------------------
-   Current user (from session — set by AuthController on login)
-   ------------------------------------------------------------- */
 $isLoggedIn = !empty($_SESSION['user_id']);
 
 $user = [
@@ -16,9 +13,6 @@ $user = [
     'program'  => $_SESSION['program']    ?? '',
 ];
 
-/* -------------------------------------------------------------
-   Permissions by role (mirrors your PERMS map)
-   ------------------------------------------------------------- */
 $permsByRole = [
     'President'          => ['admin_org','admin_events','admin_forms','admin_cbl','manage_tickets'],
     'Vice President'     => ['admin_org','admin_events','admin_forms','admin_cbl','manage_tickets'],
@@ -33,9 +27,6 @@ $permsByRole = [
 ];
 $perms = $permsByRole[$user['role']] ?? [];
 
-/* -------------------------------------------------------------
-   Route → view mapping (as before)
-   ------------------------------------------------------------- */
 $uri  = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
 $base = '/ibits-portal/public';
 $route = trim(str_replace($base, '', $uri), '/') ?: 'home';
