@@ -2,13 +2,10 @@
 declare(strict_types=1);
 require_once dirname(__DIR__) . '/app/bootstrap.php';
 
-// Same shared header/footer as index.php -> navbar is identical on every page.
-// 2nd argument = active page key (same idea as 'home' on index.php).
 html_head('FAQs', 'faqs');
 ?>
 
 <style>
-  /* ---- FAQ page (scoped, doesn't touch the shared navbar) ---- */
   .faq-sec{padding-top:150px;padding-bottom:90px}
   .faq-wrap{max-width:900px;margin:0 auto;position:relative;z-index:2}
   .faq-badge{display:flex;width:max-content;margin:0 auto 22px;align-items:center;gap:10px;padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.18);background:rgba(8,26,69,.55);font-size:13px;font-weight:700;letter-spacing:.2em;color:#fad517}
@@ -51,12 +48,14 @@ html_head('FAQs', 'faqs');
 
       <?php
       $faqs = [
-        ['Who can join iBITS?',            'Any registered IT or DIT student. Create an account using your student number.'],
-        ['How do I check my fines?',       'Log in and open <b>My Fines</b>. You can only see your own.'],
-        ['Where is the excuse letter?',    'Open <b>Forms Hub</b> after logging in. Fill the template, then save or print.'],
+        ['Who can join iBITS?',             'Any registered BSIT or DIT student. Create an account using your student number.'],
+        ['How do I check my fines?',        'Log in and open <b>My Fines</b>. You can only see your own.'],
+        ['Where is the excuse letter?',     'Open <b>Forms Hub</b> after logging in. Fill the template, then save or print.'],
+        ['I forgot my password. What now?', 'Go to <b>Member Login</b> and use the "Forgot password" link to reset it via your student number. Still locked out? Message the Help Desk.'],
+        ['How do I contact the Help Desk?', 'Open the <b>Help Desk</b> page from the navbar or the button below. Submit your concern there and an officer will reply during office hours.'],
       ];
       foreach ($faqs as $i => [$q, $a]): ?>
-        <details class="faq"<?= $i === 0 ? ' open' : '' ?>>
+        <details class="faq" id="faq-<?= $i + 1 ?>"<?= $i === 0 ? ' open' : '' ?>>
           <summary>
             <span class="num"><?= str_pad((string)($i + 1), 2, '0', STR_PAD_LEFT) ?></span>
             <span class="q"><?= e($q) ?></span>
@@ -77,12 +76,13 @@ html_head('FAQs', 'faqs');
 </main>
 
 <script>
-  // only one FAQ open at a time
-  (function(){
-    var f=[].slice.call(document.querySelectorAll('details.faq'));
-    f.forEach(function(d){d.addEventListener('toggle',function(){
-      if(d.open) f.forEach(function(o){if(o!==d)o.open=false});
-    })});
+  (function () {
+    var f = [].slice.call(document.querySelectorAll('details.faq'));
+    f.forEach(function (d) {
+      d.addEventListener('toggle', function () {
+        if (d.open) f.forEach(function (o) { if (o !== d) o.open = false; });
+      });
+    });
   })();
 </script>
 
