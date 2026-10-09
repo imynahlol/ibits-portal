@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-
+ 
 const ICONS = [
     'home'     => '<path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/>',
     'events'   => '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/>',
@@ -15,7 +15,7 @@ const ICONS = [
 function icon(string $name): string {
     return '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">' . (ICONS[$name] ?? '') . '</svg>';
 }
-
+ 
 function html_head(string $title, string $bodyClass = ''): void { ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,14 +30,133 @@ function html_head(string $title, string $bodyClass = ''): void { ?>
 <link rel="stylesheet" href="<?= e(asset('css/site.css')) ?>">
 </head>
 <body class="<?= e($bodyClass) ?>">
-<?php }
-
+<?php
+    // The top navigation only appears on the public pages (home).
+    // Login/register ('auth') and dashboard ('dash') keep their own layouts.
+    if ($bodyClass === '') public_nav();
+}
+ 
 function html_foot(): void { ?>
 <script src="<?= e(asset('js/site.js')) ?>"></script>
 </body>
 </html>
 <?php }
-
+ 
+/**
+ * Translucent top navigation for the public home page.
+ *   About     > Mission & Vision, Org Structure
+ *   Community > Members, FAQs, Help Desk
+ *   Events
+ *   [user icon]
+ *
+ * NOTE: org-structure.php, members.php and faqs.php are placeholders for the
+ * real page names in public/. Change the url(...) values below if they differ.
+ */
+function public_nav(): void {
+    $u = current_user();
+    $userHref  = $u ? (is_admin() ? 'admin/index.php' : 'member/index.php') : 'login.php';
+    $userLabel = $u ? 'My dashboard' : 'Log in';
+    $chev = '<svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
+    ?>
+<style>
+.pnav{position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:1000;width:min(1400px,calc(100% - 48px));
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:7px 20px 7px 16px;font-family:'Poppins',system-ui,sans-serif;
+  background:linear-gradient(180deg,rgba(48,55,76,.64),rgba(26,31,48,.5));
+  -webkit-backdrop-filter:blur(16px) saturate(160%);backdrop-filter:blur(16px) saturate(160%);
+  border:1px solid rgba(255,255,255,.16);border-radius:38px;
+  box-shadow:0 22px 44px -16px rgba(0,0,0,.7),0 4px 0 rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.2),inset 0 -2px 0 rgba(0,0,0,.22);
+  transition:background .3s,box-shadow .3s}
+.pnav-brand{display:flex;align-items:center;gap:14px;color:#fff;font-weight:700;font-size:19px;letter-spacing:.01em}
+.pnav-brand img{width:38px;height:38px;border-radius:50%;object-fit:cover;background:#000;filter:drop-shadow(0 2px 6px rgba(0,0,0,.45))}
+.pnav-links{display:flex;align-items:center;gap:6px}
+.pnav-links>a,.pnav-dd-btn{color:#fff;background:none;border:0;cursor:pointer;font:500 16px 'Poppins',sans-serif;padding:6px 14px;border-radius:14px;display:inline-flex;align-items:center;gap:6px;transition:background .2s}
+.pnav-links>a:hover,.pnav-dd-btn:hover,.pnav-dd.open .pnav-dd-btn{background:rgba(255,255,255,.1)}
+.pnav .chev{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+.pnav-dd{position:relative}
+.pnav-dd.open .chev{transform:rotate(180deg)}
+.pnav-menu{position:absolute;top:calc(100% + 14px);left:0;min-width:200px;padding:10px;
+  background:rgba(24,28,44,.72);-webkit-backdrop-filter:blur(16px) saturate(160%);backdrop-filter:blur(16px) saturate(160%);
+  border:1px solid rgba(255,255,255,.12);border-radius:18px;box-shadow:0 18px 40px -12px rgba(0,0,0,.6);
+  opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .18s,transform .18s,visibility .18s}
+.pnav-dd.open .pnav-menu{opacity:1;visibility:visible;transform:none}
+.pnav-menu a{display:block;color:#fff;font-weight:500;font-size:16px;padding:10px 16px;border-radius:12px;white-space:nowrap;transition:background .2s,color .2s}
+.pnav-menu a:hover{background:rgba(250,213,23,.14);color:var(--gold)}
+.pnav-user{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.12);display:grid;place-items:center;margin-left:10px;transition:background .2s}
+.pnav-user .ico{width:20px;height:20px;color:#fff}
+.pnav-user:hover{background:var(--gold)}
+.pnav-user:hover .ico{color:var(--navy)}
+.pnav-burger{display:none;background:none;border:0;cursor:pointer;padding:6px;color:#fff}
+.pnav-burger .ico{width:28px;height:28px}
+.pnav ~ .hero{padding-top:84px}
+@media (hover:hover) and (min-width:861px){
+  .pnav-dd:hover .pnav-menu{opacity:1;visibility:visible;transform:none}
+  .pnav-dd:hover .chev{transform:rotate(180deg)}
+}
+@media (max-width:860px){
+  .pnav{top:10px;width:calc(100% - 20px);border-radius:28px;flex-wrap:wrap;padding:10px 18px}
+  .pnav-burger{display:block}
+  .pnav-links{display:none;width:100%;flex-direction:column;align-items:stretch;gap:2px;padding:8px 0 6px}
+  .pnav.open .pnav-links{display:flex}
+  .pnav-menu{position:static;opacity:1;visibility:visible;transform:none;display:none;background:transparent;border:0;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;padding:0 0 0 14px}
+  .pnav-dd.open .pnav-menu{display:block}
+  .pnav-user{margin:6px 0 0;border-radius:12px;width:100%;height:44px}
+}
+</style>
+ 
+<nav class="pnav" id="pnav" aria-label="Main">
+  <a class="pnav-brand" href="<?= e(url('index.php')) ?>">
+    <img src="<?= e(asset('images/ibits-logo.png')) ?>" alt="iBITS PUPLC logo" width="42" height="42">
+    <span>iBITS PUPLC</span>
+  </a>
+ 
+  <button class="pnav-burger" type="button" aria-label="Menu" aria-expanded="false" data-pnav-toggle>
+    <svg class="ico" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+  </button>
+ 
+  <div class="pnav-links">
+    <div class="pnav-dd">
+      <button class="pnav-dd-btn" type="button" aria-expanded="false">About <?= $chev ?></button>
+      <div class="pnav-menu">
+        <a href="<?= e(url('index.php#mission-vision')) ?>">Mission &amp; Vision</a>
+        <a href="<?= e(url('org-structure.php')) ?>">Org Structure</a>
+      </div>
+    </div>
+ 
+    <div class="pnav-dd">
+      <button class="pnav-dd-btn" type="button" aria-expanded="false">Community <?= $chev ?></button>
+      <div class="pnav-menu">
+        <a href="<?= e(url('members.php')) ?>">Members</a>
+        <a href="<?= e(url('faqs.php')) ?>">FAQs</a>
+        <a href="<?= e(url('member/helpdesk.php')) ?>">Help Desk</a>
+      </div>
+    </div>
+ 
+    <a href="<?= e(url('index.php#events')) ?>">Events</a>
+ 
+    <a class="pnav-user" href="<?= e(url($userHref)) ?>" aria-label="<?= e($userLabel) ?>" title="<?= e($userLabel) ?>"><?= icon('user') ?></a>
+  </div>
+</nav>
+ 
+<script>
+(function(){
+  var nav=document.getElementById('pnav'); if(!nav) return;
+  var dds=nav.querySelectorAll('.pnav-dd');
+  function closeAll(except){dds.forEach(function(d){if(d!==except){d.classList.remove('open');d.querySelector('.pnav-dd-btn').setAttribute('aria-expanded','false');}});}
+  dds.forEach(function(d){
+    d.querySelector('.pnav-dd-btn').addEventListener('click',function(e){
+      e.stopPropagation(); var open=!d.classList.contains('open'); closeAll(d);
+      d.classList.toggle('open',open); this.setAttribute('aria-expanded',open?'true':'false');
+    });
+  });
+  document.addEventListener('click',function(){closeAll(null);});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAll(null);});
+  var burger=nav.querySelector('[data-pnav-toggle]');
+  burger.addEventListener('click',function(){var o=nav.classList.toggle('open');burger.setAttribute('aria-expanded',o?'true':'false');});
+})();
+</script>
+<?php }
+ 
 /** Footer used on the public pages (home + login + register). */
 function public_footer(): void { ?>
 <footer class="site-footer" id="footer">
@@ -80,7 +199,7 @@ function public_footer(): void { ?>
   </div>
 </footer>
 <?php }
-
+ 
 /**
  * Dashboard shell (sidebar + content) for member and admin pages.
  * The menu is built from what this user is allowed to open.
@@ -89,7 +208,7 @@ function dash_start(string $title, string $active): void {
     $u = current_user();
     $admin = is_admin();
     html_head($title, 'dash');
-
+ 
     $items = [];
     if ($admin) {
         $items[] = ['index', 'Overview', 'admin/index.php', 'home'];
@@ -136,9 +255,10 @@ function dash_start(string $title, string $active): void {
     <main class="dash-content">
       <?= flash_render() ?>
 <?php }
-
+ 
 function dash_end(): void { ?>
     </main>
   </div>
 </div>
 <?php html_foot(); }
+ 
