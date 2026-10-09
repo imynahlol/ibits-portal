@@ -4,6 +4,21 @@ require_once dirname(__DIR__, 2) . '/app/bootstrap.php';
 $u = require_feature('fines');
 
 $canEdit = is_admin() && can_manage('fines');
+if (isset($_GET['member_search'])) {
+    if (!$canEdit) {
+        http_response_code(403);
+        exit;
+    }
+    header('Content-Type: application/json; charset=utf-8');
+    $search = trim((string)$_GET['member_search']);
+    $members = mb_strlen($search) >= 2
+        ? q_all("SELECT id, full_name, id_number FROM users
+                WHERE account_type = 'member' AND status = 'active' AND full_name LIKE ?
+                ORDER BY full_name LIMIT 20", ['%' . $search . '%'])
+        : [];
+    echo json_encode($members, JSON_THROW_ON_ERROR);
+    exit;
+}
 if (is_post()) {
     require_manage('fines');
     csrf_check();
@@ -16,12 +31,12 @@ if (is_post()) {
         q('DELETE FROM fines WHERE id = ?', [$id]);
         flash('success', 'Fine deleted.');
     } else {
-        $memberIdNumber = strtoupper(post('member_id_number'));
-        $member = q_one("SELECT id, full_name FROM users WHERE id_number = ? AND account_type = 'member' AND status = 'active'", [$memberIdNumber]);
+        $memberId = (int)post('member_id');
+        $member = q_one("SELECT id, full_name FROM users WHERE id = ? AND account_type = 'member' AND status = 'active'", [$memberId]);
         $userId = (int)($member['id'] ?? 0);
         $amount = filter_var(post('amount'), FILTER_VALIDATE_FLOAT);
         $due = post('due_date'); $reason = trim(post('reason'));
-        if (!$member) flash('error', 'No active member account matches that student ID number. Check the ID and try again.');
+        if (!$member) flash('error', 'Select an active student from the name search before issuing a fine.');
         elseif ($amount === false || $amount <= 0 || $amount > 100000) flash('error', 'Enter a valid amount.');
         elseif ($reason === '' || mb_strlen($reason) > 200) flash('error', 'Enter a reason (maximum 200 characters).');
         elseif (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $due) || !strtotime($due)) flash('error', 'Enter a valid due date.');
@@ -38,7 +53,7 @@ if (is_post()) {
     }
     redirect('admin/fines.php');
 }
-$edit = ($canEdit && isset($_GET['edit'])) ? q_one('SELECT f.*, m.id_number AS member_id_number, m.full_name AS member_name FROM fines f JOIN users m ON m.id = f.user_id WHERE f.id = ?', [(int)$_GET['edit']]) : null;
+$edit = ($canEdit && isset($_GET['edit'])) ? q_one('SELECT f.*, m.id AS member_id, m.id_number AS member_id_number, m.full_name AS member_name FROM fines f JOIN users m ON m.id = f.user_id WHERE f.id = ?', [(int)$_GET['edit']]) : null;
 if (($u['account_type'] ?? '') === 'member' || (!$canEdit && is_admin())) {
     // Members and read-only officers see only their own personal fines.
     $fines = q_all('SELECT f.*, m.full_name, m.id_number FROM fines f JOIN users m ON m.id = f.user_id WHERE f.user_id = ? ORDER BY f.id DESC', [$u['id']]);
@@ -65,10 +80,13 @@ dash_start('Fines', 'fines');
   <form method="post" class="form-light">
     <?= csrf_field() ?><input type="hidden" name="action" value="<?= $edit ? 'update' : 'create' ?>"><input type="hidden" name="id" value="<?= (int)($edit['id'] ?? 0) ?>">
     <div class="grid2">
-      <div class="field"><label for="member_id_number">Member student ID number</label>
-        <input id="member_id_number" name="member_id_number" type="text" maxlength="15" minlength="15" pattern="[0-9]{4}-[0-9]{5}-LQ-[0-9]" placeholder="2024-12345-LQ-0" value="<?= e($edit['member_id_number'] ?? '') ?>" autocomplete="off" required>
-        <small>Type the member's exact student ID. The fine will be linked to that member's active account.</small>
-        <?php if (!empty($edit['member_name'])): ?><small>Linked account: <?= e($edit['member_name']) ?></small><?php endif; ?></div>
+      <div class="field member-picker">
+        <label for="member_name">Student name</label>
+        <input id="member_name" type="search" placeholder="Start typing a student's name" value="<?= e($edit['member_name'] ?? '') ?>" autocomplete="off" aria-autocomplete="list" aria-controls="member_search_results" required>
+        <input id="member_id" name="member_id" type="hidden" value="<?= (int)($edit['member_id'] ?? 0) ?>">
+        <div id="member_search_results" class="member-search-results" role="listbox" aria-label="Matching students" hidden></div>
+        <small id="member_selection"><?= !empty($edit['member_name']) ? 'Selected: ' . e($edit['member_name']) . ' (' . e($edit['member_id_number']) . ')' : 'Choose a student from the matching results. Student ID numbers are shown to distinguish students with the same name.' ?></small>
+      </div>
       <div class="field"><label>Amount (₱)</label><input name="amount" type="number" min="1" step="0.01" value="<?= e((string)($edit['amount'] ?? '')) ?>" required></div>
       <div class="field"><label>Reason</label><input name="reason" maxlength="200" value="<?= e($edit['reason'] ?? '') ?>" required></div>
       <div class="field"><label>Due date</label><input name="due_date" type="date" value="<?= e($edit['due_date'] ?? '') ?>" required></div>
@@ -76,6 +94,105 @@ dash_start('Fines', 'fines');
     <div class="actions"><button class="btn btn-navy" type="submit"><?= $edit ? 'Save changes' : 'Issue fine' ?></button><?php if ($edit): ?><a class="btn btn-line" href="<?= e(url('admin/fines.php')) ?>">Cancel</a><?php endif; ?></div>
   </form>
 </section>
+<?php endif; ?>
+
+<?php if ($canEdit): ?>
+<style>
+.member-search-results{position:relative;z-index:2;max-height:240px;overflow-y:auto;border:1px solid var(--line,#d7dce5);border-radius:10px;background:var(--card,#fff);box-shadow:0 8px 20px rgba(0,0,0,.12)}
+.member-search-results[hidden]{display:none}
+.member-search-results button{display:block;width:100%;padding:10px 12px;border:0;border-bottom:1px solid var(--line,#d7dce5);background:transparent;text-align:left;color:inherit;cursor:pointer}
+.member-search-results button:last-child{border-bottom:0}
+.member-search-results button:hover,.member-search-results button:focus{background:rgba(6,33,92,.08)}
+.member-search-results button small{display:block}
+</style>
+<script>
+(function () {
+  var input = document.getElementById('member_name');
+  var memberId = document.getElementById('member_id');
+  var results = document.getElementById('member_search_results');
+  var selection = document.getElementById('member_selection');
+  var form = input.form;
+  var searchUrl = <?= json_encode(url('admin/fines.php'), JSON_THROW_ON_ERROR) ?>;
+  var timer;
+  var requestNumber = 0;
+
+  function clearResults() {
+    results.replaceChildren();
+    results.hidden = true;
+  }
+
+  function renderResults(members) {
+    clearResults();
+    if (!members.length) {
+      var empty = document.createElement('small');
+      empty.textContent = 'No active students found with that name.';
+      empty.style.display = 'block';
+      empty.style.padding = '10px 12px';
+      results.appendChild(empty);
+      results.hidden = false;
+      return;
+    }
+    members.forEach(function (member) {
+      var option = document.createElement('button');
+      option.type = 'button';
+      option.setAttribute('role', 'option');
+      var name = document.createElement('span');
+      name.textContent = member.full_name;
+      var idNumber = document.createElement('small');
+      idNumber.textContent = member.id_number;
+      option.appendChild(name);
+      option.appendChild(idNumber);
+      option.addEventListener('click', function () {
+        input.value = member.full_name;
+        memberId.value = member.id;
+        selection.textContent = 'Selected: ' + member.full_name + ' (' + member.id_number + ')';
+        input.setCustomValidity('');
+        clearResults();
+      });
+      results.appendChild(option);
+    });
+    results.hidden = false;
+  }
+
+  input.addEventListener('input', function () {
+    memberId.value = '';
+    selection.textContent = 'Choose a student from the matching results.';
+    input.setCustomValidity('');
+    clearTimeout(timer);
+    clearResults();
+    var query = input.value.trim();
+    var currentRequest = ++requestNumber;
+    if (query.length < 2) return;
+    timer = setTimeout(function () {
+      fetch(searchUrl + '?member_search=' + encodeURIComponent(query), {
+        headers: { 'Accept': 'application/json' }
+      }).then(function (response) {
+        if (!response.ok) throw new Error('Student search failed.');
+        return response.json();
+      }).then(function (members) {
+        if (currentRequest === requestNumber) renderResults(members);
+      }).catch(function () {
+        if (currentRequest === requestNumber) {
+          clearResults();
+          selection.textContent = 'Could not search students. Please try again.';
+        }
+      });
+    }, 200);
+  });
+
+  form.addEventListener('submit', function (event) {
+    if (!memberId.value) {
+      event.preventDefault();
+      input.setCustomValidity('Select a student from the matching results.');
+      input.reportValidity();
+    }
+  });
+
+  document.addEventListener('click', function (event) {
+    if (!event.target.closest('.member-picker')) clearResults();
+  });
+})();
+</script>
 <?php endif; ?>
 
 <section class="card">
