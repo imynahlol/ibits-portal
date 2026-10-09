@@ -5,6 +5,17 @@ require_once dirname(__DIR__) . '/app/bootstrap.php';
 $pop    = population();
 $events = home_events(4);
 
+/* Cover photos uploaded by the secretary (Events page) -> shown on the home event cards.
+   Looked up separately so this works even if home_events() doesn't select the `image` column. */
+$evImgById = [];
+$evImgByKey = [];
+try {
+    foreach (q_all("SELECT id, title, start_datetime, image FROM events WHERE image IS NOT NULL AND image <> ''", []) as $r) {
+        $evImgById[(int)$r['id']] = (string)$r['image'];
+        $evImgByKey[$r['title'] . '|' . $r['start_datetime']] = (string)$r['image'];
+    }
+} catch (Throwable $ex) { /* the image column doesn't exist yet: cards fall back to the generated banner */ }
+
 html_head('WE CODE AS ONE', 'home');
 ?>
 
@@ -110,8 +121,16 @@ html_head('WE CODE AS ONE', 'home');
         <p class="empty">No events posted yet. Check back soon.</p>
       <?php else: ?>
         <div class="ev-grid">
-          <?php foreach ($events as $ev): $st = event_status($ev); ?>
+          <?php foreach ($events as $ev):
+              $st  = event_status($ev);
+              $img = trim((string)($ev['image'] ?? ''));
+              if ($img === '' && isset($ev['id']))  $img = $evImgById[(int)$ev['id']] ?? '';
+              if ($img === '')                      $img = $evImgByKey[$ev['title'] . '|' . $ev['start_datetime']] ?? '';
+          ?>
             <article class="ev">
+              <?php if ($img !== ''): ?>
+                <img src="<?= e(url($img)) ?>" alt="<?= e($ev['title']) ?>" loading="lazy">
+              <?php endif; ?>
               <div class="ev-date"><b><?= e(fmt_date($ev['start_datetime'], 'j')) ?></b><span><?= e(fmt_date($ev['start_datetime'], 'M Y')) ?></span></div>
               <h3><?= e($ev['title']) ?></h3>
               <?php if ($ev['description']): ?><p><?= e($ev['description']) ?></p><?php endif; ?>
