@@ -92,7 +92,6 @@ html_head($as ? ($as === 'admin' ? 'Admin Log in' : 'Member Log in') : 'Secure A
   </form>
 
   <div class="auth-links">
-    <a href="<?= e(url('login.php')) ?>">&larr; Change access type</a>
     <?php if ($as === 'admin'): ?><a class="btn btn-line btn-sm" href="<?= e(url('change-admin-password.php')) ?>">Change Password</a><?php endif; ?>
     <?php if ($as === 'member'): ?><a href="<?= e(url('register.php')) ?>">Join iBITS</a><?php endif; ?>
   </div>
