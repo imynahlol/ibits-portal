@@ -213,7 +213,7 @@ dash_start('Events', 'events');
 /* PATCH 2: filter buttons */
 
 /* ================= Events / GPOA page ================= */
-#gp{--ink:#06215c;--mut:#6b7280;--ln:#e3e8f2;--card:#fff;--pill:#fff;--pillb:#d5dbe9;--pillt:#06215c;--cell:#fff;--off:#f4f6fb;--sel:#06215c;--th:#0a328c;font-family:'Poppins',system-ui,sans-serif;color:var(--ink);max-width:1400px}
+#gp{--ink:#fff;--mut:#a9b8d6;--ln:rgba(255,255,255,.12);--card:#081a45;--pill:#0a1330;--pillb:rgba(255,255,255,.12);--pillt:#fff;--cell:transparent;--off:rgba(255,255,255,.03);--sel:#fff;--th:#0a328c;font-family:'Poppins',system-ui,sans-serif;color:var(--ink);max-width:1400px}
 :is(html.dark,html[data-theme="dark"],body.dark,body.dark-mode) #gp{--ink:#fff;--mut:#a9b8d6;--ln:rgba(255,255,255,.12);--card:#081a45;--pill:#0a1330;--pillb:rgba(255,255,255,.12);--pillt:#fff;--cell:transparent;--off:rgba(255,255,255,.03);--sel:#fff}
 #gp *{box-sizing:border-box}
 #gp .gp-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
