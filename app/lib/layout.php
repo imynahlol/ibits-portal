@@ -39,6 +39,36 @@ function html_head(string $title, string $bodyClass = ''): void { ?>
  
 function html_foot(): void { ?>
 <script src="<?= e(asset('js/site.js')) ?>"></script>
+<script>
+/* Turn each event card (.ev-grid .ev) into a flip card: gold front with image + title,
+   navy back with the details. Uses the card's own <img> if present, otherwise a generated banner. */
+(function(){
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function art(t){
+    var h=0,i,k,bits='';
+    for(i=0;i<t.length;i++)h+=t.charCodeAt(i);
+    h%=40;
+    for(i=0;i<6;i++){var row=[];for(k=0;k<22;k++)row.push((k*3+i+h)%3?1:0);
+      bits+='<text x="12" y="'+(28+i*22)+'" fill="#fad517" fill-opacity=".18" font-family="monospace" font-size="14">'+row.join(' ')+'</text>';}
+    return 'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="480" height="270"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#06215c"/><stop offset="1" stop-color="#0a328c"/></linearGradient></defs><rect width="480" height="270" fill="url(#g)"/>'+bits+'<circle cx="410" cy="60" r="34" fill="#fad517"/><text x="24" y="236" fill="#fff" font-family="sans-serif" font-weight="700" font-size="24">'+esc(t.slice(0,26))+'</text></svg>');
+  }
+  document.querySelectorAll('.ev-grid .ev:not(.is-flip)').forEach(function(ev){
+    var h3=ev.querySelector('h3'),title=h3?h3.textContent.trim():'Event';
+    var im=ev.querySelector('img'),src=im?im.getAttribute('src'):art(title);
+    var inner=document.createElement('div');inner.className='flip-in';
+    var front=document.createElement('div');front.className='flip-f';
+    var pic=document.createElement('img');pic.src=src;pic.alt='';
+    var cap=document.createElement('div');cap.className='flip-title';
+    var b=document.createElement('b');b.textContent=title;cap.appendChild(b);
+    front.appendChild(pic);front.appendChild(cap);
+    var back=document.createElement('div');back.className='flip-b';
+    while(ev.firstChild)back.appendChild(ev.firstChild);
+    if(im&&im.parentNode)im.parentNode.removeChild(im);
+    inner.appendChild(front);inner.appendChild(back);ev.appendChild(inner);
+    ev.classList.add('is-flip');ev.classList.remove('tilt');ev.tabIndex=0;
+  });
+})();
+</script>
 </body>
 </html>
 <?php }
