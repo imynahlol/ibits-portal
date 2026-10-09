@@ -55,18 +55,21 @@
 
             <!-- CTA BUTTONS -->
             <div class="flex gap-4 animate-slide-up" style="animation-delay: 0.3s;">
-                <a href="<?= asset('/register') ?>"
-                   class="cta-register px-8 py-3 rounded-full text-lg font-semibold
-                          inline-block text-center">
+
+                <a href="#"
+                onclick="navigate('login'); loginMode('register'); return false;"
+                class="cta-register px-8 py-3 rounded-full text-lg font-semibold
+                        inline-block text-center cursor-pointer">
                     Join the Org
                 </a>
 
-                <a href="<?= asset('/login') ?>"
-                   class="bg-white/10 hover:bg-white/20 text-white
-                          border border-white/30
-                          px-8 py-3 rounded-full text-lg font-medium
-                          backdrop-blur-sm transition-all duration-200
-                          inline-block text-center">
+                <a href="#"
+                onclick="navigate('loginMode'); return false;"
+                class="bg-white/10 hover:bg-white/20 text-white
+                        border border-white/30
+                        px-8 py-3 rounded-full text-lg font-medium
+                        backdrop-blur-sm transition-all duration-200
+                        inline-block text-center cursor-pointer">
                     Member Login
                 </a>
             </div>
