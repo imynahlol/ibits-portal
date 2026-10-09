@@ -1,3 +1,9 @@
+<?php
+/* Safe helpers: use the site's own url()/asset() when they exist */
+$ibU = function (string $p) { return function_exists('url') ? url($p) : '/' . ltrim($p, '/'); };
+$ibA = function (string $p) { return function_exists('asset') ? asset($p) : 'assets/' . ltrim($p, '/'); };
+$ibE = function ($s) { return htmlspecialchars((string) $s, ENT_QUOTES, 'UTF-8'); };
+?>
 <style>
 footer#app-footer.ibits-footer{background:#0b1f4d!important;border:0!important}
 footer#app-footer.ibits-footer a{color:rgba(219,234,254,.8)!important;cursor:pointer}
@@ -10,7 +16,7 @@ footer#app-footer.ibits-footer .text-white{color:#fff!important}
 
 <!-- Brand: logo with the institute name beside it -->
 <div class="flex items-center gap-5">
-<img src="assets/images/ibits-logo.png" alt="iBITS logo" class="w-20 h-20 rounded-full shadow-lg shrink-0">
+<img src="<?= $ibE($ibA('images/ibits-logo.png')) ?>" alt="iBITS logo" class="w-20 h-20 rounded-full shadow-lg shrink-0">
 <div>
 <div class="text-white font-bold text-2xl leading-tight">iBITS PUPLC</div>
 <p class="mt-1 text-sm leading-relaxed max-w-xl">Institute of Brilliant Information Technology Students, PUP Lopez Campus.</p>
@@ -24,9 +30,9 @@ footer#app-footer.ibits-footer .text-white{color:#fff!important}
 <div>
 <h4 class="font-mono text-xs font-bold tracking-[0.2em] uppercase text-[#f5c26b] mb-5">About</h4>
 <ul class="space-y-3 text-base">
-<li><a class="transition-colors" href="#" onclick="ibitsGo('public-about');return false">Who We Are</a></li>
-<li><a class="transition-colors" href="#" onclick="ibitsGo('public-about','#view-public-about .grid');return false">Mission &amp; Vision</a></li>
-<li><a class="transition-colors" href="#" onclick="ibitsGo('public-org');return false">Org Structure</a></li>
+<li><a class="transition-colors" href="<?= $ibE($ibU('about')) ?>" data-view="public-about">Who We Are</a></li>
+<li><a class="transition-colors" href="<?= $ibE($ibU('about')) ?>#mission" data-view="public-about" data-scroll="#view-public-about .grid">Mission &amp; Vision</a></li>
+<li><a class="transition-colors" href="<?= $ibE($ibU('officers')) ?>" data-view="public-org">Officers</a></li>
 </ul>
 </div>
 
@@ -34,9 +40,8 @@ footer#app-footer.ibits-footer .text-white{color:#fff!important}
 <div>
 <h4 class="font-mono text-xs font-bold tracking-[0.2em] uppercase text-[#f5c26b] mb-5">Community</h4>
 <ul class="space-y-3 text-base">
-<li><a class="transition-colors" href="#" onclick="ibitsGo('public-org');return false">Members</a></li>
-<li><a class="transition-colors" href="#" onclick="ibitsGo('public-faqs');return false">FAQs</a></li>
-<li><a class="transition-colors" href="#" onclick="ibitsGo('login');return false">Help Desk</a></li>
+<li><a class="transition-colors" href="<?= $ibE($ibU('members')) ?>" data-view="public-org">Members</a></li>
+<li><a class="transition-colors" href="<?= $ibE($ibU('gallery')) ?>">Gallery</a></li>
 </ul>
 </div>
 
@@ -44,9 +49,9 @@ footer#app-footer.ibits-footer .text-white{color:#fff!important}
 <div>
 <h4 class="font-mono text-xs font-bold tracking-[0.2em] uppercase text-[#f5c26b] mb-5">Portal</h4>
 <ul class="space-y-3 text-base">
-<li><a class="transition-colors" href="#" onclick="ibitsGo('public-events');return false">Events</a></li>
-<li><a class="transition-colors" href="#" onclick="ibitsGo('register');return false">Get ID</a></li>
-<li><a class="transition-colors" href="#" onclick="ibitsGo('login');return false">Log in</a></li>
+<li><a class="transition-colors" href="<?= $ibE($ibU('events')) ?>" data-view="public-events">Events</a></li>
+<li><a class="transition-colors" href="<?= $ibE($ibU('get-id')) ?>" data-view="register">Get ID</a></li>
+<li><a class="transition-colors" href="<?= $ibE($ibU('login')) ?>" data-view="login">Log in</a></li>
 </ul>
 </div>
 
@@ -55,7 +60,7 @@ footer#app-footer.ibits-footer .text-white{color:#fff!important}
 <h4 class="font-mono text-xs font-bold tracking-[0.2em] uppercase text-[#f5c26b] mb-5">Address</h4>
 <p class="text-base leading-relaxed">PUP Lopez Campus, Lopez, Quezon</p>
 <a href="https://www.google.com/maps/search/?api=1&query=PUP+Lopez+Quezon+Campus" target="_blank" rel="noopener" class="block mt-4 w-40">
-<img src="assets/images/ibits-map.png" alt="Map of PUP Lopez Campus" class="w-full h-auto rounded-xl">
+<img src="<?= $ibE($ibA('images/ibits-map.png')) ?>" alt="Map of PUP Lopez Campus" class="w-full h-auto rounded-xl">
 </a>
 </div>
 
@@ -80,17 +85,24 @@ footer#app-footer.ibits-footer .text-white{color:#fff!important}
 </footer>
 
 <script>
-/* Footer navigation: opens a portal page, then optionally scrolls to a section on it */
-function ibitsGo(view, target) {
-    navigate(view);
-    setTimeout(function () {
-        var box = document.getElementById('content-viewport');
-        var el  = target ? document.querySelector(target) : null;
-        if (el) {
-            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else if (box) {
-            box.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    }, 80);
-}
+/* Works on both builds: real page links by default; uses navigate() only when the single-page version exists */
+(function () {
+    document.querySelectorAll('#app-footer a[data-view]').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+            var v = a.getAttribute('data-view');
+            var id = (v === 'register') ? 'login' : v;
+            if (typeof navigate === 'function' && document.getElementById('view-' + id)) {
+                e.preventDefault();
+                navigate(v);
+                setTimeout(function () {
+                    var box = document.getElementById('content-viewport');
+                    var t = a.getAttribute('data-scroll');
+                    var el = t ? document.querySelector(t) : null;
+                    if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+                    else if (box) { box.scrollTo({ top: 0, behavior: 'smooth' }); }
+                }, 80);
+            }
+        });
+    });
+})();
 </script>
