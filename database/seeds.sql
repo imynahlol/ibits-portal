@@ -4,17 +4,18 @@ SET @pw = '$2y$12$2bWkB.8FydBaORJzl13nP.A0qQrViA985uMTHBXJIikvY465Ocqye';
 SET @member_pw = '$2y$10$CfV2r0Ai7XNoVAAS0smmDO3yl3Br96iQVCjuQujTwoXUMeov8MqUW';
 
 INSERT INTO users (full_name,id_number,sex,program,year_level,password_hash,account_type,position,must_change_password) VALUES
-('Allea Grace C. Ranillo',          '2024-00534-LQ-0','Female',     'BSIT','3rd Year',@pw,'admin','President',1),
-('Johahnie Ynah Marise C. Gilbuena','2025-00122-LQ-0','Female',     'BSIT','2nd Year',@pw,'admin','Vice President',1),
-('EIyza Irene B. Ventura',          '2025-00121-LQ-0','Female',     'BSIT','2nd Year',@pw,'admin','Secretary',1),
-('Irish Nicole J. Japone',          '2025-00127-LQ-0','Female',     'BSIT', '2nd Year',@pw,'admin','Treasurer',1),
-('Harvey S. Pumariga',              '2025-00589-LQ-0','Male',       'DIT','2nd Year',@pw,'admin','Auditor',1),
-('Angel Ivy D. Prada',              '2025-00138-LQ-0','Female',     'BSIT','2nd Year',@pw,'admin','STRAW',1),
-('Kathleen V. Maceda',              '2025-00125-LQ-0','Female',     'BSIT','2nd Year',@pw,'admin','STRAW',1),
+('Allea Grace C. Ranillo','2024-00534-LQ-0','Female','BSIT','3rd Year',@pw,'admin','President',1),
+('Johahnie Ynah Marise C. Gilbuena','2025-00122-LQ-0','Female','BSIT','2nd Year',@pw,'admin','Vice President',1),
+('EIyza Irene B. Ventura','2025-00121-LQ-0','Female','BSIT','2nd Year',@pw,'admin','Secretary',1),
+('Irish Nicole J. Japone','2025-00127-LQ-0','Female','BSIT','2nd Year',@pw,'admin','Treasurer',1),
+('Harvey S. Pumariga','2025-00589-LQ-0','Male','DIT','2nd Year',@pw,'admin','Auditor',1),
+('Angel Ivy D. Prada','2025-00138-LQ-0','Female','BSIT','2nd Year',@pw,'admin','STRAW',1),
+('Kathleen V. Maceda','2025-00125-LQ-0','Female','BSIT','2nd Year',@pw,'admin','STRAW',1);
 
 INSERT INTO events (title,description,category,start_datetime,end_datetime,location,is_public,created_by) VALUES
 ('IT Week 2026','Technology week with contests, seminars and exhibits.','Technology','2026-10-12 08:00','2026-10-16 17:00','PUP Lopez Campus',1,1),
 ('Hackathon: Build as One','24 hours of building together.','Competition','2026-12-05 08:00','2026-12-06 08:00','Computer Lab',1,1);
+
 
 INSERT INTO users (full_name,id_number,sex,program,year_level,password_hash,account_type,position,must_change_password) VALUES
 ('Santino Justin O. Aguilar', '2026-00530-LQ-0','Male', 'BSIT','1st Year','37f5c7a7dd5f5a2d738af37fcf50d9ef2bc7f22de575a53ebf1f72c0cf9aabd5','member','Member',1),
@@ -316,3 +317,6 @@ INSERT INTO users (full_name,id_number,sex,program,year_level,password_hash,acco
 ('Alexis Jericho M. Pedragoza', '2023-00853-LQ-0','Male', 'DIT','3rd Year','3f221b98a4ef5a20961e153c0c3eb19dc43ec94fb5977e95386b0c1f1fdb801e','member','Member',1),
 ('Mark Andrey D. Venus', '2023-00817-LQ-0','Male', 'DIT','3rd Year','3d6ea523b2b82c5306d8cbc1bb05e7e3b76d5d2fcb5ae387686d03adb6d9d97d','member','Member',1),
 ('Ralph Rayniel Z. Villaos', '2023-00881-LQ-0','Male', 'DIT','3rd Year','89d3bc841fcb4f33d333e28ce276999002f5da584445ac72256f9efc7a89a20d','member','Member',1);SELECT * FROM `users` WHERE 1
+=======
+('Hackathon: Build as One','24 hours of building together.','Competition','2026-12-05 08:00','2026-12-06 08:00','Computer Lab',1,1);
+>>>>>>> 34b81c15d2e9cbe5d5d23bff4dcdaabb3025c510
