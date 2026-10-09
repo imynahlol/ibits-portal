@@ -1,37 +1,37 @@
 # iBITS Portal
 
-A structured PHP/HTML split of the original iBITS Portal single-page prototype.
+Multi-page PHP site. Every feature is its own page.
 
-## Structure
+## Run
+```bash
+php -S localhost:8000 -t public     # then open http://localhost:8000
+```
+No MySQL? With `APP_ENV=local` it auto-creates a **demo** SQLite database (`storage/demo.sqlite`).
+For MySQL: import `database/schema.sql` then `database/seeds.sql`, copy `.env.example` to `.env`.
+Delete `storage/demo.sqlite` to reset the demo data.
 
-- `app/` — application logic, controllers, models, helpers, and views
-- `config/` — database connection
-- `database/` — MySQL schema and seed data
-- `public/` — web root, assets, uploads, and entry point
-- `storage/logs/` — application logs
-- `.env` — local configuration (do not commit)
-- `.env.example` — configuration template
+## Pages
+| Page | Who |
+|---|---|
+| `index.php` | public: header, Who We Are, Population, Mission & Vision, Events, footer |
+| `login.php` | Secure Access (Member / Admin) then the log-in form. Admin form requires a **position** that must match the account |
+| `register.php` | join as a member |
+| `member/index.php`, `member/helpdesk.php` | members: view and submit help desk concerns only |
+| `admin/index.php` + `events`, `forms`, `fines`, `helpdesk`, `org`, `cbl` | admins; only the pages their position allows |
 
-## Run locally
+## Positions to features (edit in `app/config.php`)
+| Position | Features |
+|---|---|
+| President, Vice President | Events, Forms, Fines, Help Desk, Organization, CBL |
+| Secretary | Events, Forms, Help Desk, CBL (can propose) |
+| Treasurer, Assistant Treasurer | Fines |
+| Auditor, Assistant Auditor | Fines (view only) |
+| Institutional | Events |
+| STRAW | Help Desk |
+| Adviser | CBL (first approver), Organization (view only) |
 
-1. Create a MySQL database and import:
-   - `database/schema.sql`
-   - `database/seeds.sql`
-2. Copy `.env.example` to `.env` and set the database credentials.
-3. Point Apache/Nginx to the `public/` directory, or run:
-   ```bash
-   php -S localhost:8000 -t public
-   ```
-4. Open `http://localhost:8000`.
+CBL amendments go Adviser, then President, then Vice President.
 
-## Important
-
-The original frontend behavior is preserved as a JavaScript prototype. Login, registration, event editing, fines, tickets, and population data still use the mock client-side data in `public/assets/js/app.js`.
-
-The PHP models/controllers and database schema are separated and ready for replacing the mock data with real CRUD/API operations. No real authentication is claimed until those endpoints are wired to the frontend.
-
-## Notes
-
-- The original embedded iBITS logo was extracted into `public/assets/images/ibits-logo.png`.
-- Uploaded event images are intended for `public/uploads/`.
-- Keep `.env` out of version control.
+## Demo accounts (password `ibits2026`; change before going live)
+Member `2025-00001-LQ-0` · President `2023-00012-LQ-0` · VP `2024-00001-LQ-0` · Secretary `2024-00002-LQ-0` ·
+Treasurer `2024-00003-LQ-0` · Auditor `2024-00004-LQ-0` · STRAW `2024-00005-LQ-0` · Adviser `00812`

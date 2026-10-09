@@ -1,117 +1,111 @@
 <?php
 declare(strict_types=1);
-
 require_once dirname(__DIR__) . '/app/bootstrap.php';
 
-/* -------------------------------------------------------------
-   Current user (from session — set by AuthController on login)
-   ------------------------------------------------------------- */
-$isLoggedIn = !empty($_SESSION['user_id']);
+$pop    = population();
+$events = home_events(4);
 
-$user = [
-    'id'       => $_SESSION['user_id']    ?? '',
-    'name'     => $_SESSION['user_name']  ?? '',
-    'fullName' => $_SESSION['user_name']  ?? '',
-    'role'     => $_SESSION['role']       ?? 'Member',
-    'program'  => $_SESSION['program']    ?? '',
-];
-
-/* -------------------------------------------------------------
-   Permissions by role (mirrors your PERMS map)
-   ------------------------------------------------------------- */
-$permsByRole = [
-    'President'          => ['admin_org','admin_events','admin_forms','admin_cbl','manage_tickets'],
-    'Vice President'     => ['admin_org','admin_events','admin_forms','admin_cbl','manage_tickets'],
-    'Secretary'          => ['admin_events','admin_forms','manage_tickets'],
-    'Institutional'      => ['admin_events'],
-    'Treasurer'          => [],
-    'Assistant Treasurer'=> [],
-    'Auditor'            => [],
-    'Assistant Auditor'  => [],
-    'Adviser'            => ['admin_cbl'],
-    'Member'             => [],
-];
-$perms = $permsByRole[$user['role']] ?? [];
-
-/* -------------------------------------------------------------
-   Route → view mapping (as before)
-   ------------------------------------------------------------- */
-$uri  = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
-$base = '/ibits-portal/public';
-$route = trim(str_replace($base, '', $uri), '/') ?: 'home';
-
-$routeToView = [
-    'home'      => 'view-public-home',
-    'login'     => 'view-login',
-    'register'  => 'view-login',
-    'events'    => 'view-public-events',
-    'about'     => 'view-public-about',
-    'faqs'      => 'view-public-faqs',
-    'org'       => 'view-public-org',
-    'dashboard' => 'view-member-dashboard',
-    'fines'     => 'view-member-fines',
-    'my-events' => 'view-member-events',
-    'forms'     => 'view-member-forms',
-    'helpdesk'  => 'view-member-helpdesk',
-    'settings'  => 'view-member-settings',
-];
-
-$activeViewId = $routeToView[$route] ?? 'view-public-home';
+html_head('We Code as One');
 ?>
 
-<!DOCTYPE html>
-<html lang="en" class="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iBITS Portal | We Code as One</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="assets/js/tailwind-config.js"></script>
-    <link rel="stylesheet" href="assets/css/app.css">
-</head>
-<body
-    class="antialiased font-sans transition-colors duration-300"
-    data-logged-in="<?= $isLoggedIn ? '1' : '0' ?>"
-    data-user-id="<?= htmlspecialchars((string)$user['id'], ENT_QUOTES) ?>"
-    data-user-name="<?= htmlspecialchars($user['name'], ENT_QUOTES) ?>"
-    data-user-full-name="<?= htmlspecialchars($user['fullName'], ENT_QUOTES) ?>"
-    data-user-role="<?= htmlspecialchars($user['role'], ENT_QUOTES) ?>"
-    data-user-program="<?= htmlspecialchars($user['program'], ENT_QUOTES) ?>"
-    data-user-perms="<?= htmlspecialchars(implode(',', $perms), ENT_QUOTES) ?>"
-    data-initial-view="<?= htmlspecialchars($activeViewId, ENT_QUOTES) ?>"
->
-<div id="app" class="flex h-screen overflow-hidden">
-<?php require __DIR__ . '/../app/views/layouts/sidebar.php'; ?>
-<main class="flex-1 flex flex-col h-screen overflow-hidden relative">
-<?php require __DIR__ . '/../app/views/layouts/public-nav.php'; ?>
-<?php require __DIR__ . '/../app/views/layouts/mobile-header.php'; ?>
-<div id="content-viewport" class="flex-1 overflow-y-auto relative bg-background">
-<?php
-$viewFiles = [
-    'public/home','public/events','public/faqs','public/about','public/org',
-    'auth/login',
-    'member/dashboard','admin/cbl','admin/org','member/fines','member/forms',
-    'member/events','member/helpdesk','member/settings'
-];
-foreach ($viewFiles as $viewFile) {
-    require __DIR__ . '/../app/views/' . $viewFile . '.php';
-}
-require __DIR__ . '/../app/views/layouts/footer.php';
-?>
-</div>
+<!-- ============ HEADER: We Code as One + Join / Member Log in ============ -->
+<header class="hero">
+  <canvas class="rain" aria-hidden="true"></canvas>
+  <div class="container inner">
+    <img class="logo" src="<?= e(asset('images/ibits-logo.png')) ?>" alt="iBITS PUPLC logo" width="230" height="230">
+    <span class="badge-pill">OFFICIAL PORTAL</span>
+    <h1>WE CODE AS ONE</h1>
+    <p>At iBITS, we unite brilliant minds and passionate builders under a shared passion for technology to forge innovation together as a single, unified force.</p>
+    <div class="cta">
+      <a class="btn btn-gold" href="<?= e(url('register.php')) ?>">Join the Org</a>
+      <a class="btn btn-ghost" href="<?= e(url('login.php')) ?>">Member Log in</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- ============ WHO WE ARE ============ -->
+  <section class="sec sec-light" id="who-we-are">
+    <canvas class="rain" data-rain="light" aria-hidden="true"></canvas>
+    <div class="container">
+      <h2>Who We Are</h2>
+      <div class="who">
+        <div class="navy-card">
+          <h3>We Are More Than an Academic Organization</h3>
+          <p class="sub">A Unified Force for Tech Innovators.</p>
+          <p>At the <b>Institute of Brilliant Information Technology Students</b>, we unite brilliant minds and passionate builders under a shared love for technology to forge innovation together as a single, unified force.</p>
+          <p>We create spaces where students don't just study technology, <b>we code as one.</b></p>
+        </div>
+        <img class="mascot" src="<?= e(asset('images/ibits-mascot.png')) ?>" alt="iBITS mascot" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ POPULATION ============ -->
+  <section class="sec sec-dark" id="population">
+    <canvas class="rain" data-rain="dark" aria-hidden="true"></canvas>
+    <div class="container">
+      <h2>Our Population</h2>
+      <p class="lead">Active members across every program and year level.</p>
+
+      <div class="pop-grid">
+        <div class="pop-card main"><div class="pop-num" data-count="<?= $pop['total'] ?>"><?= $pop['total'] ?></div><div class="pop-label">Total iBITS Members</div></div>
+        <?php foreach ($pop['programs'] as $prog => $p): ?>
+          <div class="pop-card main"><div class="pop-num" data-count="<?= $p['total'] ?>"><?= $p['total'] ?></div><div class="pop-label">Total <?= e($prog) ?> Students</div></div>
+        <?php endforeach; ?>
+        <div class="pop-card main"><div class="pop-num" data-count="<?= $pop['officers'] ?>"><?= $pop['officers'] ?></div><div class="pop-label">iBITS Org Officers</div></div>
+      </div>
+
+      <?php foreach ($pop['programs'] as $prog => $p): ?>
+        <h3 class="pop-sub"><?= e($prog) ?> · By Year Level</h3>
+        <div class="pop-grid <?= count($p['levels']) === 3 ? 'n3' : '' ?>">
+          <?php foreach ($p['levels'] as $label => $n): ?>
+            <div class="pop-card"><div class="pop-num" data-count="<?= $n ?>"><?= $n ?></div><div class="pop-label"><?= e($label) ?></div></div>
+          <?php endforeach; ?>
+        </div>
+      <?php endforeach; ?>
+    </div>
+  </section>
+
+  <!-- ============ MISSION & VISION + EVENTS ============ -->
+  <section class="sec sec-light" id="mission-vision">
+    <canvas class="rain" data-rain="light" aria-hidden="true"></canvas>
+    <div class="container">
+      <h2>Mission &amp; Vision</h2>
+      <div class="mv">
+        <article class="mv-card">
+          <div class="mv-ico navy"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg></div>
+          <h3>Our Mission</h3>
+          <p>To foster a collaborative environment where IT students can develop technical excellence, leadership skills, and ethical professionalism through innovative projects and community engagement.</p>
+        </article>
+        <article class="mv-card">
+          <div class="mv-ico gold"><svg class="ico" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></div>
+          <h3>Our Vision</h3>
+          <p>To be the leading student organization that produces globally competitive technology professionals who drive digital transformation and social progress.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="events" style="background:var(--bg)">
+    <div class="container">
+      <h2>Events</h2>
+      <?php if (!$events): ?>
+        <p class="empty">No events posted yet. Check back soon.</p>
+      <?php else: ?>
+        <div class="ev-grid">
+          <?php foreach ($events as $ev): $st = event_status($ev); ?>
+            <article class="ev">
+              <div class="ev-date"><b><?= e(fmt_date($ev['start_datetime'], 'j')) ?></b><span><?= e(fmt_date($ev['start_datetime'], 'M Y')) ?></span></div>
+              <h3><?= e($ev['title']) ?></h3>
+              <?php if ($ev['description']): ?><p><?= e($ev['description']) ?></p><?php endif; ?>
+              <div class="ev-meta"><span><?= e($ev['location']) ?></span><span class="tag tag-<?= e($st) ?>"><?= e($st) ?></span></div>
+            </article>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
+    </div>
+  </section>
 </main>
-</div>
-<?php
-foreach (['m-event','m-form','m-ticket','chat-fab','chat-panel','custom-modal'] as $component) {
-    require __DIR__ . '/../app/views/layouts/' . $component . '.php';
-}
-?>
 
-<script>
-    window.__INITIAL_VIEW__ = <?= json_encode($activeViewId) ?>;
-</script>
-<script src="assets/js/app.js"></script>
-</body>
-</html>
+<?php public_footer(); html_foot(); ?>
