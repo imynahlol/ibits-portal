@@ -14,7 +14,7 @@ html_head('WE CODE AS ONE', 'home');
   <div class="container inner">
     <img class="logo" src="<?= e(asset('images/ibits-logo.png')) ?>" alt="iBITS Logo" width="230" height="230">
     <span class="badge-pill">OFFICIAL PORTAL</span>
-    <h1>WE CODE AS ONE</h1>
+    <h1>WE CODE <span class="accent">AS ONE</span></h1>
     <p>At iBITS, we unite brilliant minds and passionate builders<br>under a shared passion for technology to forge innovation<br>together as a single, unified force.</p>
     <div class="cta">
       <a class="btn cta-register" href="<?= e(url('register.php')) ?>">Join the Org</a>
@@ -24,8 +24,8 @@ html_head('WE CODE AS ONE', 'home');
 </header>
 
 <main>
-  <!-- ============ WHO WE ARE ============ -->
-  <section class="sec sec-light" id="who-we-are">
+  <!-- ============ WHO WE ARE (white) ============ -->
+  <section class="sec sec-white" id="who-we-are">
     <canvas class="rain" data-rain="light" aria-hidden="true"></canvas>
     <div class="container">
       <h2>Who We Are</h2>
@@ -81,7 +81,7 @@ html_head('WE CODE AS ONE', 'home');
     </div>
   </section>
 
-  <!-- ============ MISSION & VISION + EVENTS ============ -->
+  <!-- ============ MISSION & VISION ============ -->
   <section class="sec sec-light" id="mission-vision">
     <canvas class="rain" data-rain="light" aria-hidden="true"></canvas>
     <div class="container">
@@ -101,7 +101,9 @@ html_head('WE CODE AS ONE', 'home');
     </div>
   </section>
 
-  <section class="sec" id="events" style="background:var(--bg)">
+  <!-- ============ EVENTS (white) ============ -->
+  <section class="sec sec-white" id="events">
+    <canvas class="rain" data-rain="light" aria-hidden="true"></canvas>
     <div class="container">
       <h2>Events</h2>
       <?php if (!$events): ?>
