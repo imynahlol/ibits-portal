@@ -293,7 +293,7 @@ function dash_start(string $title, string $active): void {
     ?>
 <div class="dash-wrap">
   <aside class="side" id="side">
-    <a class="side-brand" href="<?= e(url($admin ? 'admin/index.php' : 'member/index.php')) ?>">
+    <a class="side-brand" href="<?= e(url('index.php')) ?>" title="Back to home">
       <img src="<?= e(asset('images/ibits-logo.png')) ?>" alt="">
       <span>iBITS Portal</span>
     </a>
@@ -323,12 +323,6 @@ function dash_start(string $title, string $active): void {
       <?php if ($admin): ?><span class="pos-chip"><?= e($u['position']) ?></span><?php endif; ?>
     </header>
     <main class="dash-content">
-      <?php
-        // Back button on every dashboard page: sub-pages return to the dashboard,
-        // the dashboard itself returns to the public home page.
-        $dashHome = $admin ? 'admin/index.php' : 'member/index.php';
-        echo $active === 'index' ? back_button('index.php', 'Back to home') : back_button($dashHome, 'Back to dashboard');
-      ?>
       <?= flash_render() ?>
 <?php }
  
