@@ -263,7 +263,7 @@ function public_footer(): void { ?>
              target="_blank"
              rel="noopener noreferrer"
              title="View location on Google Maps">
-            <img src="<?= e(asset('assets/images/map.png')) ?>"
+            <img src="/ibits-portal/public/assets/images/map.png"
                  alt="Map location: Yumul St. Brgy. Burgos, PUP Lopez, Quezon"
                  width="120"
                  height="120"
@@ -313,7 +313,6 @@ function public_footer(): void { ?>
   </div>
 </footer>
 <?php }
-
  
 /**
  * Dashboard shell (sidebar + content) for member and admin pages.
