@@ -64,33 +64,49 @@ const ORG_COMMITTEES = [
         ['Rafaela Carabuena',       'Chairperson',      'DIT - 3'],
         ['Cedrex Q. Pelagio',       'Vice Chairperson', 'BSIT - 2'],
         ['Wella T. Retardo',        'Member',           'BSIT - 2'],
+        ['Mark Luigi B. Mapagdalita', 'Member',          'BSIT - 2'],
     ],
+
     'Cultural Committee' => [
         ['Gian Carlo M. Depilo',            'Chairperson',      'BSIT - 2'],
         ['Jesu Ian Kristoffer B. Aventurado', 'Vice Chairperson', 'BSIT - 2'],
+        ['Kervin B. Alvarez',                 'Member',           'BSIT - 1'],
     ],
+
     'Institutional Committee' => [
         ['Althea A. Dangalan',      'Chairperson',      'BSIT - 3'],
         ['Lugelle T. Zabella',      'Vice Chairperson', 'BSIT - 3'],
     ],
+
     'Networking Committee' => [
         ['Shaira Cybelle V. Bitoin',     'Chairperson',      'BSIT - 2'],
         ['Sean Siegfred P. Salabo',      'Vice Chairperson', 'BSIT - 4'],
         ['Liynkert Clarence B. Carillo', 'Member',           'BSIT - 2'],
         ['Justin Lloyd B. Mendez',       'Member',           'BSIT - 2'],
+        ['Winzel James Calayo',         'Member',           'BSIT - 1'],
+        ['Lawrence E. Recomendable',      'Member',           'BSIT - 1'],
+        ['Aeroe Erandio',                 'Member',           'BSIT - 1'],
     ],
+
     'Publicity and Creative Media Committee' => [
-        ['Jon Carlo Marasigan',     'Chairperson',      'BSIT - 3'],
-        ['John Ariel C. Espinos',   'Vice Chairperson', 'DIT - 3'],
-        ['Renier A. Acobado',       'Member',           'DIT - 3'],
-        ['Philip Joshua O. Barba',  'Member',           'BSIT - 3'],
-        ['Cyrine Jill S. Damasco',  'Member',           'BSIT - 2'],
+        ['John Ariel C. Espinos',   'Chairperson', 'DIT - 3'],
+        ['Cyrine Jill S. Damasco',  'Vice Chairperson', 'BSIT - 2'],
+        ['Shyvelle Anne M. Loyola', 'Member', 'DIT - 3'],
+        ['Jazmyne Cozette Basco', 'Member', 'BSIT - 4'],
+        ['Elaija Jasmin Yap',     'Member', 'BSIT - 4'],
+        ['Edrian Gerez', 'Member', 'BSIT - 1'],
     ],
+    
     'Sports Committee' => [
-        ['Jerome B. Sode',          'Chairperson',      'DIT - 2'],
+        ['Jerome B. Sode',      'Chairperson',      'DIT - 2'],
+        ['Ash Alita',           'Member',           'BSIT - 1'],
+        ['Christine Anne Tulibas', 'Member',        'BSIT - 1'],
+        ['Louiesa Peras',         'Member',         'DIT - 1'],
+        ['Jhen Esclanda',        'Member',         'DIT - 1'],
     ],
     "STRAW (Student's Rights and Welfare) Committee" => [
         ['Angel Ivy D. Prada',      'Chairperson',      'BSIT - 2'],
         ['Kathleen V. Maceda',      'Vice Chairperson', 'BSIT - 2'],
+        ['Shan Angelo Santos',      'Member',           'BSIT - 1'],
     ],
 ];
