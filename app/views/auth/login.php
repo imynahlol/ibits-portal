@@ -1,97 +1,237 @@
-<?php
+<!-- LOGIN AND SECURE PAGE -->
+<div class="view-section w-full min-h-screen relative overflow-hidden zd pt-24 pb-10 px-4"
+     id="view-login">
 
-require_once __DIR__ . '/../../helpers/functions.php';
+    <canvas class="rain absolute inset-0 w-full h-full"></canvas>
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+    <div class="relative z-10 max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center min-h-[70vh]">
 
-if (!empty($_SESSION['user_id'])) {
-    redirect($_ENV['APP_URL'] . '/dashboard');
-}
+        <!-- ---------- LEFT: Brand hero ---------- -->
+        <div class="text-center login-in" style="--d:.05s">
 
-$errors = $_SESSION['errors'] ?? [];
-unset($_SESSION['errors']);
+            <div class="coin-wrap">
+                <div class="coin">
+                    <img alt="iBITS logo"
+                         class="logo-img"
+                         src="<?= asset('assets/images/ibits-logo.png') ?>" />
+                </div>
+            </div>
 
-$old_id = $_SESSION['old']['id_number'] ?? '';
-unset($_SESSION['old']);
-
-$success = flash('success');
-
-$logoUrl = e($_ENV['APP_URL']) . '/assets/images/ibits-logo.png';
-?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>Login | <?= e($_ENV['APP_NAME'] ?? 'iBITS Portal') ?></title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet">
-
-    <link rel="stylesheet" href="<?= e($_ENV['APP_URL']) ?>/assets/css/login.css">
-
-    <noscript>
-        <style>html:not(.ui-ready) body { visibility: visible; }</style>
-    </noscript>
-</head>
-
-<body data-login-app data-logo="<?= $logoUrl ?>">
-
-    <h2>Login</h2>
-
-    <form method="POST"
-          action="<?= e($_ENV['APP_URL']) ?>/login"
-          class="form">
-
-        <!-- Hidden input to track selected role (member or admin) -->
-        <input type="hidden" name="role" id="user_role" value="">
-        <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
-
-        <label>ID Number</label>
-        <input type="text"
-               name="id_number"
-               value="<?= e($old_id) ?>"
-               placeholder="2025-00122-LQ-0"
-               autocomplete="username"
-               required>
-
-        <label>Password</label>
-        <input type="password"
-               name="password"
-               autocomplete="current-password"
-               required>
-
-        <button type="submit">Sign In</button>
-    </form>
-
-    <p data-auth-note>
-        No account yet?
-        <a href="<?= e($_ENV['APP_URL']) ?>/register">Register here</a>
-    </p>
-
-    <?php if ($success): ?>
-        <div class="alert alert-success">
-            <ul><li><?= e($success) ?></li></ul>
+            <h1 class="text-5xl md:text-6xl font-bold gt">iBITS Portal</h1>
+            <p class="text-textMuted mt-2">We Code as One</p>
         </div>
-    <?php endif; ?>
 
-    <?php if (!empty($errors)): ?>
-        <div class="alert alert-error">
-            <ul>
-                <?php foreach ($errors as $error): ?>
-                    <li><?= e($error) ?></li>
-                <?php endforeach; ?>
-            </ul>
+
+        <!-- ---------- RIGHT: Secure access card ---------- -->
+        <div class="olive p-8 max-w-md w-full mx-auto login-in" style="--d:.15s">
+
+            <!-- Card header -->
+            <div class="border-l-4 border-secondary pl-4 mb-6">
+                <h2 class="text-2xl font-bold text-primary" id="lg-title">SECURE ACCESS</h2>
+                <p class="text-xs tracking-widest text-textMuted" id="lg-sub">
+                    IDENTIFY YOURSELF TO PROCEED.
+                </p>
+            </div>
+
+
+            <!-- ---------- Panel: role choice ---------- -->
+            <div class="space-y-4" data-panel="choice">
+
+                <button type="button"
+                        class="tilt w-full flex items-center gap-4 p-5 rounded-2xl
+                               border border-gray-200 bg-white text-left
+                               hover:border-primary glass-btn"
+                        onclick="loginMode('member')">
+                    <span class="w-12 h-12 rounded-xl bg-primary text-secondary
+                                 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-user"></i>
+                    </span>
+                    <span>
+                        <b class="text-primary block">Member Access</b>
+                        <span class="text-xs text-textMuted">
+                            Fines, events, forms and help desk
+                        </span>
+                    </span>
+                </button>
+
+                <button type="button"
+                        class="tilt w-full flex items-center gap-4 p-5 rounded-2xl
+                               border border-gray-200 bg-white text-left
+                               hover:border-primary glass-btn"
+                        onclick="loginMode('admin')">
+                    <span class="w-12 h-12 rounded-xl bg-secondary text-primary
+                                 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </span>
+                    <span>
+                        <b class="text-primary block">Admin Console</b>
+                        <span class="text-xs text-textMuted">Officers and advisers</span>
+                    </span>
+                </button>
+            </div>
+
+
+            <!-- ---------- Panel: login form (member / admin) ---------- -->
+            <form class="hidden space-y-4"
+                  data-panel="member admin"
+                  onsubmit="doLogin(event)">
+
+                <!-- Admin-only: designation -->
+                <div class="hidden" data-only="admin">
+                    <label class="block text-sm font-medium mb-1" for="lg-role">
+                        Designation
+                    </label>
+                    <select id="lg-role"
+                            class="w-full px-3 py-3 border border-gray-200
+                                   rounded-xl text-sm bg-white">
+                        <option>President</option>
+                        <option selected>Vice President</option>
+                        <option>Secretary</option>
+                        <option>Treasurer</option>
+                        <option>Assistant Treasurer</option>
+                        <option>Auditor</option>
+                        <option>Assistant Auditor</option>
+                        <option>Institutional</option>
+                        <option>Adviser</option>
+                    </select>
+                </div>
+
+                <!-- ID -->
+                <div>
+                    <label class="block text-sm font-medium mb-1" for="lg-id">
+                        Student / Adviser Number
+                    </label>
+                    <input id="lg-id"
+                           type="text"
+                           autocomplete="username"
+                           class="w-full px-4 py-3 border border-gray-200
+                                  rounded-xl text-sm focus:ring-2 focus:ring-primary"
+                           placeholder="Student ID / ID number"
+                           required />
+                </div>
+
+                <!-- Password -->
+                <div>
+                    <label class="block text-sm font-medium mb-1" for="lg-pw">
+                        Password
+                    </label>
+                    <div class="relative">
+                        <input id="lg-pw"
+                               type="password"
+                               autocomplete="current-password"
+                               class="w-full px-4 py-3 pr-12 border border-gray-200
+                                      rounded-xl text-sm focus:ring-2 focus:ring-primary"
+                               placeholder="Password"
+                               required />
+                        <button type="button"
+                                aria-label="Show password"
+                                class="absolute right-3 top-3 text-textMuted"
+                                onclick="togglePw('lg-pw', this)">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Options -->
+                <div class="flex justify-between text-xs">
+                    <label class="flex items-center gap-2 text-textMuted">
+                        <input class="rounded" type="checkbox" />
+                        Keep Session Active
+                    </label>
+                    <a class="text-primary font-medium hover:underline"
+                       href="#"
+                       onclick="showModal('Forgot password','Password reset needs the backend. For now, file an Account Concern ticket after contacting an officer.');return false">
+                        Forgot password?
+                    </a>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit"
+                        id="lg-btn"
+                        class="w-full btn-secondary py-3 rounded-xl text-base">
+                    Sign In
+                </button>
+
+                <!-- Back to role picker -->
+                <div class="text-center text-sm">
+                    <a class="text-textMuted hover:text-primary"
+                       href="#"
+                       onclick="loginMode('choice');return false">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        Return to dashboard
+                    </a>
+                </div>
+
+                <!-- Register prompt (member only) -->
+                <p class="text-center text-sm text-textMuted" data-only="member">
+                    Don't have an account yet?
+                    <a class="text-primary font-semibold hover:underline"
+                       href="#"
+                       onclick="loginMode('register');return false">
+                        Join iBITS
+                    </a>
+                </p>
+            </form>
+
+
+            <!-- ---------- Panel: register form ---------- -->
+            <form class="hidden space-y-3"
+                  data-panel="register"
+                  onsubmit="doRegister(event)">
+
+                <input id="rg-name"
+                       type="text"
+                       class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm"
+                       placeholder="Full Name"
+                       required />
+
+                <input id="rg-id"
+                       type="text"
+                       class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm"
+                       placeholder="Student ID / ID number"
+                       required />
+
+                <input id="rg-prog"
+                       type="text"
+                       class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm"
+                       placeholder="Program &amp; Year (e.g. BSIT 2)"
+                       required />
+
+                <div class="relative">
+                    <input id="rg-pw"
+                           type="password"
+                           class="w-full px-4 py-3 pr-12 border border-gray-200
+                                  rounded-xl text-sm"
+                           placeholder="Password"
+                           oninput="checkPw()"
+                           required />
+                    <button type="button"
+                            aria-label="Show password"
+                            class="absolute right-3 top-3 text-textMuted"
+                            onclick="togglePw('rg-pw', this)">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
+
+                <!-- Password rules (populated by JS) -->
+                <ul class="text-xs space-y-1 text-textMuted" id="pw-rules"></ul>
+
+                <button type="submit"
+                        class="w-full btn-secondary py-3 rounded-xl">
+                    Register
+                </button>
+
+                <!-- Back to sign in -->
+                <div class="text-center text-sm">
+                    <a class="text-textMuted hover:text-primary"
+                       href="#"
+                       onclick="loginMode('member');return false">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        Back to sign in
+                    </a>
+                </div>
+            </form>
+
         </div>
-    <?php endif; ?>
-
-    <script src="<?= e($_ENV['APP_URL']) ?>/assets/js/login.js" defer></script>
-
-</body>
-
-</html>
+    </div>
+</div>
