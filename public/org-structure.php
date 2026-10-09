@@ -30,6 +30,18 @@ html_head('Org Structure', 'org');
 
   .os-badge{display:flex;width:max-content;margin:0 auto 22px;align-items:center;gap:10px;padding:9px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.18);background:rgba(8,26,69,.55);font-size:13px;font-weight:700;letter-spacing:.2em;color:#fad517}
   .os-badge i{width:9px;height:9px;border-radius:50%;background:#fad517;box-shadow:0 0 10px #fad517}
+  /* back button sits on the same line as the OUR TEAM badge (badge stays centered) */
+  .os-top{position:relative;display:flex;align-items:center;justify-content:center;margin-bottom:22px}
+  .os-top .os-badge{margin:0}
+  .os-top .back-btn{position:absolute;left:0;top:50%;margin:0;transform:translateY(-50%)}
+  .os-top .back-btn:hover{transform:translateY(calc(-50% - 2px))}
+  .os-top .back-btn:active{transform:translateY(calc(-50% + 3px))}
+  @media(max-width:700px){
+    .os-top{flex-wrap:wrap;justify-content:space-between;gap:10px}
+    .os-top .back-btn{position:static;transform:none}
+    .os-top .back-btn:hover{transform:translateY(-2px)}
+    .os-top .back-btn:active{transform:translateY(3px)}
+  }
   .os-title{text-align:center;font-weight:800;line-height:1.1;margin-bottom:14px;font-size:clamp(34px,6vw,64px);color:#fff}
   .os-title span{color:#fad517}
   .os-sub{text-align:center;color:#a9b8d6;max-width:560px;margin:0 auto 46px;font-size:15px;line-height:1.7}
@@ -108,7 +120,10 @@ html_head('Org Structure', 'org');
     <canvas class="rain" data-rain="dark" aria-hidden="true"></canvas>
     <div class="container os-wrap">
 
-      <span class="os-badge"><i></i>OUR TEAM</span>
+      <div class="os-top">
+        <?= back_button('index.php', 'Back to home') ?>
+        <span class="os-badge"><i></i>OUR TEAM</span>
+      </div>
       <h1 class="os-title">Organizational <span>Structure</span></h1>
       <p class="os-sub">Meet the officers and committees who keep iBITS running for A.Y. 2026-2027.</p>
 

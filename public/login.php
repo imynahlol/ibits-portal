@@ -30,6 +30,10 @@ if (is_post() && $as) {
 html_head($as ? ($as === 'admin' ? 'Admin Log in' : 'Member Log in') : 'Secure Access', 'auth');
 ?>
 <canvas class="rain" style="position:fixed;opacity:.5" aria-hidden="true"></canvas>
+<div class="auth-top">
+  <a class="brand" href="<?= e(url('index.php')) ?>"><img src="<?= e(asset('images/ibits-logo.png')) ?>" alt=""><span>iBITS PUPLC</span></a>
+  <?= $as ? back_button('login.php', 'Change access type') : back_button('index.php', 'Back to home') ?>
+</div>
 <div class="auth-stage">
 <div class="auth-card">
   <img class="auth-logo" src="<?= e(asset('images/ibits-logo.png')) ?>" alt="iBITS">

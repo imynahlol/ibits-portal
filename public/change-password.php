@@ -23,7 +23,9 @@ if (is_post()) {
 }
 html_head('Change Password', 'dash');
 ?>
-<div class="auth-stage"><div class="auth-card">
+<div class="auth-stage">
+  <?php if (empty($u['must_change_password'])) echo back_button('admin/index.php', 'Back to dashboard'); ?>
+<div class="auth-card">
   <img class="auth-logo" src="<?= e(asset('images/ibits-logo.png')) ?>" alt="iBITS">
   <h1>Change Password</h1>
   <p class="sub"><?= !empty($u['must_change_password']) ? 'For security, change the default officer password before continuing.' : 'Update your officer account password.' ?></p>
@@ -36,6 +38,5 @@ html_head('Change Password', 'dash');
     <div class="field"><label for="confirm_password">Confirm new password</label><input id="confirm_password" name="confirm_password" type="password" minlength="8" autocomplete="new-password" required></div>
     <button class="btn btn-gold" type="submit">Save Password</button>
   </form>
-  <?php if (empty($u['must_change_password'])): ?><p class="auth-links"><a href="<?= e(url('admin/index.php')) ?>">Back to dashboard</a></p><?php endif; ?>
 </div></div>
 <?php html_foot(); ?>

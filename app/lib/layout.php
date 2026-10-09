@@ -11,9 +11,18 @@ const ICONS = [
     'cbl'      => '<path d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6l-8-3Z"/><path d="m8.5 12 2.5 2.5 4.5-5"/>',
     'logout'   => '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>',
     'user'     => '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/>',
+    'back'     => '<path d="M19 12H5M12 19l-7-7 7-7"/>',
 ];
 function icon(string $name): string {
     return '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">' . (ICONS[$name] ?? '') . '</svg>';
+}
+ 
+/**
+ * Back button (same pill style as the rest of the site).
+ * Returns HTML, so echo it anywhere:  <?= back_button('index.php', 'Back to home') ?>
+ */
+function back_button(string $path, string $label = 'Back'): string {
+    return '<a class="back-btn" href="' . e(url($path)) . '">' . icon('back') . '<span>' . e($label) . '</span></a>';
 }
  
 function html_head(string $title, string $bodyClass = ''): void { ?>
@@ -314,6 +323,12 @@ function dash_start(string $title, string $active): void {
       <?php if ($admin): ?><span class="pos-chip"><?= e($u['position']) ?></span><?php endif; ?>
     </header>
     <main class="dash-content">
+      <?php
+        // Back button on every dashboard page: sub-pages return to the dashboard,
+        // the dashboard itself returns to the public home page.
+        $dashHome = $admin ? 'admin/index.php' : 'member/index.php';
+        echo $active === 'index' ? back_button('index.php', 'Back to home') : back_button($dashHome, 'Back to dashboard');
+      ?>
       <?= flash_render() ?>
 <?php }
  

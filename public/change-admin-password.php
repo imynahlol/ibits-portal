@@ -44,7 +44,9 @@ if (is_post()) {
 html_head('Change Admin Password', 'auth');
 ?>
 <canvas class="rain password-rain" data-rain="dark" aria-hidden="true"></canvas>
-<div class="auth-stage"><div class="auth-card">
+<div class="auth-stage">
+  <?= back_button('login.php?as=admin', 'Back to Admin Login') ?>
+<div class="auth-card">
   <img class="auth-logo" src="<?= e(asset('images/ibits-logo.png')) ?>" alt="iBITS">
   <h1>Change Admin Password</h1>
   <p class="sub">Enter your officer ID and position to set a new password.</p>
@@ -58,6 +60,5 @@ html_head('Change Admin Password', 'auth');
     <div class="field"><label for="confirm_password">Confirm new password</label><input id="confirm_password" name="confirm_password" type="password" minlength="8" autocomplete="new-password" required></div>
     <button class="btn btn-gold" type="submit">Save Password</button>
   </form>
-  <p class="auth-links"><a href="<?= e(url('login.php?as=admin')) ?>">&larr; Back to Admin Login</a></p>
 </div></div>
 <?php html_foot(); ?>

@@ -44,6 +44,7 @@ html_head('FAQs', 'faqs');
     <canvas class="rain" data-rain="dark" aria-hidden="true"></canvas>
     <div class="container faq-wrap">
 
+      <?= back_button('index.php', 'Back to home') ?>
       <span class="faq-badge"><i></i>HELP CENTER</span>
       <h1 class="faq-title">Frequently Asked <span>Questions</span></h1>
       <p class="faq-sub">Quick answers about joining iBITS, checking your fines, and getting your forms. Can't find it? Reach out to the Help Desk.</p>
