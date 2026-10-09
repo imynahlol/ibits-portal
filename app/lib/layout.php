@@ -263,7 +263,7 @@ function public_footer(): void { ?>
              target="_blank"
              rel="noopener"
              title="View location on Google Maps">
-            <img src="<?= e(asset('images/map-thumbnail.png')) ?>"
+            <img src="<?= e(asset('assets/images/map.png')) ?>"
                  alt="Map location: Yumul St. Brgy. Burgos, PUP Lopez, Quezon"
                  style="width:120px;height:80px;object-fit:cover;border-radius:8px;cursor:pointer;transition:transform .2s ease;display:block;"
                  onmouseover="this.style.transform='scale(1.05)'"
