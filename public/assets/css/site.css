@@ -37,25 +37,34 @@ img{max-width:100%;display:block}
 
 /* ---------- Public: hero ---------- */
 .rain{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.hero{position:relative;overflow:hidden;background:var(--ink);color:#fff;text-align:center;padding:64px 0 84px}
+.hero{position:relative;overflow:hidden;color:#fff;text-align:center;padding:110px 0 96px;min-height:min(100svh,800px);display:flex;align-items:center;
+  background:
+    radial-gradient(720px 420px at 50% 22%,rgba(10,50,140,.55),transparent 70%),
+    radial-gradient(520px 320px at 88% 85%,rgba(250,213,23,.08),transparent 70%),
+    var(--ink)}
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent,rgba(250,213,23,.55),transparent);z-index:1}
+.hero>.container{width:min(1080px,100% - 48px)}
 .hero .inner{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center}
-.hero .logo{width:min(230px,60vw);margin-bottom:8px;filter:drop-shadow(0 18px 30px rgba(0,0,0,.5));animation:coin 9s ease-in-out infinite}
-.badge-pill{display:inline-block;padding:4px 16px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:var(--gold);font-size:13px;font-weight:600;letter-spacing:.12em;margin:8px 0 20px}
-.hero h1{font-size:clamp(2.4rem,7vw,4.6rem);font-weight:800;line-height:1.1;margin-bottom:18px;letter-spacing:-.01em}
-.hero p{max-width:560px;color:#cbd5e1;margin-bottom:32px;font-size:15px}
+.hero .logo{width:min(170px,44vw);height:auto;margin-bottom:18px;filter:drop-shadow(0 0 36px rgba(250,213,23,.22)) drop-shadow(0 18px 30px rgba(0,0,0,.5));animation:coin 9s ease-in-out infinite}
+.badge-pill{display:inline-flex;align-items:center;gap:8px;padding:5px 16px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(250,213,23,.3);color:var(--gold);font-size:12px;font-weight:600;letter-spacing:.18em;margin:0 0 22px}
+.badge-pill::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold)}
+.hero h1{font-size:clamp(2.3rem,6.5vw,4.4rem);font-weight:800;line-height:1.08;margin-bottom:20px;letter-spacing:-.02em;background:linear-gradient(180deg,#fff 30%,#b9c8ee);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero h1 .accent{background:linear-gradient(90deg,#ffe86b,var(--gold) 55%,#e0b800);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:600px;color:#b8c4de;margin:0 auto 34px;font-size:clamp(15px,1.6vw,17px);line-height:1.7}
+.hero p br{display:none}
 @keyframes coin{0%,100%{transform:perspective(900px) rotateY(-18deg) rotateX(5deg)}50%{transform:perspective(900px) rotateY(18deg) rotateX(-4deg)}}
 
 /* ---------- CTA buttons ---------- */
 @keyframes slideUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
 .cta{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;animation:slideUp .55s var(--ease) both;animation-delay:.3s}
-.cta .btn{padding:12px 32px;font-size:1.125rem;line-height:1.5}
+.cta .btn{padding:13px 34px;font-size:1.05rem;line-height:1.5}
 .cta .btn-ghost{font-weight:500;backdrop-filter:blur(4px)}
-.cta-register{position:relative;overflow:hidden;background:var(--navy);color:#fff;font-weight:600;box-shadow:0 4px 0 #031236,0 8px 20px rgba(6,33,92,.35);transition:transform .15s ease,box-shadow .15s ease,background .2s ease}
-.cta-register:hover{background:var(--navy-2);transform:translateY(-2px);box-shadow:0 6px 0 #031236,0 12px 24px rgba(6,33,92,.45)}
-.cta-register:active{transform:translateY(3px)!important;box-shadow:0 1px 0 #031236,0 2px 6px rgba(6,33,92,.5)!important}
-.cta-register::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(circle at center,rgba(250,213,23,.35),transparent 60%);opacity:0;transition:opacity .3s ease;pointer-events:none}
+.cta-register{position:relative;overflow:hidden;background:var(--gold);color:var(--navy);font-weight:700;box-shadow:0 4px 0 var(--gold-d),0 12px 28px -8px rgba(250,213,23,.4);transition:transform .15s ease,box-shadow .15s ease,background .2s ease}
+.cta-register:hover{background:#ffe04a;transform:translateY(-2px);box-shadow:0 6px 0 var(--gold-d),0 16px 32px -8px rgba(250,213,23,.5)}
+.cta-register:active{transform:translateY(3px)!important;box-shadow:0 1px 0 var(--gold-d)!important}
+.cta-register::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(circle at center,rgba(255,255,255,.45),transparent 60%);opacity:0;transition:opacity .3s ease;pointer-events:none}
 .cta-register:hover::before{opacity:1}
-.cta-ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.55);transform:scale(0);animation:cta-ripple .55s ease-out forwards;pointer-events:none}
+.cta-ripple{position:absolute;border-radius:50%;background:rgba(6,33,92,.35);transform:scale(0);animation:cta-ripple .55s ease-out forwards;pointer-events:none}
 @keyframes cta-ripple{to{transform:scale(4);opacity:0}}
 
 /* ---------- Sections ---------- */
@@ -293,6 +302,19 @@ td small{color:var(--muted);display:block}
 .motion-in{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s var(--ease);transition-delay:var(--motion-delay,0ms)}
 .motion-in.motion-visible{opacity:1;transform:translateY(0)}
 .tilt{transition:transform .22s ease,box-shadow .22s ease;transform-style:preserve-3d;will-change:transform}
+
+
+/* ---------- White sections (Who We Are, Events) — binary rain stays on top of the bg ---------- */
+.sec-white{background:#fff;color:#1f2937}
+.sec h2{color:#fff}
+.sec-white h2{color:var(--navy)}
+.sec-white .ev{background:#fff;border-color:#e3e8f2;box-shadow:0 8px 22px rgba(6,33,92,.06)}
+.sec-white .ev:hover{box-shadow:0 14px 30px -14px rgba(6,33,92,.3)}
+.sec-white .ev-date,.sec-white .ev h3{color:var(--navy)}
+.sec-white .ev-date span,.sec-white .ev p,.sec-white .ev-meta{color:#64748b}
+.sec-white .empty{color:#64748b;border-color:#d5deed}
+.sec-white .navy-card{box-shadow:10px 12px 0 rgba(6,33,92,.18),0 24px 40px -16px rgba(6,33,92,.55)}
+.sec-white .mascot{filter:drop-shadow(0 18px 30px rgba(6,33,92,.25))}
 
 /* ---------- Responsive ---------- */
 @media(max-width:860px){
