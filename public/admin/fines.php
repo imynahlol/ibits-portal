@@ -1,9 +1,13 @@
 <?php
 declare(strict_types=1);
 require_once dirname(__DIR__, 2) . '/app/bootstrap.php';
+require_once dirname(__DIR__, 2) . '/app/export_kit.php';
 $u = require_feature('fines');
 
 $canEdit = is_admin() && can_manage('fines');
+/* Only the Secretary and Treasurer may print / download fines. */
+$canExport = is_admin() && ibits_position_in($u, ['secretary', 'treasurer']);
+
 if (isset($_GET['member_search'])) {
     if (!$canEdit) {
         http_response_code(403);
@@ -62,10 +66,41 @@ if (($u['account_type'] ?? '') === 'member' || (!$canEdit && is_admin())) {
 }
 $unpaid = array_sum(array_map(fn($f) => $f['status'] === 'unpaid' ? (float)$f['amount'] : 0, $fines));
 $paid   = array_sum(array_map(fn($f) => $f['status'] === 'paid'   ? (float)$f['amount'] : 0, $fines));
-$canEdit = is_admin() && can_manage('fines');
+
+/* ---------- Export data (Secretary / Treasurer only) ---------- */
+$exportCfg = null; $hasExportRows = false;
+if ($canExport) {
+    // Exports always cover ALL fines, even if the page shows only personal fines.
+    $allFines = q_all('SELECT f.*, m.full_name, m.id_number FROM fines f JOIN users m ON m.id = f.user_id ORDER BY f.id DESC');
+    $exUnpaid = array_sum(array_map(fn($f) => $f['status'] === 'unpaid' ? (float)$f['amount'] : 0, $allFines));
+    $exPaid   = array_sum(array_map(fn($f) => $f['status'] === 'paid'   ? (float)$f['amount'] : 0, $allFines));
+    $exportHead = [
+        ['label' => 'Member'], ['label' => 'ID Number'], ['label' => 'Reason'],
+        ['label' => 'Amount', 'money' => true], ['label' => 'Due date'], ['label' => 'Status'],
+    ];
+    $exportRows = array_map(fn($f) => [
+        $f['full_name'], $f['id_number'], $f['reason'], (float)$f['amount'],
+        fmt_date($f['due_date']), ucfirst((string)$f['status']),
+    ], $allFines);
+    $exportTotals = [
+        ['label' => 'Unpaid',      'value' => $exUnpaid, 'money' => true],
+        ['label' => 'Collected',   'value' => $exPaid,   'money' => true],
+        ['label' => 'Total fines', 'value' => count($allFines)],
+    ];
+    if (isset($_GET['export'])) {
+        ibits_export_xls('iBITS Fines Report', $exportHead, $exportRows, $exportTotals, 'fines-' . date('Ymd-His') . '.xls');
+    }
+    $exportCfg = ibits_export_cfg($u, 'iBITS Fines Report', 'fines-' . date('Ymd-His'), 'portrait', $exportHead, $exportRows, $exportTotals);
+    $hasExportRows = (bool)$allFines;
+} elseif (isset($_GET['export'])) {
+    http_response_code(403);
+    exit('Only the Secretary and Treasurer can export fines.');
+}
 
 dash_start('Fines', 'fines');
 ?>
+<?php if ($canExport) ibits_export_ui($exportCfg, 'Export fines', url('admin/fines.php?export=xls'), $hasExportRows); ?>
+
 <?php if (($u['account_type'] ?? '') === 'member' || !$canEdit): ?><p class="page-intro">View your personal fines and payment status.</p><?php endif; ?>
 <?php if (!$canEdit && ($u['account_type'] ?? '') === 'admin'): ?><div class="alert alert-info">Your position can view portal features, but this page shows only your personal fines.</div><?php endif; ?>
 <div class="stat">

@@ -1,8 +1,14 @@
 <?php
 declare(strict_types=1);
 require_once dirname(__DIR__, 2) . '/app/bootstrap.php';
+require_once dirname(__DIR__, 2) . '/app/export_kit.php';
 $u = require_feature('finance');
 $canEdit = is_admin() && can_manage('finance');
+
+/* Who may print / download the finance ledger.
+   Currently: anyone who can open this page.
+   To restrict: $canExport = is_admin() && ibits_position_in($u, ['secretary','treasurer']); */
+$canExport = true;
 
 if (is_post()) {
     require_manage('finance');
@@ -43,8 +49,35 @@ $records = q_all('SELECT f.*, e.title AS event_title, u.full_name AS created_nam
 $totalBudget = array_sum(array_map(fn($r)=>(float)$r['budget'],$records));
 $totalExpense = array_sum(array_map(fn($r)=>(float)$r['expense'],$records));
 $totalInflow = array_sum(array_map(fn($r)=>(float)$r['inflow'],$records));
+
+/* ---------- Export data (shared by Print / PDF / Excel) ---------- */
+$exportHead = [
+    ['label' => 'Date'], ['label' => 'Event'], ['label' => 'Notes'],
+    ['label' => 'Budget', 'money' => true], ['label' => 'Expense', 'money' => true],
+    ['label' => 'Income', 'money' => true], ['label' => 'Net', 'money' => true],
+    ['label' => 'Recorded by'],
+];
+$exportRows = array_map(fn($r) => [
+    fmt_date($r['date_']), $r['event_title'], $r['event_'],
+    (float)$r['budget'], (float)$r['expense'], (float)$r['inflow'],
+    (float)$r['inflow'] - (float)$r['expense'], $r['created_name'],
+], $records);
+$exportTotals = [
+    ['label' => 'Total budget',   'value' => $totalBudget,  'money' => true],
+    ['label' => 'Total expenses', 'value' => $totalExpense, 'money' => true],
+    ['label' => 'Total income',   'value' => $totalInflow,  'money' => true],
+    ['label' => 'Net balance',    'value' => $totalInflow - $totalExpense, 'money' => true],
+];
+if (isset($_GET['export'])) {
+    if (!$canExport) { http_response_code(403); exit('Not allowed.'); }
+    ibits_export_xls('iBITS Finance Ledger', $exportHead, $exportRows, $exportTotals, 'finances-' . date('Ymd-His') . '.xls');
+}
+$exportCfg = ibits_export_cfg($u, 'iBITS Finance Ledger', 'finances-' . date('Ymd-His'), 'landscape', $exportHead, $exportRows, $exportTotals);
+
 dash_start('Finances', 'finance');
 ?>
+<?php if ($canExport) ibits_export_ui($exportCfg, 'Export finance ledger', url('admin/finance.php?export=xls'), (bool)$records); ?>
+
 <div class="stat"><div><b>₱<?= number_format($totalBudget,2) ?></b><small>Total budget</small></div><div><b>₱<?= number_format($totalExpense,2) ?></b><small>Total expenses</small></div><div><b>₱<?= number_format($totalInflow,2) ?></b><small>Total income / inflow</small></div><div><b>₱<?= number_format($totalInflow-$totalExpense,2) ?></b><small>Net balance</small></div></div>
 <?php if ($canEdit): ?>
 <section class="card"><h2><?= $edit ? 'Edit finance record' : 'Add a finance record' ?></h2>

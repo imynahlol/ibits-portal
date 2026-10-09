@@ -24,6 +24,7 @@ CREATE TABLE users (
     ),
     CONSTRAINT chk_admin_position CHECK (account_type = 'member' OR position IS NOT NULL)
 );
+
 CREATE INDEX idx_users_type ON users(account_type);
 
 CREATE TABLE events (
@@ -39,6 +40,7 @@ CREATE TABLE events (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (created_by) REFERENCES users(id)
 );
+
 CREATE INDEX idx_events_start ON events(start_datetime);
 
 CREATE TABLE forms (
@@ -63,6 +65,7 @@ CREATE TABLE fines (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (created_by) REFERENCES users(id)
 );
+
 CREATE INDEX idx_fines_status ON fines(status);
 
 CREATE TABLE finances (
@@ -79,6 +82,7 @@ CREATE TABLE finances (
     FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE,
     FOREIGN KEY (created_by) REFERENCES users(id)
 );
+
 CREATE INDEX idx_finances_date ON finances(date_);
 
 CREATE TABLE tickets (
@@ -92,6 +96,7 @@ CREATE TABLE tickets (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
 CREATE INDEX idx_tickets_status ON tickets(status);
 
 CREATE TABLE ticket_replies (

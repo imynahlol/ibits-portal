@@ -4,6 +4,8 @@ USE ibits_portal;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- Clear existing data to prevent duplicate errors
+TRUNCATE TABLE `ticket_replies`;
+TRUNCATE TABLE `tickets`;
 TRUNCATE TABLE `finances`;
 TRUNCATE TABLE `fines`;
 TRUNCATE TABLE `events`;
@@ -913,10 +915,75 @@ VALUES
 );
 
 -- ==========================================
--- 6. VERIFY INSERTS
+-- 6. INSERT TICKETS
+-- ==========================================
+INSERT INTO `tickets` (
+    `user_id`, 
+    `subject`, 
+    `category`, 
+    `description`, 
+    `status`
+) VALUES 
+(
+    (SELECT id FROM users WHERE id_number = '2026-00530-LQ-0' LIMIT 1), -- Santino Justin O. Aguilar
+    'Cannot login to the portal',
+    'Technical Issue',
+    'I am trying to login to the iBITS portal using my student ID and password, but it keeps saying invalid credentials. I already tried resetting my password but I did not receive an email.',
+    'open'
+),
+(
+    (SELECT id FROM users WHERE id_number = '2026-00465-LQ-0' LIMIT 1), -- Marian O. Basco
+    'Inquiry about membership fee',
+    'Finance',
+    'Hello! I would like to ask if the membership fee for this semester is already due. I also want to know if there are any installment options available for students who are struggling financially.',
+    'in_progress'
+),
+(
+    (SELECT id FROM users WHERE id_number = '2025-00589-LQ-0' LIMIT 1), -- Harvey S. Pumariga
+    'Request for event budget approval',
+    'Events',
+    'Good day! I am requesting approval for the budget of our upcoming Hackathon event. The total estimated cost is Php 5,000.00. I have attached the breakdown in the files section. Please let me know if this is approved.',
+    'resolved'
+);
+
+-- ==========================================
+-- 7. INSERT TICKET REPLIES
+-- ==========================================
+INSERT INTO `ticket_replies` (
+    `ticket_id`, 
+    `user_id`, 
+    `message`
+) VALUES 
+-- Reply to Ticket 1 (Cannot login)
+(
+    (SELECT id FROM tickets WHERE subject = 'Cannot login to the portal' LIMIT 1), 
+    (SELECT id FROM users WHERE id_number = '2024-00534-LQ-0' LIMIT 1), -- Allea Grace C. Ranillo (President)
+    'Hi Santino! We have received your ticket. Please try clearing your browser cache and cookies first. If the issue persists, please visit the iBITS office so we can manually reset your password in the system.'
+),
+(
+    (SELECT id FROM tickets WHERE subject = 'Cannot login to the portal' LIMIT 1), 
+    (SELECT id FROM users WHERE id_number = '2026-00530-LQ-0' LIMIT 1), -- Santino Justin O. Aguilar
+    'Thank you for the quick response! I will try clearing my cache and let you know if it works.'
+),
+-- Reply to Ticket 2 (Inquiry about membership fee)
+(
+    (SELECT id FROM tickets WHERE subject = 'Inquiry about membership fee' LIMIT 1), 
+    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1), -- Irish Nicole J. Japone (Treasurer)
+    'Hi Marian! Yes, the membership fee for this semester is Php 300.00 and is due on the 15th. Unfortunately, we do not have an installment option, but you can pay in partial amounts as long as the full balance is settled before the deadline.'
+),
+-- Reply to Ticket 3 (Event budget approval)
+(
+    (SELECT id FROM tickets WHERE subject = 'Request for event budget approval' LIMIT 1), 
+    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1), -- Irish Nicole J. Japone (Treasurer)
+    'Hi Harvey! The budget for the Hackathon is approved. Please coordinate with the finance committee to process the reimbursement once the event is done. Make sure to keep all receipts.'
+);
+
+-- ==========================================
+-- 8. VERIFY INSERTS
 -- ==========================================
 SELECT COUNT(*) AS total_users FROM `users`;
 SELECT COUNT(*) AS total_events FROM `events`;
 SELECT SUM(amount) AS total_fines_amount FROM `fines`;
-
-SELECT SUM(budget) FROM `finances`;
+SELECT SUM(budget) AS total_budget, SUM(expense) AS total_expense, SUM(inflow) AS total_inflow FROM `finances`;
+SELECT COUNT(*) AS total_tickets FROM `tickets`;
+SELECT COUNT(*) AS total_ticket_replies FROM `ticket_replies`;
