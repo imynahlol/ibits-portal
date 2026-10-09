@@ -2,7 +2,7 @@
 declare(strict_types=1);
 require_once dirname(__DIR__, 2) . '/app/bootstrap.php';
 $u = require_feature('cbl');
-const PROPOSERS = ['Secretary', 'President', 'Vice President'];
+const PROPOSERS = ['President', 'Vice President'];
 $canPropose = can_manage('cbl') && in_array($u['position'], PROPOSERS, true);
 
 if (is_post()) {
@@ -13,9 +13,28 @@ if (is_post()) {
         if (post('amendment_no') === '' || post('title') === '' || mb_strlen(post('description')) < 10) flash('error', 'Fill in the number, title and a description.');
         else {
             q('INSERT INTO cbl_documents (amendment_no,title,description,status,created_by) VALUES (?,?,?,?,?)',
-              [post('amendment_no'), post('title'), post('description'), 'pending_adviser', $u['id']]);
-            flash('success', 'Amendment submitted to the Adviser for review.');
+              [post('amendment_no'), post('title'), post('description'), 'pending_president', $u['id']]);
+            flash('success', 'Amendment submitted for President and Vice President review.');
         }
+    } elseif (post('action') === 'update') {
+        $doc = q_one('SELECT * FROM cbl_documents WHERE id = ?', [(int)post('id')]);
+        if (!$canPropose || !$doc || !in_array($doc['status'], ['pending_president', 'rejected'], true)) {
+            http_response_code(403); exit('This amendment cannot be edited at its current workflow stage.');
+        }
+        $no = trim(post('amendment_no')); $title = trim(post('title')); $description = trim(post('description'));
+        if ($no === '' || $title === '' || mb_strlen($description) < 10) flash('error', 'Fill in the number, title and a description of at least 10 characters.');
+        else {
+            if ($doc['status'] === 'rejected') q('DELETE FROM cbl_approvals WHERE cbl_id = ?', [$doc['id']]);
+            q('UPDATE cbl_documents SET amendment_no=?, title=?, description=?, status=\'pending_president\' WHERE id=?', [$no, $title, $description, $doc['id']]);
+            flash('success', 'Amendment updated and returned to the President review step.');
+        }
+    } elseif (post('action') === 'delete') {
+        $doc = q_one('SELECT * FROM cbl_documents WHERE id = ?', [(int)post('id')]);
+        if (!$canPropose || !$doc || !in_array($doc['status'], ['pending_president', 'rejected'], true)) {
+            http_response_code(403); exit('Only amendments awaiting initial review or rejected amendments can be deleted.');
+        }
+        q('DELETE FROM cbl_documents WHERE id = ?', [$doc['id']]);
+        flash('success', 'Amendment deleted.');
     } elseif (in_array(post('action'), ['approve', 'reject'], true)) {
         $doc = q_one('SELECT * FROM cbl_documents WHERE id = ?', [(int)post('id')]);
         // Only the position that owns the current step may decide.
@@ -32,24 +51,29 @@ if (is_post()) {
     redirect('admin/cbl.php');
 }
 $docs = q_all('SELECT d.*, u.full_name FROM cbl_documents d JOIN users u ON u.id = d.created_by ORDER BY d.id DESC');
-$steps = ['pending_adviser' => 'Adviser', 'pending_president' => 'President', 'pending_vp' => 'Vice President'];
+$editDoc = null;
+if ($canPropose && isset($_GET['edit'])) {
+    $editDoc = q_one('SELECT * FROM cbl_documents WHERE id = ?', [(int)$_GET['edit']]);
+    if (!$editDoc || !in_array($editDoc['status'], ['pending_president', 'rejected'], true)) $editDoc = null;
+}
+$steps = ['pending_president' => 'President', 'pending_vp' => 'Vice President'];
 $order = array_keys($steps);
 
 dash_start('CBL Workflow', 'cbl');
 ?>
-<p class="page-intro">Amendments to the Constitution and By-Laws go through the Adviser, then the President, then the Vice President.</p>
+<p class="page-intro">Amendments to the Constitution and By-Laws go through the President, then the Vice President.</p>
 
 <?php if ($canPropose): ?>
 <section class="card">
-  <h2>Propose an amendment</h2>
+  <h2><?= $editDoc ? 'Edit amendment' : 'Propose an amendment' ?></h2>
   <form method="post" class="form-light">
-    <?= csrf_field() ?><input type="hidden" name="action" value="propose">
+    <?= csrf_field() ?><input type="hidden" name="action" value="<?= $editDoc ? 'update' : 'propose' ?>"><?php if ($editDoc): ?><input type="hidden" name="id" value="<?= (int)$editDoc['id'] ?>"><?php endif; ?>
     <div class="grid2">
-      <div class="field"><label>Amendment no.</label><input name="amendment_no" maxlength="20" placeholder="2026-05" required></div>
-      <div class="field"><label>Title</label><input name="title" maxlength="150" required></div>
+      <div class="field"><label>Amendment no.</label><input name="amendment_no" maxlength="20" placeholder="2026-05" value="<?= e($editDoc['amendment_no'] ?? '') ?>" required></div>
+      <div class="field"><label>Title</label><input name="title" maxlength="150" value="<?= e($editDoc['title'] ?? '') ?>" required></div>
     </div>
-    <div class="field"><label>What changes?</label><textarea name="description" required></textarea></div>
-    <button class="btn btn-navy" type="submit">Submit for approval</button>
+    <div class="field"><label>What changes?</label><textarea name="description" required><?= e($editDoc['description'] ?? '') ?></textarea></div>
+    <div class="actions"><button class="btn btn-navy" type="submit"><?= $editDoc ? 'Save changes & resubmit' : 'Submit for approval' ?></button><?php if ($editDoc): ?><a class="btn btn-line" href="<?= e(url('admin/cbl.php')) ?>">Cancel</a><?php endif; ?></div>
   </form>
 </section>
 <?php endif; ?>
@@ -68,6 +92,9 @@ dash_start('CBL Workflow', 'cbl');
       </div>
       <p style="margin:8px 0;font-size:14px;color:#475569"><?= e($d['description']) ?></p>
       <small style="color:var(--muted)">Proposed by <?= e($d['full_name']) ?> · <?= e(fmt_date($d['created_at'])) ?></small>
+      <?php if ($canPropose && in_array($d['status'], ['pending_president', 'rejected'], true)): ?>
+        <div class="actions" style="margin-top:10px"><a class="btn btn-line btn-sm" href="<?= e(url('admin/cbl.php?edit=' . (int)$d['id'])) ?>">Edit</a><form method="post" class="inline" onsubmit="return confirm('Delete this amendment and its approval history?')"><?= csrf_field() ?><input type="hidden" name="action" value="delete"><input type="hidden" name="id" value="<?= (int)$d['id'] ?>"><button class="btn btn-danger btn-sm" type="submit">Delete</button></form></div>
+      <?php endif; ?>
       <div class="steps">
         <?php foreach ($order as $i => $s):
             $cls = $d['status'] === 'published' ? 'done' : ($d['status'] === 'rejected' ? '' : ($i < $idx ? 'done' : ($i === $idx ? 'now' : ''))); ?>

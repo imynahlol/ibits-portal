@@ -19,7 +19,7 @@ if (is_post() && $as) {
     } elseif ($as === 'admin' && !isset(POSITIONS[$old['position']])) {
         flash('error', 'Please choose your position.');
     } elseif ($user = attempt_login($as, $old['id'], (string)($_POST['password'] ?? ''), $old['position'])) {
-        redirect(home_for($user));
+        redirect(!empty($user['must_change_password']) ? 'change-password.php' : home_for($user));
     } else {
         flash('error', $as === 'admin'
             ? 'Invalid ID number, password or position.'
@@ -30,11 +30,6 @@ if (is_post() && $as) {
 html_head($as ? ($as === 'admin' ? 'Admin Log in' : 'Member Log in') : 'Secure Access', 'auth');
 ?>
 <canvas class="rain" style="position:fixed;opacity:.5" aria-hidden="true"></canvas>
-<div class="auth-top">
-  <a class="brand" href="<?= e(url('index.php')) ?>"><img src="<?= e(asset('images/ibits-logo.png')) ?>" alt=""><span>iBITS PUPLC</span></a>
-  <a class="back" href="<?= e(url('index.php')) ?>">&larr; Back to home</a>
-</div>
-
 <div class="auth-stage">
 <div class="auth-card">
   <img class="auth-logo" src="<?= e(asset('images/ibits-logo.png')) ?>" alt="iBITS">
@@ -51,7 +46,7 @@ html_head($as ? ($as === 'admin' ? 'Admin Log in' : 'Member Log in') : 'Secure A
   </a>
   <a class="choice" href="<?= e(url('login.php?as=admin')) ?>">
     <span class="ci"><?= icon('cbl') ?></span>
-    <span><b>Admin Console</b><small>Officers and advisers</small></span>
+    <span><b>Admin Console</b><small>Organization officers</small></span>
   </a>
   <p class="auth-links" style="justify-content:center">Not a member yet?&nbsp;<a href="<?= e(url('register.php')) ?>">Join iBITS</a></p>
 
@@ -79,7 +74,7 @@ html_head($as ? ($as === 'admin' ? 'Admin Log in' : 'Member Log in') : 'Secure A
     <?php endif; ?>
 
     <div class="field">
-      <label for="id_number"><?= $as === 'admin' ? 'Student / Adviser ID Number' : 'Student ID Number' ?></label>
+      <label for="id_number"><?= $as === 'admin' ? 'Student ID Number' : 'Student ID Number' ?></label>
       <input id="id_number" name="id_number" type="text" value="<?= e($old['id']) ?>" placeholder="2025-00001-LQ-0" autocomplete="username" required autofocus>
     </div>
     <div class="field">
@@ -94,6 +89,7 @@ html_head($as ? ($as === 'admin' ? 'Admin Log in' : 'Member Log in') : 'Secure A
 
   <div class="auth-links">
     <a href="<?= e(url('login.php')) ?>">&larr; Change access type</a>
+    <?php if ($as === 'admin'): ?><a class="btn btn-line btn-sm" href="<?= e(url('change-admin-password.php')) ?>">Change Password</a><?php endif; ?>
     <?php if ($as === 'member'): ?><a href="<?= e(url('register.php')) ?>">Join iBITS</a><?php endif; ?>
   </div>
 <?php endif; ?>

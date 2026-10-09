@@ -3,6 +3,63 @@
   'use strict';
   var RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* Light / dark mode. Keep the iBITS navy and gold accent colors in both themes. */
+  var themeButton = document.querySelector('[data-theme-toggle]');
+  var savedTheme = 'light';
+  try { savedTheme = localStorage.getItem('ibits-theme') || 'light'; } catch (e) {}
+  function setTheme(theme) {
+    theme = theme === 'dark' ? 'dark' : 'light';
+    document.body.setAttribute('data-theme', theme);
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+    if (themeButton) {
+      var dark = theme === 'dark';
+      themeButton.innerHTML = '<span aria-hidden="true">' + (dark ? '☀' : '☾') + '</span><span class="theme-label">' + (dark ? 'Light mode' : 'Dark mode') + '</span>';
+      themeButton.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+      themeButton.title = dark ? 'Switch to light mode' : 'Switch to dark mode';
+    }
+  }
+  setTheme(savedTheme);
+  if (themeButton) themeButton.addEventListener('click', function () {
+    var next = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    setTheme(next);
+    try { localStorage.setItem('ibits-theme', next); } catch (e) {}
+  });
+
+  /* Original iBITS motion language: subtle entrance reveals and 3D card tilt. */
+  var motionTargets = document.querySelectorAll('.hero .inner > *, .sec h2, .navy-card, .mascot, .pop-card, .mv-card, .ev, .card, .tile, .stat > div');
+  motionTargets.forEach(function (el, index) {
+    if (el.classList.contains('rain') || el.dataset.motionReady) return;
+    el.dataset.motionReady = '1';
+    el.classList.add('motion-in');
+    el.style.setProperty('--motion-delay', Math.min(index % 6, 5) * 65 + 'ms');
+  });
+  if ('IntersectionObserver' in window && !RM) {
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('motion-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    motionTargets.forEach(function (el) { if (el.dataset.motionReady) revealObserver.observe(el); });
+  } else {
+    motionTargets.forEach(function (el) { el.classList.add('motion-visible'); });
+  }
+
+  if (!RM && !matchMedia('(pointer: coarse)').matches) {
+    document.querySelectorAll('.navy-card, .mv-card, .pop-card, .ev, .tile, .card3d').forEach(function (el) {
+      el.classList.add('tilt');
+      el.addEventListener('mousemove', function (event) {
+        var r = el.getBoundingClientRect();
+        var x = (event.clientX - r.left) / r.width - 0.5;
+        var y = (event.clientY - r.top) / r.height - 0.5;
+        el.style.transform = 'perspective(800px) rotateX(' + (-y * 4) + 'deg) rotateY(' + (x * 5) + 'deg) translateY(-2px)';
+      });
+      el.addEventListener('mouseleave', function () { el.style.transform = ''; });
+    });
+  }
+
   /* Mobile sidebar */
   document.querySelectorAll('[data-toggle="side"]').forEach(function (b) {
     b.addEventListener('click', function () { document.getElementById('side').classList.toggle('open'); });
@@ -41,46 +98,24 @@
     fill();
   }
 
-  /* ---------- Population counters (scroll-triggered) ---------- */
-  function animateCounters() {
-    document.querySelectorAll('.pop-num[data-target]').forEach(function (el) {
-      if (el.dataset.animated) return;
-      el.dataset.animated = '1';
-
-      var target   = parseInt(el.dataset.target, 10) || 0;
-      var duration = 1500;
-      var startTime = performance.now();
-
-      (function tick(now) {
-        var progress = Math.min((now - startTime) / duration, 1);
-        var eased    = 1 - Math.pow(1 - progress, 3);
-        el.textContent = Math.round(target * eased).toLocaleString();
-        if (progress < 1) requestAnimationFrame(tick);
-        else el.textContent = target.toLocaleString();
-      })(startTime);
-    });
+  /* Population counters */
+  var nums = document.querySelectorAll('[data-count]');
+  function run(el) {
+    var to = +el.dataset.count;
+    if (RM || !to) { el.textContent = to; return; }
+    var t0 = performance.now(), dur = 1100;
+    (function step(t) {
+      var p = Math.min(1, (t - t0) / dur);
+      el.textContent = Math.round(to * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) requestAnimationFrame(step);
+    })(t0);
   }
-
-  function setupPopObserver() {
-    var section = document.querySelector('.pop-section');
-    if (!section) return;
-
-    if (!('IntersectionObserver' in window)) { animateCounters(); return; }
-
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) { animateCounters(); io.disconnect(); }
-      });
-    }, { threshold: 0.3 });
-    io.observe(section);
-
-    /* Safety net: if already visible on load */
-    setTimeout(function () {
-      var r = section.getBoundingClientRect();
-      if (r.top < innerHeight && r.bottom > 0) { animateCounters(); io.disconnect(); }
-    }, 400);
-  }
-  setupPopObserver();
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { run(e.target); io.unobserve(e.target); } });
+    }, { threshold: .4 });
+    nums.forEach(function (n) { io.observe(n); });
+  } else nums.forEach(run);
 
   /* Binary rain */
   var canvases = [].slice.call(document.querySelectorAll('canvas.rain'));

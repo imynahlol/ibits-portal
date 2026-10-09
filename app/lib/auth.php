@@ -20,8 +20,16 @@ function home_for(array $user): string {
 /* ---- Permissions (position based) ---- */
 function user_features(?array $user = null): array {
     $user ??= current_user();
-    if (!$user || $user['account_type'] !== 'admin') return [];
-    return POSITIONS[$user['position'] ?? ''] ?? [];
+    if (!$user) return [];
+    if (($user['account_type'] ?? '') === 'member') return MEMBER_FEATURES;
+    if (($user['account_type'] ?? '') !== 'admin') return [];
+    // Every officer can open every feature in read-only mode; their position map
+    // upgrades only the features they are authorized to manage.
+    $features = array_fill_keys(array_keys(FEATURES), 'view');
+    foreach ((POSITIONS[$user['position'] ?? ''] ?? []) as $key => $level) {
+        $features[$key] = $level;
+    }
+    return $features;
 }
 function can_access(string $feature): bool {
     return isset(user_features()[$feature]);
@@ -41,11 +49,25 @@ function require_admin(): array {
     $u = current_user();
     if (!$u) { flash('error', 'Please sign in first.'); redirect('login.php?as=admin'); }
     if ($u['account_type'] !== 'admin') redirect(home_for($u));
+    if (!empty($u['must_change_password']) && basename($_SERVER['SCRIPT_NAME'] ?? '') !== 'change-password.php') redirect('change-password.php');
     return $u;
 }
 /** Admin page that needs a specific feature for the logged-in position. */
 function require_feature(string $feature): array {
-    $u = require_admin();
+    $u = current_user();
+    if (!$u) { flash('error', 'Please sign in first.'); redirect('login.php'); }
+    // Members may use only the read-only feature views. The officer Help Desk
+    // is private to officers; members use member/helpdesk.php for their own tickets.
+    if (($u['account_type'] ?? '') === 'member') {
+        if ($feature === 'helpdesk' || !isset(MEMBER_FEATURES[$feature])) {
+            http_response_code(403);
+            flash('error', 'This page is not available to member accounts.');
+            redirect('member/index.php');
+        }
+        return $u;
+    }
+    if (($u['account_type'] ?? '') !== 'admin') redirect(home_for($u));
+    if (!empty($u['must_change_password']) && basename($_SERVER['SCRIPT_NAME'] ?? '') !== 'change-password.php') redirect('change-password.php');
     if (!can_access($feature)) {
         http_response_code(403);
         flash('error', 'Your position (' . $u['position'] . ') does not have access to ' . (FEATURES[$feature][0] ?? $feature) . '.');
@@ -55,7 +77,7 @@ function require_feature(string $feature): array {
 }
 /** Block writes for read-only positions. */
 function require_manage(string $feature): void {
-    if (!can_manage($feature)) {
+    if (!is_admin() || !can_manage($feature)) {
         http_response_code(403);
         exit('Your position can view this page but not change it.');
     }
@@ -103,6 +125,7 @@ function attempt_login(string $as, string $idNumber, string $password, string $p
         'position'     => $u['position'],
         'program'      => $u['program'],
         'year_level'   => $u['year_level'],
+        'must_change_password' => (int)($u['must_change_password'] ?? 0),
     ];
     return $_SESSION['user'];
 }

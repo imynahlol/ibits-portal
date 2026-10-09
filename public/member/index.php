@@ -17,10 +17,15 @@ dash_start('Welcome, ' . explode(' ', $u['full_name'])[0], 'index');
 </div>
 
 <div class="tiles">
-  <a class="tile" href="<?= e(url('member/helpdesk.php')) ?>">
-    <span class="ti"><?= icon('helpdesk') ?></span>
-    <b>Help Desk</b>
-    <span>View your concerns and submit a new one to the officers.</span>
+  <?php foreach (user_features() as $key => $level):
+    if ($key === 'helpdesk') { $page = 'member/helpdesk.php'; $label = 'Help Desk'; $desc = 'Submit concerns and follow replies from officers.'; }
+    else { [$label, $page] = FEATURES[$key]; $desc = 'View ' . strtolower($label) . ' information. Changes are managed by authorized officers.'; }
+  ?>
+  <a class="tile" href="<?= e(url($page)) ?>">
+    <span class="ti"><?= icon($key) ?></span>
+    <b><?= e($label) ?></b>
+    <span><?= e($desc) ?></span>
   </a>
+  <?php endforeach; ?>
 </div>
 <?php dash_end(); ?>

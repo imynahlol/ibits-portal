@@ -6,6 +6,7 @@ CREATE TABLE users (
     sex TEXT NOT NULL,
     program TEXT, year_level TEXT,
     password_hash TEXT NOT NULL,
+    must_change_password INTEGER NOT NULL DEFAULT 0,
     account_type TEXT NOT NULL DEFAULT 'member',
     position TEXT,
     status TEXT NOT NULL DEFAULT 'active',
@@ -18,6 +19,18 @@ CREATE TABLE events (
     is_public INTEGER NOT NULL DEFAULT 1,
     created_by INTEGER NOT NULL REFERENCES users(id),
     created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE finances (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    date_ TEXT NOT NULL,
+    event_ TEXT NOT NULL,
+    event_id INTEGER NOT NULL REFERENCES events(id) ON DELETE CASCADE,
+    budget REAL NOT NULL DEFAULT 0,
+    expense REAL NOT NULL DEFAULT 0,
+    inflow REAL NOT NULL DEFAULT 0,
+    created_by INTEGER NOT NULL REFERENCES users(id),
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TABLE forms (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -49,7 +62,7 @@ CREATE TABLE ticket_replies (
 CREATE TABLE cbl_documents (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     amendment_no TEXT NOT NULL, title TEXT NOT NULL, description TEXT NOT NULL,
-    status TEXT NOT NULL DEFAULT 'pending_adviser',
+    status TEXT NOT NULL DEFAULT 'pending_president',
     created_by INTEGER NOT NULL REFERENCES users(id),
     created_at TEXT DEFAULT CURRENT_TIMESTAMP
 );

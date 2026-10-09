@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 /** DEMO DATA for the local SQLite fallback only. Never used with MySQL. */
 function demo_seed(PDO $pdo): void {
-    $pw = password_hash('ibits2026', PASSWORD_DEFAULT);
-    $ins = $pdo->prepare('INSERT INTO users (full_name,id_number,sex,program,year_level,password_hash,account_type,position) VALUES (?,?,?,?,?,?,?,?)');
+    $pw = password_hash('admin123', PASSWORD_DEFAULT);
+    $memberPw = password_hash('ibits2026', PASSWORD_DEFAULT);
+    $ins = $pdo->prepare('INSERT INTO users (full_name,id_number,sex,program,year_level,password_hash,account_type,position,must_change_password) VALUES (?,?,?,?,?,?,?,?,?)');
 
     // Admin accounts: one per position
     $admins = [
@@ -14,14 +15,13 @@ function demo_seed(PDO $pdo): void {
         ['Tina Treasurer',                    '2024-00003-LQ-0', 'Female', 'DIT',  '3rd Year', 'Treasurer'],
         ['Alex Auditor',                      '2024-00004-LQ-0', 'Male',   'BSIT', '2nd Year', 'Auditor'],
         ['Stella STRAW',                      '2024-00005-LQ-0', 'Female', 'BSIT', '2nd Year', 'STRAW'],
-        ['Prof. Reyes (Adviser)',             '00812',           'Male',   null,   null,       'Adviser'],
     ];
     foreach ($admins as [$n, $id, $sex, $prog, $yr, $pos]) {
-        $ins->execute([$n, $id, $sex, $prog, $yr, $pw, 'admin', $pos]);
+        $ins->execute([$n, $id, $sex, $prog, $yr, $pw, 'admin', $pos, 1]);
     }
 
     // Demo member that can sign in
-    $ins->execute(['Mia Member', '2025-00001-LQ-0', 'Female', 'BSIT', '1st Year', $pw, 'member', null]);
+    $ins->execute(['Mia Member', '2025-00001-LQ-0', 'Female', 'BSIT', '1st Year', $memberPw, 'member', null, 0]);
 
     // Filler members so the population section has something to count.
     $counts = ['BSIT' => [1 => 48, 2 => 50, 3 => 49, 4 => 48], 'DIT' => [1 => 44, 2 => 40, 3 => 32]];
@@ -31,7 +31,7 @@ function demo_seed(PDO $pdo): void {
     foreach ($counts as $prog => $years) {
         foreach ($years as $y => $n) {
             for ($k = 0; $k < $n; $k++, $i++) {
-                $ins->execute(["Demo Member $i", sprintf('2026-%05d-LQ-0', $i), 'Male', $prog, $suffix[$y], $pw, 'member', null]);
+                $ins->execute(["Demo Member $i", sprintf('2026-%05d-LQ-0', $i), 'Male', $prog, $suffix[$y], $memberPw, 'member', null, 0]);
             }
         }
     }
@@ -51,7 +51,7 @@ function demo_seed(PDO $pdo): void {
         ->execute(['Excuse Letter Template', 'Template for missing organization events or assemblies.', 'https://example.com/excuse-letter', 3]);
 
     $pdo->prepare('INSERT INTO cbl_documents (amendment_no,title,description,status,created_by) VALUES (?,?,?,?,?)')
-        ->execute(['2026-04', 'Attendance Fines', 'Proposed change to Section 4.1 regarding unexcused absences during general assemblies.', 'pending_adviser', 3]);
+        ->execute(['2026-04', 'Attendance Fines', 'Proposed change to Section 4.1 regarding unexcused absences during general assemblies.', 'pending_president', 3]);
 
     $pdo->prepare('INSERT INTO fines (user_id,amount,reason,due_date,created_by) VALUES (?,?,?,?,?)')
         ->execute([8, 50, 'Late to General Assembly', '2026-10-20', 4]);

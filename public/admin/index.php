@@ -6,7 +6,7 @@ $features = user_features();
 
 dash_start('Dashboard', 'index');
 ?>
-<p class="page-intro">Signed in as <b><?= e($u['position']) ?></b>. These are the features your position can use.</p>
+<p class="page-intro">Signed in as <b><?= e($u['position']) ?></b>. You can view every portal feature. Features your position manages include editing controls; the others are read-only.</p>
 <div class="tiles">
   <?php foreach ($features as $key => $level): [$label, $page, $desc] = FEATURES[$key]; ?>
     <a class="tile" href="<?= e(url($page)) ?>">

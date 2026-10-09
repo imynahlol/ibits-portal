@@ -15,7 +15,7 @@ if (is_post()) {
         $isStudent = (bool)preg_match('/^\d{4}-\d{5}-LQ-\d$/', $idn);
         $err = [];
         if (mb_strlen(post('full_name')) < 3)                                $err[] = 'Enter the full name.';
-        if (!$isStudent && !preg_match('/^\d{5}$/', $idn))                  $err[] = 'ID must be 2025-00001-LQ-0 (student) or 5 digits (adviser).';
+        if (!$isStudent)                  $err[] = 'ID must look like 2025-00001-LQ-0.';
         if (!isset(POSITIONS[$pos]))                                         $err[] = 'Choose a position.';
         if (!in_array(post('sex'), ['Female', 'Male', 'Non-Binary'], true))  $err[] = 'Select a sex.';
         if (strlen($pw) < 8)                                                 $err[] = 'Temporary password needs at least 8 characters.';
@@ -48,7 +48,7 @@ dash_start('Organization', 'org');
     <?= csrf_field() ?><input type="hidden" name="action" value="add">
     <div class="grid2">
       <div class="field"><label>Full name</label><input name="full_name" required></div>
-      <div class="field"><label>ID number</label><input name="id_number" placeholder="2025-00001-LQ-0 or 00812" required></div>
+      <div class="field"><label>ID number</label><input name="id_number" placeholder="2025-00001-LQ-0" required></div>
       <div class="field"><label>Position</label><select name="position" required><option value="">Select</option><?php foreach (array_keys(POSITIONS) as $p): ?><option><?= e($p) ?></option><?php endforeach; ?></select></div>
       <div class="field"><label>Sex</label><select name="sex" required><option value="">Select</option><option>Female</option><option>Male</option><option>Non-Binary</option></select></div>
       <div class="field"><label>Program <small>(students)</small></label><select name="program"><option value="">—</option><?php foreach (PROGRAMS as $p => $_): ?><option><?= e($p) ?></option><?php endforeach; ?></select></div>
@@ -60,7 +60,7 @@ dash_start('Organization', 'org');
 <?php endif; ?>
 
 <section class="card">
-  <h2>Officers &amp; adviser <small>(<?= count($officers) ?>)</small></h2>
+  <h2>Officers <small>(<?= count($officers) ?>)</small></h2>
   <div class="tbl-wrap"><table>
     <thead><tr><th>Name</th><th>Position</th><th>Program</th><?php if ($canEdit): ?><th></th><?php endif; ?></tr></thead>
     <tbody>

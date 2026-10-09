@@ -15,10 +15,10 @@ html_head('We Code as One');
     <img class="logo" src="<?= e(asset('images/ibits-logo.png')) ?>" alt="iBITS Logo" width="230" height="230">
     <span class="badge-pill">OFFICIAL PORTAL</span>
     <h1>WE CODE AS ONE</h1>
-    <p>At iBITS, we unite brilliant minds and passionate builders<br>under a shared passion for technology to forge innovationtogether as a single, unified force.</p>
+    <p>At iBITS, we unite brilliant minds and passionate builders<br>under a shared passion for technology to forge innovation together as a single, unified force.</p>
     <div class="cta">
       <a class="btn cta-register" href="<?= e(url('register.php')) ?>">Join the Org</a>
-      <a class="btn btn-ghost"    href="<?= e(url('login.php')) ?>">Member Login</a>
+      <a class="btn btn-ghost" href="<?= e(url('login.php')) ?>">Member Login</a>
     </div>
   </div>
 </header>
@@ -36,69 +36,34 @@ html_head('We Code as One');
           <p>At the <b>Institute of Brilliant Information Technology Students</b>, we unite brilliant minds and passionate builders under a shared love for technology to forge innovation together as a single, unified force.</p>
           <p>We create spaces where students don't just study technology, <b>we code as one.</b></p>
         </div>
-        <img class="mascot" src="<?= e(asset('images/ibits-mascot.png')) ?>" alt="iBITS Bitty" loading="lazy">
+        <img class="mascot" src="<?= e(asset('images/ibits-mascot.png')) ?>" alt="iBITS mascot" loading="lazy">
       </div>
     </div>
   </section>
 
   <!-- ============ POPULATION ============ -->
-  <section class="sec sec-dark pop-section" id="population">
+  <section class="sec sec-dark" id="population">
     <canvas class="rain" data-rain="dark" aria-hidden="true"></canvas>
     <div class="container">
       <h2>Our Population</h2>
-      <p class="lead">Live counts across every section and year level.</p>
+      <p class="lead">Active members across every program and year level.</p>
 
-      <?php
-      $bsit = ['BSIT 1' => 48, 'BSIT 2' => 50, 'BSIT 3' => 49, 'BSIT 4' => 48];
-      $dit  = ['DIT 1'  => 44, 'DIT 2'  => 40, 'DIT 3'  => 32];
-      $officers      = 38;
-      $bsitTotal     = array_sum($bsit);
-      $ditTotal      = array_sum($dit);
-      $studentsTotal = $bsitTotal + $ditTotal;
-      $overallTotal  = $studentsTotal + $officers;
-      ?>
-
-      <!-- Summary row -->
       <div class="pop-grid">
-        <div class="pop-card pop-card-primary">
-          <div class="pop-num" data-target="<?= $overallTotal ?>">0</div>
-          <div class="pop-label">Total iBITS Members</div>
-        </div>
-        <div class="pop-card pop-card-primary">
-          <div class="pop-num" data-target="<?= $bsitTotal ?>">0</div>
-          <div class="pop-label">Total BSIT Students</div>
-        </div>
-        <div class="pop-card pop-card-primary">
-          <div class="pop-num" data-target="<?= $ditTotal ?>">0</div>
-          <div class="pop-label">Total DIT Students</div>
-        </div>
-        <div class="pop-card pop-card-primary">
-          <div class="pop-num" data-target="<?= $officers ?>">0</div>
-          <div class="pop-label">iBITS Org Officers</div>
-        </div>
+        <div class="pop-card main"><div class="pop-num" data-count="<?= $pop['total'] ?>"><?= $pop['total'] ?></div><div class="pop-label">Total iBITS Members</div></div>
+        <?php foreach ($pop['programs'] as $prog => $p): ?>
+          <div class="pop-card main"><div class="pop-num" data-count="<?= $p['total'] ?>"><?= $p['total'] ?></div><div class="pop-label">Total <?= e($prog) ?> Students</div></div>
+        <?php endforeach; ?>
+        <div class="pop-card main"><div class="pop-num" data-count="<?= $pop['officers'] ?>"><?= $pop['officers'] ?></div><div class="pop-label">iBITS Org Officers</div></div>
       </div>
 
-      <!-- BSIT breakdown -->
-      <h3 class="pop-subhead">BSIT · By Year Level</h3>
-      <div class="pop-grid">
-        <?php foreach ($bsit as $label => $count): ?>
-          <div class="pop-card pop-card-dark">
-            <div class="pop-num" data-target="<?= (int)$count ?>">0</div>
-            <div class="pop-label"><?= htmlspecialchars($label) ?></div>
-          </div>
-        <?php endforeach; ?>
-      </div>
-
-      <!-- DIT breakdown -->
-      <h3 class="pop-subhead">DIT · By Year Level</h3>
-      <div class="pop-grid pop-grid-3">
-        <?php foreach ($dit as $label => $count): ?>
-          <div class="pop-card pop-card-dark">
-            <div class="pop-num" data-target="<?= (int)$count ?>">0</div>
-            <div class="pop-label"><?= htmlspecialchars($label) ?></div>
-          </div>
-        <?php endforeach; ?>
-      </div>
+      <?php foreach ($pop['programs'] as $prog => $p): ?>
+        <h3 class="pop-sub"><?= e($prog) ?> · By Year Level</h3>
+        <div class="pop-grid <?= count($p['levels']) === 3 ? 'n3' : '' ?>">
+          <?php foreach ($p['levels'] as $label => $n): ?>
+            <div class="pop-card"><div class="pop-num" data-count="<?= $n ?>"><?= $n ?></div><div class="pop-label"><?= e($label) ?></div></div>
+          <?php endforeach; ?>
+        </div>
+      <?php endforeach; ?>
     </div>
   </section>
 

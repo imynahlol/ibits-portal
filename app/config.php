@@ -9,16 +9,21 @@ declare(strict_types=1);
  * Edit this one table to change who can do what.
  */
 const POSITIONS = [
-    'President'           => ['events' => 'manage', 'forms' => 'manage', 'fines' => 'manage', 'helpdesk' => 'manage', 'org' => 'manage', 'cbl' => 'manage'],
-    'Vice President'      => ['events' => 'manage', 'forms' => 'manage', 'fines' => 'manage', 'helpdesk' => 'manage', 'org' => 'manage', 'cbl' => 'manage'],
-    'Secretary'           => ['events' => 'manage', 'forms' => 'manage', 'helpdesk' => 'manage', 'cbl' => 'manage'],
-    'Treasurer'           => ['fines' => 'manage'],
-    'Assistant Treasurer' => ['fines' => 'manage'],
+    // President and Vice President can open every feature, but may edit only
+    // Help Desk replies and CBL updates/approvals.
+    'President'           => ['events' => 'view', 'forms' => 'view', 'fines' => 'view', 'finance' => 'view', 'helpdesk' => 'manage', 'org' => 'view', 'cbl' => 'manage'],
+    'Vice President'      => ['events' => 'view', 'forms' => 'view', 'fines' => 'view', 'finance' => 'view', 'helpdesk' => 'manage', 'org' => 'view', 'cbl' => 'manage'],
+    // Forms represent excuse letters / documents.
+    'Secretary'           => ['events' => 'manage', 'forms' => 'manage', 'fines' => 'manage'],
+    'Treasurer'           => ['fines' => 'manage', 'finance' => 'manage'],
     'Auditor'             => ['fines' => 'view'],
-    'Assistant Auditor'   => ['fines' => 'view'],
-    'Institutional'       => ['events' => 'manage'],
     'STRAW'               => ['helpdesk' => 'manage'],
-    'Adviser'             => ['cbl' => 'manage', 'org' => 'view'],
+];
+
+/** Members can view portal features; their Help Desk remains user-scoped. */
+const MEMBER_FEATURES = [
+    'events' => 'view', 'forms' => 'view', 'fines' => 'view',
+    'finance' => 'view', 'helpdesk' => 'view', 'org' => 'view', 'cbl' => 'view',
 ];
 
 /** Admin features: key => [label, page, description] */
@@ -26,6 +31,7 @@ const FEATURES = [
     'events'   => ['Events',        'admin/events.php',   'Create and edit organization events.'],
     'forms'    => ['Forms',         'admin/forms.php',    'Publish forms and documents for members.'],
     'fines'    => ['Fines',         'admin/fines.php',    'Issue fines and record payments.'],
+    'finance'  => ['Finances',      'admin/finance.php',  'Track event budgets, expenses and income.'],
     'helpdesk' => ['Help Desk',     'admin/helpdesk.php', 'Answer concerns submitted by members.'],
     'org'      => ['Organization',  'admin/org.php',      'Manage officers and positions.'],
     'cbl'      => ['CBL Workflow',  'admin/cbl.php',      'Propose and approve Constitution and By-Laws amendments.'],
@@ -33,12 +39,10 @@ const FEATURES = [
 
 /** CBL approval chain: status => position that must approve it. */
 const CBL_CHAIN = [
-    'pending_adviser'   => 'Adviser',
     'pending_president' => 'President',
     'pending_vp'        => 'Vice President',
 ];
 const CBL_NEXT = [
-    'pending_adviser'   => 'pending_president',
     'pending_president' => 'pending_vp',
     'pending_vp'        => 'published',
 ];
