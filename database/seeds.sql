@@ -1,9 +1,29 @@
--- Demo officer accounts use admin123 and must change it at first login. Member password remains ibits2026.
 USE ibits_portal;
+
+-- Disable foreign key checks to allow truncation and clean seeding
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- Clear existing data to prevent duplicate errors
+TRUNCATE TABLE `finances`;
+TRUNCATE TABLE `fines`;
+TRUNCATE TABLE `events`;
+TRUNCATE TABLE `users`;
+
+-- Re-enable foreign key checks
+SET FOREIGN_KEY_CHECKS = 1;
+
+-- ==========================================
+-- SET PASSWORD HASHES
+-- ==========================================
 SET @pw = '$2y$12$2bWkB.8FydBaORJzl13nP.A0qQrViA985uMTHBXJIikvY465Ocqye';
 SET @member_pw = '$2y$10$CfV2r0Ai7XNoVAAS0smmDO3yl3Br96iQVCjuQujTwoXUMeov8MqUW';
 
-INSERT INTO users (full_name,id_number,sex,program,year_level,password_hash,account_type,position,must_change_password) VALUES
+-- ==========================================
+-- 1. INSERT OFFICERS (Admin Access)
+-- ==========================================
+INSERT INTO `users` (
+    `full_name`, `id_number`, `sex`, `program`, `year_level`, `password_hash`, `account_type`, `position`, `must_change_password`
+) VALUES
 ('Allea Grace C. Ranillo','2024-00534-LQ-0','Female','BSIT','3rd Year',@pw,'admin','President',1),
 ('Johahnie Ynah Marise C. Gilbuena','2025-00122-LQ-0','Female','BSIT','2nd Year',@pw,'admin','Vice President',1),
 ('EIyza Irene B. Ventura','2025-00121-LQ-0','Female','BSIT','2nd Year',@pw,'admin','Secretary',1),
@@ -12,12 +32,219 @@ INSERT INTO users (full_name,id_number,sex,program,year_level,password_hash,acco
 ('Angel Ivy D. Prada','2025-00138-LQ-0','Female','BSIT','2nd Year',@pw,'admin','STRAW',1),
 ('Kathleen V. Maceda','2025-00125-LQ-0','Female','BSIT','2nd Year',@pw,'admin','STRAW',1);
 
-INSERT INTO events (title,description,category,start_datetime,end_datetime,location,is_public,created_by) VALUES
-('IT Week 2026','Technology week with contests, seminars and exhibits.','Technology','2026-10-12 08:00','2026-10-16 17:00','PUP Lopez Campus',1,1),
-('Hackathon: Build as One','24 hours of building together.','Competition','2026-12-05 08:00','2026-12-06 08:00','Computer Lab',1,1);
+-- ==========================================
+-- 2. INSERT EVENTS
+-- ==========================================
+INSERT INTO `events` (
+    `title`, `description`, `category`, `start_datetime`, `end_datetime`, `location`, `is_public`, `created_by`
+) VALUES
+(
+    'iBITS hackathon Booth', 
+    'Persons Involved: iBITS Organization Officers and iBITS Members. Remarks: Successfully showcased iBITS\' technical skills and creativity, engaging participants and promoting innovation within the campus.', 
+    'Booth/Exhibit', '2024-09-09 08:00:00', NULL, 'PUP Lopez Campus | Gymnasium', 1, 1
+),
+(
+    'Participation in PUP First year and Parents Orientation', 
+    'Persons Involved: iBITS Organization Advisers, iBITS Organization Officers and iBITS Members. Remarks: Actively welcomed and guided new students and parents, fostering a warm and informative introduction to PUP Lopez.', 
+    'Orientation', '2024-09-17 08:00:00', NULL, 'PUP Lopez Campus | Gymnasium', 1, 1
+),
+(
+    'iBITS Creativity challenge', 
+    'Persons Involved: iBITS Organization Officers and iBITS Members. Remarks: Encouraged members to express creativity skills through engaging online challenge.', 
+    'Competition', '2024-09-22 08:00:00', NULL, 'iBITS Facebook Page', 1, 1
+),
+(
+    'World Teacher\'s Day Celebration', 
+    'Persons Involved: iBITS Organization Advisers, iBITS Organization Officers and iBITS Members. Remarks: Honored and appreciated faculty members for their dedication and invaluable contributions to education.', 
+    'Celebration', '2024-10-05 08:00:00', NULL, 'PUP Lopez Campus | Gymnasium', 1, 1
+),
+(
+    'General Assembly & Acceptance Ceremony', 
+    'Persons Involved: iBITS Organization Advisers, iBITS Organization Officers and iBITS Members. Remarks: Formally inducted new members, strengthening unity and commitment to the organization\'s mission and vision.', 
+    'Ceremony', '2024-10-16 08:00:00', NULL, 'PUP Lopez Campus | Grandstand', 1, 1
+),
+(
+    'Acquaintance Party & Turnover Ceremony', 
+    'Persons Involved: iBITS Organization Advisers, iBITS Organization Officers and iBITS Members. Remarks: Provided a platform for building camaraderie among members and ensuring a smooth leadership transition.', 
+    'Ceremony', '2024-10-17 08:00:00', NULL, 'PUP Lopez Campus | Gymnasium', 1, 1
+),
+(
+    'iBITS Donation Drive', 
+    'Persons Involved: iBITS Organization Officers and iBITS Members. Remarks: Demonstrated compassion and social responsibility through collective efforts to help to our member.', 
+    'Outreach', '2024-10-18 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
+),
+(
+    'iBITS NGL & iBITS SMP', 
+    'Persons Involved: iBITS Organization Officers and iBITS Members. Remarks: Engaged members and followers through interactive and fun online content, fostering stronger digital community ties.', 
+    'Online Activity', '2024-10-22 08:00:00', NULL, 'iBITS Facebook Page', 1, 1
+),
+(
+    'October Month-End General Cleaning', 
+    'Persons Involved: iBITS Organization Officers and iBITS Members. Remarks: Promoted cleanliness and teamwork in maintaining an orderly campus environment.', 
+    'Community Service', '2024-10-29 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
+),
+(
+    'Screening for Ginoo at Binibining iBITS', 
+    'Persons Involved: iBITS Organization Advisers, iBITS Organization Officers and iBITS Members. Remarks: Highlighted talent, confidence, and personality in preparation for the organization\'s pageant event.', 
+    'Pageant', '2024-11-13 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
+),
+(
+    'November Month-End General Cleaning', 
+    'Persons Involved: iBITS Organization Officers and iBITS Members. Remarks: Continued efforts in campus upkeep, reflecting the organization\'s commitment to a clean and conducive learning space.', 
+    'Community Service', '2024-11-26 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
+),
+(
+    'iBITS x PicsPro | Cybersecurity Awareness Seminar – Don Emilio Elem.', 
+    'Persons Involved: iBITS Organization Advisers and iBITS Organization Officers. Remarks: Extended technical knowledge to the community, promoting online safety and awareness among students.', 
+    'Seminar', '2024-12-05 08:00:00', NULL, 'Don Emilio Lopez Quezon', 1, 1
+),
+(
+    'Flag Raising Ceremony', 
+    'Persons Involved: iBITS Organization Advisers, iBITS Organization Officers and iBITS Members. Remarks: Displayed patriotism and organizational unity in honoring the national flag and values it represents.', 
+    'Flag Ceremony', '2024-12-09 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
+),
+(
+    'Participation in Dunong Festival – Short Film Contest', 
+    'Persons Involved: iBITS Organization Officers. Remarks: Showcased creativity and storytelling skills while contributing to the municipality\'s cultural celebration.', 
+    'Cultural Event', '2024-12-14 08:00:00', NULL, 'Municipality of Lopez Quezon', 1, 1
+),
+(
+    'Participation in PUPLC – CSC Gift Giving', 
+    'Persons Involved: iBITS Organization Officers. Remarks: Spread joy and generosity through active participation in a meaningful community outreach activity.', 
+    'Outreach', '2024-12-15 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
+),
+(
+    'December Month-End General Cleaning', 
+    'Persons Involved: iBITS Organization Officers and iBITS Members. Remarks: Closed the year with dedication to campus maintenance and collaborative effort among members.', 
+    'Community Service', '2024-12-17 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
+),
+(
+    'Ginoo at Binibining iBITS 2025', 
+    'Persons Involved: iBITS Organization Advisers, iBITS Organization Officers and iBITS Members. Remarks: Celebrated talent, beauty, and confidence while fostering school spirit and entertainment.', 
+    'Pageant', '2024-12-18 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
+),
+(
+    'iBITS Sportsfest 2025', 
+    'Persons Involved: iBITS Organization Officers and iBITS Members. Remarks: Promoted sportsmanship, physical fitness, and camaraderie among members through friendly competitions.', 
+    'Sports', '2025-01-11 08:00:00', NULL, 'PUP Lopez Campus | Gymnasium', 1, 1
+),
+(
+    'Participation in Indak Festival', 
+    'Persons Involved: iBITS Organization Officers and iBITS Members. Remarks: Contributed energy and creativity in a vibrant cultural dance showcase, representing the organization with pride.', 
+    'Cultural Event', '2025-02-10 08:00:00', NULL, 'PUP Lopez Campus | Gymnasium', 1, 1
+),
+(
+    'Participation in PUP Idol', 
+    'Persons Involved: iBITS Organization Officers and iBITS Members. Remarks: Supported and showcased musical talent, adding to the festive atmosphere of the campus celebration.', 
+    'Cultural Event', '2025-02-14 08:00:00', NULL, 'PUP Lopez Campus | Gymnasium', 1, 1
+),
+(
+    'Participation in Ginoo at Binibining PUP 2025', 
+    'Persons Involved: iBITS Organization Advisers, iBITS Organization Officers and iBITS Members. Remarks: Represented the organization with grace and enthusiasm in a university-wide pageant event.', 
+    'Pageant', '2025-02-14 08:00:00', NULL, 'PUP Lopez Campus | Gymnasium', 1, 1
+),
+(
+    'iBITS Organization Day', 
+    'Persons Involved: iBITS Organization Advisers, iBITS Organization Officers and iBITS Members. Remarks: Actively welcomed and guided new students and parents, fostering a warm and informative introduction to PUP Lopez.', 
+    'Celebration', '2025-06-05 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
+),
+(
+    'IBITS Welcoming of Freshmen', 
+    'Objectives: Welcome incoming students; introduce org mission, officers, and membership process; boost member engagement. Strategies: Student Orientation and meetings with upperclassmen. Persons Involved: IBITS officers and Members.', 
+    'Orientation', '2026-08-25 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
+),
+(
+    'IBITS Merchandise & Project Showcase', 
+    'Objectives: Showcase and sell IBITS merchandise while hosting fun and educational showcasing of previous projects of students. Strategies: Opening of the IBITS booth, display of student projects, sale of merchandise, interactive games. Budget: Php 4,000.00. Persons Involved: IBITS Officers and Members.', 
+    'Fundraising', '2026-08-25 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
+),
+(
+    'iBITS Parents Orientation', 
+    'Objectives: Introduce the iBITS organization to parents and guardians, present its goals, planned activities, and encourage parental support. Strategies: Conduct an orientation program featuring iBITS advisers, present the annual work program, and hold an open forum. Budget: Php 3,000.00. Persons Involved: iBITS Advisers and Parents/Guardians of Freshmen.', 
+    'Orientation', '2026-08-26 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
+),
+(
+    'iBITS Turn Over Ceremony', 
+    'Objectives: Officially transfer duties and responsibilities to new elected leaders. Strategies: Give Certificate of Appreciation for outgoing officers to honor their service. A message for the new elected officers from the previous leaders. Budget: Php 2,500.00. Persons Involved: iBITS Advisers, Outgoing Officers & Newly Elected Officers.', 
+    'Ceremony', '2026-09-03 08:00:00', NULL, 'Online via Microsoft Teams', 1, 1
+),
+(
+    'iBITS General Assembly', 
+    'Objectives: Present accomplishments, approve semester work programs, and orient incoming officers and fun games. Strategies: Hybrid meeting (Microsoft Teams + FB Live), presentation of reports, Q&A. Budget: Php 1,000.00. Persons Involved: iBITS Advisers, Members & Organization Officers.', 
+    'Meeting', '2026-09-03 08:00:00', NULL, 'Online via Microsoft Teams', 1, 1
+),
+(
+    'Screening for Mr. & Ms. iBITS', 
+    'Objectives: Encourage talent, leadership, and positive representation of iBITS. Strategies: Screening & Q&A finals. Budget: Php 8,000.00. Persons Involved: iBITS Officers, Participants, Advisers and Invited Guest.', 
+    'Pageant', '2026-11-09 08:00:00', NULL, 'PUP Lopez Campus Engineering Building (Room 209)', 1, 1
+),
+(
+    'Flag Raising Ceremony', 
+    'Objectives: Encourage a sense of national identity and pride within the school community. Strategies: Ensure punctuality and prepare microphones, and speakers. Budget: Php 3,000. Persons Involved: iBITS officers, Members, Advisers & SYNERTECH Organization.', 
+    'Flag Ceremony', '2026-12-01 07:30:00', NULL, 'PUP Quadrangle', 1, 1
+),
+(
+    'Kamustahan 1.0 (End of 1st Sem Check-in)', 
+    'Objectives: Check the well-being of members post-semester. Strategies: Zoom session, feedback forms, fun activities. Budget: Php 2,000.00. Persons Involved: iBITS officers and Members.', 
+    'Meeting', '2026-12-19 08:00:00', NULL, 'Online via Microsoft Teams', 1, 1
+),
+(
+    'Monthly Zumba', 
+    'Objectives: Promote physical wellness of members. Strategies: Invite members to participate in group activity as part of collective engagement and collaboration strategy. Budget: Php 2,000. Persons Involved: iBITS officers, members, Advisers, iCEPT Organization & YES Organization.', 
+    'Wellness', '2027-01-22 06:30:00', NULL, 'PUP Quadrangle', 1, 1
+),
+(
+    'iBITS General Assembly', 
+    'Objectives: Present accomplishments, approve semester work programs, and orient incoming officers and fun games. Strategies: Hybrid meeting (Microsoft Teams + FB Live), presentation of reports, Q&A. Budget: Php 2,500.00. Persons Involved: iBITS Advisers, Members & Organization Officers.', 
+    'Meeting', '2027-01-23 08:00:00', NULL, 'Online via Microsoft Teams', 1, 1
+),
+(
+    'ICT Celebration (Organization Day & iBITS Night)', 
+    'Objectives: Encourage collaborative engagement between all members through various activities & Official Acceptance of Freshmen as new members. Strategies: One-day event filled with exciting activities, games, contests, and collaborative activities. Budget: Php 45,000.00. Persons Involved: iBITS officers, Professors, and Members.', 
+    'Celebration', '2027-02-20 08:00:00', NULL, 'PUP Lopez Campus Gymnasium, And Grandstand', 1, 1
+),
+(
+    'First Friday Holy Mass', 
+    'Objectives: Provide spiritual support & community bonding for members. Strategies: Coordinate with campus chaplain; simple prayer service. Budget: Php 5,000. Persons Involved: iBITS officers, Members, Adviser, & IEEE Organization.', 
+    'Religious', '2027-04-02 08:00:00', NULL, 'PUP Gymnasium', 1, 1
+),
+(
+    'Meeting De Avance', 
+    'Objectives: Provide candidates an opportunity to present their platforms. Strategies: Organize an online meeting to allow new candidates to present their platforms and engage with organization members and advisers. Budget: Php 1,000.00. Persons Involved: iBITS Newly Elected Officers, members, and Advisers.', 
+    'Meeting', '2027-04-08 08:00:00', NULL, 'Online via Microsoft Teams', 1, 1
+),
+(
+    'iBITS Election', 
+    'Objectives: Ensure a transparent selection of newly elected officers. Strategies: Conduct an accessible and organized online election process. Persons Involved: iBITS Officers, Newly Elected Officers, Members, and Advisers.', 
+    'Election', '2027-04-10 08:00:00', NULL, 'Online via Google Form', 1, 1
+),
+(
+    'Turn Over Ceremony', 
+    'Objectives: Officially transfer duties and responsibilities to new elected leaders. Strategies: Give Certificate of Appreciation for outgoing officers to honor their service. A message for the new elected officers from the previous leaders. Budget: Php 5,000.00. Persons Involved: iBITS Newly Elected Officers, iBITS Former Officers, and Advisers.', 
+    'Ceremony', '2027-04-30 08:00:00', NULL, 'Online via Microsoft Teams', 1, 1
+),
+(
+    'Kamustahan 2.0 (End of 2nd Sem Check-in)', 
+    'Objectives: Check the well-being of members post-semester. Strategies: Zoom session, feedback forms, fun activities. Budget: Php 2,000.00. Persons Involved: iBITS officers and Members.', 
+    'Meeting', '2027-05-29 08:00:00', NULL, 'Online via Microsoft Teams', 1, 1
+),
+(
+    'Hackathon: Build as One', 
+    '24 hours of building together.', 
+    'Competition', 
+    '2026-12-05 08:00:00', 
+    '2026-12-06 08:00:00', 
+    'Computer Lab', 
+    1, 
+    1
+);
 
-
-INSERT INTO users (full_name,id_number,sex,program,year_level,password_hash,account_type,position,must_change_password) VALUES
+-- ==========================================
+-- 3. INSERT MEMBERS (Student Accounts)
+-- ==========================================
+INSERT INTO `users` (
+    `full_name`, `id_number`, `sex`, `program`, `year_level`, `password_hash`, `account_type`, `position`, `must_change_password`
+) VALUES
 ('Santino Justin O. Aguilar', '2026-00530-LQ-0','Male', 'BSIT','1st Year','37f5c7a7dd5f5a2d738af37fcf50d9ef2bc7f22de575a53ebf1f72c0cf9aabd5','member','Member',1),
 ('Earl Benedict D. Alson', '2026-00510-LQ-0','Male', 'BSIT','1st Year','05409081f99b68ba0f453339c0ed02ccfa95f267f232d4097c4dec0547cb97e1','member','Member',1),
 ('John Michael C. Barnuevo', '2026-00491-LQ-0','Male', 'BSIT','1st Year','d76ab7f6f710a9e989b212f284e39e9b04563a07c63c35ba40ed22b69e7591f7','member','Member',1),
@@ -316,7 +543,380 @@ INSERT INTO users (full_name,id_number,sex,program,year_level,password_hash,acco
 ('David Ivan R. Luistro', '2023-00831-LQ-0','Male', 'DIT','3rd Year','1bac53b22924c055c12c77d89724d4938960d57ef5e227b25a01a847376337de','member','Member',1),
 ('Alexis Jericho M. Pedragoza', '2023-00853-LQ-0','Male', 'DIT','3rd Year','3f221b98a4ef5a20961e153c0c3eb19dc43ec94fb5977e95386b0c1f1fdb801e','member','Member',1),
 ('Mark Andrey D. Venus', '2023-00817-LQ-0','Male', 'DIT','3rd Year','3d6ea523b2b82c5306d8cbc1bb05e7e3b76d5d2fcb5ae387686d03adb6d9d97d','member','Member',1),
-('Ralph Rayniel Z. Villaos', '2023-00881-LQ-0','Male', 'DIT','3rd Year','89d3bc841fcb4f33d333e28ce276999002f5da584445ac72256f9efc7a89a20d','member','Member',1);SELECT * FROM `users` WHERE 1
-=======
-('Hackathon: Build as One','24 hours of building together.','Competition','2026-12-05 08:00','2026-12-06 08:00','Computer Lab',1,1);
->>>>>>> 34b81c15d2e9cbe5d5d23bff4dcdaabb3025c510
+('Ralph Rayniel Z. Villaos', '2023-00881-LQ-0','Male', 'DIT','3rd Year','89d3bc841fcb4f33d333e28ce276999002f5da584445ac72256f9efc7a89a20d','member','Member',1);
+
+-- ==========================================
+-- 4. INSERT FINES (TOTAL = 6,767 PHP)
+-- ==========================================
+INSERT INTO `fines` (
+    `user_id`, 
+    `amount`, 
+    `reason`, 
+    `status`, 
+    `due_date`, 
+    `created_by`
+) 
+VALUES 
+-- Organizational Officers (300 PHP)
+(
+    (SELECT id FROM users WHERE id_number = '2024-00534-LQ-0'), 
+    300.00, 'Unexcused absence during General Assembly', 'unpaid', '2025-02-15', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2025-00122-LQ-0'), 
+    300.00, 'Late submission of financial report', 'paid', '2025-02-15', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2025-00121-LQ-0'), 
+    300.00, 'Missed mandatory organizational cleaning duty', 'unpaid', '2025-03-01', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0'), 
+    300.00, 'Failure to attend mandatory officer meeting', 'unpaid', '2025-03-10', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2025-00589-LQ-0'), 
+    300.00, 'Late submission of audit reports', 'paid', '2025-03-15', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2025-00138-LQ-0'), 
+    300.00, 'Unexcused absence during Org Day', 'unpaid', '2025-04-01', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2025-00125-LQ-0'), 
+    300.00, 'Missed mandatory flag raising ceremony', 'unpaid', '2025-04-15', (SELECT id FROM users LIMIT 1)
+),
+
+-- Class Officers (150 PHP)
+(
+    (SELECT id FROM users WHERE id_number = '2026-00530-LQ-0'), 
+    150.00, 'Late submission of class list to Secretary', 'unpaid', '2025-02-20', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2026-00510-LQ-0'), 
+    150.00, 'Unexcused absence during Class Officer meeting', 'paid', '2025-03-05', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2026-00491-LQ-0'), 
+    150.00, 'Failure to relay announcements to class members', 'unpaid', '2025-03-20', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2026-00465-LQ-0'), 
+    150.00, 'Late submission of class clearance form', 'unpaid', '2025-04-10', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2026-00511-LQ-0'), 
+    150.00, 'Missed mandatory class officer training', 'unpaid', '2025-04-25', (SELECT id FROM users LIMIT 1)
+),
+
+-- Regular Members (100 PHP)
+(
+    (SELECT id FROM users WHERE id_number = '2026-00490-LQ-0'), 
+    100.00, 'Missed mandatory organizational cleaning duty', 'unpaid', '2025-03-01', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2026-00477-LQ-0'), 
+    100.00, 'Late payment of membership fee', 'paid', '2025-01-31', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2026-00508-LQ-0'), 
+    100.00, 'Unexcused absence during General Assembly', 'unpaid', '2025-02-15', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2026-00518-LQ-0'), 
+    100.00, 'Failure to submit required documents for organization clearance', 'unpaid', '2025-04-10', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2026-00470-LQ-0'), 
+    100.00, 'Missed mandatory flag raising ceremony', 'unpaid', '2025-04-15', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2026-00497-LQ-0'), 
+    100.00, 'Late payment of membership fee', 'paid', '2025-01-31', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2026-00466-LQ-0'), 
+    100.00, 'Unexcused absence during Org Day', 'unpaid', '2025-04-01', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2026-00535-LQ-0'), 
+    100.00, 'Missed mandatory organizational cleaning duty', 'unpaid', '2025-03-01', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2026-00495-LQ-0'), 
+    100.00, 'Late submission of membership requirements', 'paid', '2025-02-28', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2026-00474-LQ-0'), 
+    100.00, 'Failure to attend org meeting', 'unpaid', '2025-03-15', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2026-00462-LQ-0'), 
+    100.00, 'Unexcused absence during General Assembly', 'unpaid', '2025-02-15', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2026-00536-LQ-0'), 
+    100.00, 'Missed mandatory organizational cleaning duty', 'unpaid', '2025-03-01', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2026-00528-LQ-0'), 
+    100.00, 'Late payment of membership fee', 'paid', '2025-01-31', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2026-00476-LQ-0'), 
+    100.00, 'Failure to submit required documents for organization clearance', 'unpaid', '2025-04-10', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2026-00516-LQ-0'), 
+    100.00, 'Unexcused absence during Org Day', 'unpaid', '2025-04-01', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2025-00054-LQ-0'), 
+    100.00, 'Missed mandatory flag raising ceremony', 'unpaid', '2025-04-15', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2025-00089-LQ-0'), 
+    100.00, 'Late submission of membership requirements', 'paid', '2025-02-28', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2025-00123-LQ-0'), 
+    100.00, 'Unexcused absence during General Assembly', 'unpaid', '2025-02-15', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2025-00090-LQ-0'), 
+    100.00, 'Missed mandatory organizational cleaning duty', 'unpaid', '2025-03-01', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2025-00132-LQ-0'), 
+    100.00, 'Failure to attend org meeting', 'unpaid', '2025-03-15', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2025-00058-LQ-0'), 
+    100.00, 'Late payment of membership fee', 'paid', '2025-01-31', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2025-00062-LQ-0'), 
+    100.00, 'Unexcused absence during Org Day', 'unpaid', '2025-04-01', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2025-00048-LQ-0'), 
+    100.00, 'Missed mandatory flag raising ceremony', 'unpaid', '2025-04-15', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2024-00549-LQ-0'), 
+    100.00, 'Failure to submit required documents for organization clearance', 'unpaid', '2025-04-10', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2024-00545-LQ-0'), 
+    100.00, 'Unexcused absence during General Assembly', 'unpaid', '2025-02-15', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2024-00547-LQ-0'), 
+    100.00, 'Missed mandatory organizational cleaning duty', 'unpaid', '2025-03-01', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2024-00604-LQ-0'), 
+    100.00, 'Late payment of membership fee', 'paid', '2025-01-31', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2023-00045-LQ-0'), 
+    100.00, 'Failure to attend org meeting', 'unpaid', '2025-03-15', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2023-00017-LQ-0'), 
+    100.00, 'Missed mandatory flag raising ceremony', 'unpaid', '2025-04-15', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2023-00028-LQ-0'), 
+    100.00, 'Unexcused absence during Org Day', 'unpaid', '2025-04-01', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2023-00014-LQ-0'), 
+    100.00, 'Late submission of membership requirements', 'paid', '2025-02-28', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2023-00018-LQ-0'), 
+    100.00, 'Failure to submit required documents for organization clearance', 'unpaid', '2025-04-10', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2023-00012-LQ-0'), 
+    100.00, 'Unexcused absence during General Assembly', 'unpaid', '2025-02-15', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2023-00001-LQ-0'), 
+    100.00, 'Missed mandatory organizational cleaning duty', 'unpaid', '2025-03-01', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2023-00006-LQ-0'), 
+    100.00, 'Late payment of membership fee', 'paid', '2025-01-31', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2023-00015-LQ-0'), 
+    100.00, 'Failure to attend org meeting', 'unpaid', '2025-03-15', (SELECT id FROM users LIMIT 1)
+),
+(
+    (SELECT id FROM users WHERE id_number = '2023-00009-LQ-0'), 
+    100.00, 'Missed mandatory flag raising ceremony', 'unpaid', '2025-04-15', (SELECT id FROM users LIMIT 1)
+),
+
+-- Special Adjustment Fine (117 PHP)
+(
+    (SELECT id FROM users WHERE id_number = '2023-00949-LQ-1'), 
+    117.00, 'Penalty for late payment (adjusted)', 'unpaid', '2025-05-01', (SELECT id FROM users LIMIT 1)
+);
+
+-- ==========================================
+-- 5. INSERT FINANCES
+-- ==========================================
+INSERT INTO `finances` (
+    `date_`, 
+    `event_`, 
+    `event_id`, 
+    `budget`, 
+    `expense`, 
+    `inflow`, 
+    `created_by`
+) 
+VALUES 
+(
+    '2024-09-09', 
+    'iBITS hackathon Booth', 
+    (SELECT id FROM events WHERE title = 'iBITS hackathon Booth' AND DATE(start_datetime) = '2024-09-09' LIMIT 1), 
+    2000.00, 1500.00, 0.00, 
+    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
+),
+(
+    '2024-10-16', 
+    'General Assembly & Acceptance Ceremony', 
+    (SELECT id FROM events WHERE title = 'General Assembly & Acceptance Ceremony' AND DATE(start_datetime) = '2024-10-16' LIMIT 1), 
+    3000.00, 3200.00, 0.00, 
+    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
+),
+(
+    '2024-12-18', 
+    'Ginoo at Binibining iBITS 2025', 
+    (SELECT id FROM events WHERE title = 'Ginoo at Binibining iBITS 2025' AND DATE(start_datetime) = '2024-12-18' LIMIT 1), 
+    5000.00, 4800.00, 1500.00, 
+    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
+),
+(
+    '2025-01-11', 
+    'iBITS Sportsfest 2025', 
+    (SELECT id FROM events WHERE title = 'iBITS Sportsfest 2025' AND DATE(start_datetime) = '2025-01-11' LIMIT 1), 
+    3000.00, 3500.00, 2000.00, 
+    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
+),
+(
+    '2026-08-25', 
+    'IBITS Merchandise & Project Showcase', 
+    (SELECT id FROM events WHERE title = 'IBITS Merchandise & Project Showcase' AND DATE(start_datetime) = '2026-08-25' LIMIT 1), 
+    4000.00, 1500.00, 5500.00, 
+    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
+),
+(
+    '2026-08-26', 
+    'iBITS Parents Orientation', 
+    (SELECT id FROM events WHERE title = 'iBITS Parents Orientation' AND DATE(start_datetime) = '2026-08-26' LIMIT 1), 
+    3000.00, 2800.00, 0.00, 
+    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
+),
+(
+    '2026-09-03', 
+    'iBITS Turn Over Ceremony', 
+    (SELECT id FROM events WHERE title = 'iBITS Turn Over Ceremony' AND DATE(start_datetime) = '2026-09-03' LIMIT 1), 
+    2500.00, 2500.00, 0.00, 
+    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
+),
+(
+    '2026-09-03', 
+    'iBITS General Assembly', 
+    (SELECT id FROM events WHERE title = 'iBITS General Assembly' AND DATE(start_datetime) = '2026-09-03' LIMIT 1), 
+    1000.00, 1000.00, 0.00, 
+    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
+),
+(
+    '2026-11-09', 
+    'Screening for Mr. & Ms. iBITS', 
+    (SELECT id FROM events WHERE title = 'Screening for Mr. & Ms. iBITS' AND DATE(start_datetime) = '2026-11-09' LIMIT 1), 
+    8000.00, 7800.00, 0.00, 
+    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
+),
+(
+    '2026-12-01', 
+    'Flag Raising Ceremony', 
+    (SELECT id FROM events WHERE title = 'Flag Raising Ceremony' AND DATE(start_datetime) = '2026-12-01' LIMIT 1), 
+    3000.00, 3000.00, 0.00, 
+    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
+),
+(
+    '2026-12-05', 
+    'Hackathon: Build as One', 
+    (SELECT id FROM events WHERE title = 'Hackathon: Build as One' AND DATE(start_datetime) = '2026-12-05' LIMIT 1), 
+    5000.00, 4500.00, 0.00, 
+    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
+),
+(
+    '2026-12-19', 
+    'Kamustahan 1.0 (End of 1st Sem Check-in)', 
+    (SELECT id FROM events WHERE title = 'Kamustahan 1.0 (End of 1st Sem Check-in)' AND DATE(start_datetime) = '2026-12-19' LIMIT 1), 
+    2000.00, 2000.00, 0.00, 
+    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
+),
+(
+    '2027-01-22', 
+    'Monthly Zumba', 
+    (SELECT id FROM events WHERE title = 'Monthly Zumba' AND DATE(start_datetime) = '2027-01-22' LIMIT 1), 
+    2000.00, 1500.00, 0.00, 
+    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
+),
+(
+    '2027-01-23', 
+    'iBITS General Assembly', 
+    (SELECT id FROM events WHERE title = 'iBITS General Assembly' AND DATE(start_datetime) = '2027-01-23' LIMIT 1), 
+    2500.00, 2500.00, 0.00, 
+    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
+),
+(
+    '2027-02-20', 
+    'ICT Celebration (Organization Day & iBITS Night)', 
+    (SELECT id FROM events WHERE title = 'ICT Celebration (Organization Day & iBITS Night)' AND DATE(start_datetime) = '2027-02-20' LIMIT 1), 
+    45000.00, 42000.00, 5000.00, 
+    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
+),
+(
+    '2027-04-02', 
+    'First Friday Holy Mass', 
+    (SELECT id FROM events WHERE title = 'First Friday Holy Mass' AND DATE(start_datetime) = '2027-04-02' LIMIT 1), 
+    5000.00, 5000.00, 0.00, 
+    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
+),
+(
+    '2027-04-08', 
+    'Meeting De Avance', 
+    (SELECT id FROM events WHERE title = 'Meeting De Avance' AND DATE(start_datetime) = '2027-04-08' LIMIT 1), 
+    1000.00, 1000.00, 0.00, 
+    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
+),
+(
+    '2027-04-30', 
+    'Turn Over Ceremony', 
+    (SELECT id FROM events WHERE title = 'Turn Over Ceremony' AND DATE(start_datetime) = '2027-04-30' LIMIT 1), 
+    5000.00, 5000.00, 0.00, 
+    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
+),
+(
+    '2027-05-29', 
+    'Kamustahan 2.0 (End of 2nd Sem Check-in)', 
+    (SELECT id FROM events WHERE title = 'Kamustahan 2.0 (End of 2nd Sem Check-in)' AND DATE(start_datetime) = '2027-05-29' LIMIT 1), 
+    2000.00, 2000.00, 0.00, 
+    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
+);
+
+-- ==========================================
+-- 6. VERIFY INSERTS
+-- ==========================================
+SELECT COUNT(*) AS total_users FROM `users`;
+SELECT COUNT(*) AS total_events FROM `events`;
+SELECT SUM(amount) AS total_fines_amount FROM `fines`;
+
+SELECT SUM(budget) FROM `finances`;
