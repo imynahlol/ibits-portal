@@ -22,6 +22,7 @@ function html_head(string $title, string $bodyClass = ''): void { ?>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
 <title><?= e($title) ?> | iBITS Portal</title>
 <link rel="icon" href="<?= e(asset('images/ibits-logo.png')) ?>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,9 +32,9 @@ function html_head(string $title, string $bodyClass = ''): void { ?>
 </head>
 <body class="<?= e($bodyClass) ?>">
 <?php
-    // The top navigation only appears on the public pages (home).
+    // The top navigation shows on public pages (home, etc.).
     // Login/register ('auth') and dashboard ('dash') keep their own layouts.
-    if ($bodyClass === '') public_nav();
+    if (!in_array($bodyClass, ['auth', 'dash'], true)) public_nav();
 }
  
 function html_foot(): void { ?>
@@ -43,7 +44,7 @@ function html_foot(): void { ?>
 <?php }
  
 /**
- * Translucent top navigation for the public home page.
+ * Translucent top navigation for the public pages.
  *   About     > Mission & Vision, Org Structure
  *   Community > Members, FAQs, Help Desk
  *   Events
@@ -82,7 +83,6 @@ function public_nav(): void {
 .pnav-dd.open .pnav-menu{opacity:1;visibility:visible;transform:none}
 .pnav-menu a{display:block;color:#fff;font-weight:500;font-size:16px;padding:10px 16px;border-radius:12px;white-space:nowrap;transition:background .2s,color .2s}
 .pnav-menu a:hover{background:rgba(250,213,23,.14);color:var(--gold)}
-.theme-toggle{border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;border-radius:20px;padding:8px 12px;font:500 13px 'Poppins',sans-serif;cursor:pointer;white-space:nowrap}.theme-toggle:hover{background:rgba(255,255,255,.16)}
 .pnav-user{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.12);display:grid;place-items:center;margin-left:10px;transition:background .2s}
 .pnav-user .ico{width:20px;height:20px;color:#fff}
 .pnav-user:hover{background:var(--gold)}
@@ -101,7 +101,7 @@ function public_nav(): void {
   .pnav.open .pnav-links{display:flex}
   .pnav-menu{position:static;opacity:1;visibility:visible;transform:none;display:none;background:transparent;border:0;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;padding:0 0 0 14px}
   .pnav-dd.open .pnav-menu{display:block}
-  .theme-toggle{width:100%;margin:4px 0;text-align:center}.pnav-user{margin:6px 0 0;border-radius:12px;width:100%;height:44px}
+  .pnav-user{margin:6px 0 0;border-radius:12px;width:100%;height:44px}
 }
 </style>
  
@@ -134,7 +134,6 @@ function public_nav(): void {
     </div>
  
     <a href="<?= e(url('index.php#events')) ?>">Events</a>
-    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark mode" title="Switch to dark mode">☾ <span class="theme-label">Dark mode</span></button>
  
     <a class="pnav-user" href="<?= e(url($userHref)) ?>" aria-label="<?= e($userLabel) ?>" title="<?= e($userLabel) ?>"><?= icon('user') ?></a>
   </div>
@@ -264,4 +263,3 @@ function dash_end(): void { ?>
   </div>
 </div>
 <?php html_foot(); }
- 

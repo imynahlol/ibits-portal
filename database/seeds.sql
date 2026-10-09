@@ -139,7 +139,7 @@ INSERT INTO users (full_name,id_number,sex,program,year_level,password_hash,acco
 ('Jane M. Paligar', '2024-00528-LQ-0','Female', 'BSIT','3rd Year','258a64cc08696fcd11429ec3c68f6f686911cd2952de3dc97cd3d09c6731d2a7','member','Member',1),
 ('Crystal Mae B. Parro', '2024-00609-LQ-0','Female', 'BSIT','3rd Year','7cd85a0cb2c81c72ba26bb495584bc103f032893eb8014cf4837620fccb84c66','member','Member',1),
 ('Sophia A. Plaza', '2024-00774-LQ-0','Female', 'BSIT','3rd Year','f477f8132064c53209ff29c0d18a665e7e6425a96ce90dd504035e8ddc57d19f','member','Member',1),
-('Kaye Princess M. Rago', '2024-00534-LQ-0','Female', 'BSIT','3rd Year','7de1bdb06663cf756c56f0b92acc9c2459b66b820553f4a6276e23d72ae1079e','member','Member',1),
+('Kaye Princess M. Rago', '2024-00534-LQ-1','Female', 'BSIT','3rd Year','7de1bdb06663cf756c56f0b92acc9c2459b66b820553f4a6276e23d72ae1079e','member','Member',1),
 ('Renz Matthew H. Simeon', '2024-00646-LQ-0','Male', 'BSIT','3rd Year','78d868c82675ca6694618ade599be8ef472d129271d1d778d06e38483799c3e7','member','Member',1),
 ('Lawrence A. Supetran', '2024-00613-LQ-0','Male', 'BSIT','3rd Year','4ce80f84f290a2b90d2569ef396849f93f526def23dc22cc4574b43e0e36f448','member','Member',1),
 ('Vince Jomer S. Valeros', '2024-00643-LQ-0','Male', 'BSIT','3rd Year','3dd5558198a2ace67c6e15eea38601907b8462423f865aba3af4b46d19fa790c','member','Member',1),
