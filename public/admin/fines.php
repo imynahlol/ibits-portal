@@ -85,7 +85,7 @@ dash_start('Fines', 'fines');
         <input id="member_name" type="search" placeholder="Start typing a student's name" value="<?= e($edit['member_name'] ?? '') ?>" autocomplete="off" aria-autocomplete="list" aria-controls="member_search_results" required>
         <input id="member_id" name="member_id" type="hidden" value="<?= (int)($edit['member_id'] ?? 0) ?>">
         <div id="member_search_results" class="member-search-results" role="listbox" aria-label="Matching students" hidden></div>
-        <small id="member_selection"><?= !empty($edit['member_name']) ? 'Selected: ' . e($edit['member_name']) . ' (' . e($edit['member_id_number']) . ')' : 'Choose a student from the matching results. Student ID numbers are shown to distinguish students with the same name.' ?></small>
+        <small id="member_selection"><?= !empty($edit['member_name']) ? 'Selected: ' . e($edit['member_name']) . ' (' . e($edit['member_id_number']) . ')' : 'Choose a student from the matching results.' ?></small>
       </div>
       <div class="field"><label>Amount (₱)</label><input name="amount" type="number" min="1" step="0.01" value="<?= e((string)($edit['amount'] ?? '')) ?>" required></div>
       <div class="field"><label>Reason</label><input name="reason" maxlength="200" value="<?= e($edit['reason'] ?? '') ?>" required></div>
