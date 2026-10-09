@@ -226,6 +226,7 @@ function public_nav(): void {
 </script>
 <?php }
  
+
 /** Footer used on the public pages (home + login + register). */
 function public_footer(): void { ?>
 <footer class="site-footer" id="footer">
@@ -261,10 +262,10 @@ function public_footer(): void { ?>
           <a href="https://www.google.com/maps/search/?api=1&amp;query=Yumul+St+Brgy+Burgos+PUP+Lopez+Quezon"
              target="_blank"
              rel="noopener"
-             title="Click to view on Google Maps">
+             title="View location on Google Maps">
             <img src="<?= e(asset('images/map-thumbnail.png')) ?>"
-                 alt="Map showing the iBITS location — click to open Google Maps"
-                 style="width:120px;height:80px;border-radius:8px;cursor:pointer;transition:transform .2s ease;display:block;"
+                 alt="Map location: Yumul St. Brgy. Burgos, PUP Lopez, Quezon"
+                 style="width:120px;height:80px;object-fit:cover;border-radius:8px;cursor:pointer;transition:transform .2s ease;display:block;"
                  onmouseover="this.style.transform='scale(1.05)'"
                  onmouseout="this.style.transform='scale(1)'">
           </a>
@@ -272,14 +273,37 @@ function public_footer(): void { ?>
       </div>
       <div>
         <h4>Contact</h4>
-        <p><a href="mailto:ibitspupofficial@gmail.com">ibitspupofficial@gmail.com</a></p>
+        <p>
+          <a href="mailto:ibitspupofficial@gmail.com"
+             title="Email iBITS"
+             aria-label="Email iBITS">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 width="18" height="18" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round"
+                 style="vertical-align:middle;margin-right:6px;">
+              <rect x="3" y="5" width="18" height="14" rx="2"/>
+              <path d="m3 7 9 6 9-6"/>
+            </svg>
+            ibitspupofficial@gmail.com
+          </a>
+        </p>
         <p style="margin-top:12px;">
           <a href="https://www.facebook.com/Ibits16"
              target="_blank"
              rel="noopener"
-             style="display:inline-block;margin-right:12px;color:inherit;transition:color .2s ease;"
+             title="Visit iBITS on Facebook"
+             aria-label="Visit iBITS on Facebook"
+             style="display:inline-flex;align-items:center;gap:6px;margin-right:12px;color:inherit;text-decoration:none;transition:color .2s ease;"
              onmouseover="this.style.color='var(--gold)'"
-             onmouseout="this.style.color='inherit'">Facebook</a>
+             onmouseout="this.style.color='inherit'">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 width="18" height="18" viewBox="0 0 24 24"
+                 fill="currentColor" aria-hidden="true">
+              <path d="M13.4 21v-8h2.7l.4-3.1h-3.1v-2c0-.9.3-1.5 1.6-1.5h1.7V3.6c-.3 0-1.4-.1-2.6-.1-2.6 0-4.4 1.6-4.4 4.5v1.9H6.8V13h2.9v8h3.7z"/>
+            </svg>
+            Facebook
+          </a>
         </p>
       </div>
     </div>
@@ -287,6 +311,7 @@ function public_footer(): void { ?>
   </div>
 </footer>
 <?php }
+
  
 /**
  * Dashboard shell (sidebar + content) for member and admin pages.
