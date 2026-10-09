@@ -93,7 +93,7 @@ html_head($as ? ($as === 'admin' ? 'Admin Log in' : 'Member Log in') : 'Secure A
 
   <div class="auth-links">
     <?php if ($as === 'admin'): ?><a class="btn btn-line btn-sm" href="<?= e(url('change-admin-password.php')) ?>">Change Password</a><?php endif; ?>
-    <?php if ($as === 'member'): ?><a href="<?= e(url('register.php')) ?>">Join iBITS</a><?php endif; ?>
+    <?php if ($as === 'member'): ?><a class="btn btn-line btn-sm" href="<?= e(url('change-member-password.php')) ?>">Change Password</a><a href="<?= e(url('register.php')) ?>">Join iBITS</a><?php endif; ?>
   </div>
 <?php endif; ?>
 </div>
