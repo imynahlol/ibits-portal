@@ -15,7 +15,7 @@ html_head('We Code as One');
     <img class="logo" src="<?= e(asset('images/ibits-logo.png')) ?>" alt="iBITS Logo" width="230" height="230">
     <span class="badge-pill">OFFICIAL PORTAL</span>
     <h1>WE CODE AS ONE</h1>
-    <p>At iBITS, we unite brilliant minds and passionate builders<br>under a shared passion for technology to forge innovation together as a single, unified force.</p>
+    <p>At iBITS, we unite brilliant minds and passionate builders<br>under a shared passion for technology to forge innovation<br>together as a single, unified force.</p>
     <div class="cta">
       <a class="btn cta-register" href="<?= e(url('register.php')) ?>">Join the Org</a>
       <a class="btn btn-ghost" href="<?= e(url('login.php')) ?>">Member Login</a>
@@ -42,25 +42,39 @@ html_head('We Code as One');
   </section>
 
   <!-- ============ POPULATION ============ -->
-  <section class="sec sec-dark" id="population">
+  <section class="sec sec-dark pop-section" id="population">
     <canvas class="rain" data-rain="dark" aria-hidden="true"></canvas>
     <div class="container">
       <h2>Our Population</h2>
       <p class="lead">Active members across every program and year level.</p>
 
+      <!-- Summary Row -->
       <div class="pop-grid">
-        <div class="pop-card main"><div class="pop-num" data-count="<?= $pop['total'] ?>"><?= $pop['total'] ?></div><div class="pop-label">Total iBITS Members</div></div>
+        <div class="pop-card pop-card-primary">
+          <div class="pop-num" data-count="<?= $pop['total'] ?>"><?= $pop['total'] ?></div>
+          <div class="pop-label">Total iBITS Members</div>
+        </div>
         <?php foreach ($pop['programs'] as $prog => $p): ?>
-          <div class="pop-card main"><div class="pop-num" data-count="<?= $p['total'] ?>"><?= $p['total'] ?></div><div class="pop-label">Total <?= e($prog) ?> Students</div></div>
+          <div class="pop-card pop-card-primary">
+            <div class="pop-num" data-count="<?= $p['total'] ?>"><?= $p['total'] ?></div>
+            <div class="pop-label">Total <?= e($prog) ?> Students</div>
+          </div>
         <?php endforeach; ?>
-        <div class="pop-card main"><div class="pop-num" data-count="<?= $pop['officers'] ?>"><?= $pop['officers'] ?></div><div class="pop-label">iBITS Org Officers</div></div>
+        <div class="pop-card pop-card-primary">
+          <div class="pop-num" data-count="<?= $pop['officers'] ?>"><?= $pop['officers'] ?></div>
+          <div class="pop-label">iBITS Org Officers</div>
+        </div>
       </div>
 
+      <!-- Breakdown by Program and Year Level -->
       <?php foreach ($pop['programs'] as $prog => $p): ?>
-        <h3 class="pop-sub"><?= e($prog) ?> · By Year Level</h3>
-        <div class="pop-grid <?= count($p['levels']) === 3 ? 'n3' : '' ?>">
+        <h3 class="pop-subhead"><?= e($prog) ?> · By Year Level</h3>
+        <div class="pop-grid <?= count($p['levels']) === 3 ? 'pop-grid-3' : '' ?>">
           <?php foreach ($p['levels'] as $label => $n): ?>
-            <div class="pop-card"><div class="pop-num" data-count="<?= $n ?>"><?= $n ?></div><div class="pop-label"><?= e($label) ?></div></div>
+            <div class="pop-card pop-card-dark">
+              <div class="pop-num" data-count="<?= $n ?>"><?= $n ?></div>
+              <div class="pop-label"><?= e($label) ?></div>
+            </div>
           <?php endforeach; ?>
         </div>
       <?php endforeach; ?>

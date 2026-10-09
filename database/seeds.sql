@@ -10,8 +10,7 @@ INSERT INTO users (full_name,id_number,sex,program,year_level,password_hash,acco
 ('Irish Nicole J. Japone',          '2025-00127-LQ-0','Female',     'BSIT', '2nd Year',@pw,'admin','Treasurer',1),
 ('Harvey S. Pumariga',              '2025-00589-LQ-0','Male',       'DIT','2nd Year',@pw,'admin','Auditor',1),
 ('Angel Ivy D. Prada',              '2025-00138-LQ-0','Female',     'BSIT','2nd Year',@pw,'admin','STRAW',1),
-('Kathleen V. Maceda',              '2025-00125-LQ-0','Female',     'BSIT','2nd Year',@member_pw,'member','STRAW',1),
-('Sheryn C. Hina',                  '2025-00118-LQ-0','Non-Binary', 'BSIT', '2nd Year', @member_pw, 'member', NULL, 1);
+('Kathleen V. Maceda',              '2025-00125-LQ-0','Female',     'BSIT','2nd Year',@pw,'admin','STRAW',1),
 
 INSERT INTO events (title,description,category,start_datetime,end_datetime,location,is_public,created_by) VALUES
 ('IT Week 2026','Technology week with contests, seminars and exhibits.','Technology','2026-10-12 08:00','2026-10-16 17:00','PUP Lopez Campus',1,1),
