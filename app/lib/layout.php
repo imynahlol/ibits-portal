@@ -166,8 +166,8 @@ function public_footer(): void { ?>
     <div class="foot-brand">
       <img src="<?= e(asset('images/ibits-logo.png')) ?>" alt="iBITS logo">
       <div>
-        <div class="foot-name">iBITS PUPLC</div>
-        <p>Institute of Brilliant Information Technology Students, PUP Lopez Campus.</p>
+        <div class="foot-name">iBITS PORTAL</div>
+        <p>Institute of Brilliant Information Technology Students, PUPLC.</p>
       </div>
     </div>
     <div class="foot-grid">

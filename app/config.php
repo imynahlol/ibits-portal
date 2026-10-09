@@ -1,13 +1,7 @@
 <?php
 declare(strict_types=1);
 
-/**
- * Roles and permissions.
- *
- * Every admin account has a POSITION. What an admin can open is decided only by
- * this map: feature => 'manage' (full access) or 'view' (read-only).
- * Edit this one table to change who can do what.
- */
+//Roles and permissions.
 const POSITIONS = [
     // President and Vice President can open every feature, but may edit only
     // Help Desk replies and CBL updates/approvals.

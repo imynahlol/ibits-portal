@@ -1,10 +1,4 @@
 <?php
-// loads .env and provides a reusable PDO connection via db()
-
-/**
- * Load key=value pairs from a .env file into $_ENV
- */
-
 function loadEnv(string $path): void {
     if (!file_exists($path)) {
         die("Environment file not found: $path");
@@ -28,9 +22,6 @@ function loadEnv(string $path): void {
 
 loadEnv(__DIR__ . '/../.env');c
 
-/**
- * Returns a singleton PDO connection.
- */
 function db(): PDO {
     static $pdo = null;
 
@@ -52,7 +43,6 @@ function db(): PDO {
         try {
             $pdo = new PDO($dsn, $user, $pass, $options);
         } catch (PDOException $e) {
-            // In production, log this instead of displaying
             die("Database connection failed: " . $e->getMessage());
         }
     }

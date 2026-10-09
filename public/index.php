@@ -5,7 +5,7 @@ require_once dirname(__DIR__) . '/app/bootstrap.php';
 $pop    = population();
 $events = home_events(4);
 
-html_head('We Code as One');
+html_head('WE CODE AS ONE', 'home');
 ?>
 
 <!-- ============ HEADER: We Code as One + Join / Member Log in ============ -->
