@@ -270,7 +270,7 @@ dash_start('Events', 'events');
 <div id="gp">
   <div class="gp-head">
     <div>
-      <h1>Events / GPOA</h1>
+      <h1>General Plan of Activities</h1>
       <p>The organization calendar. Events marked <b>public</b> appear on the homepage.</p>
     </div>
     <?php if ($canEdit): ?><button type="button" class="gp-add" id="gp-add"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg> Add Event</button><?php endif; ?>

@@ -2,7 +2,10 @@
 declare(strict_types=1);
 require_once dirname(__DIR__) . '/app/bootstrap.php';
 $u = current_user();
-if (!$u || ($u['account_type'] ?? '') !== 'admin') { flash('error', 'Officer sign-in is required.'); redirect('login.php?as=admin'); }
+if (!$u || !in_array($u['account_type'] ?? '', ['admin', 'member'], true)) {
+    flash('error', 'Please sign in to change your password.');
+    redirect('login.php');
+}
 $errors = [];
 if (is_post()) {
     csrf_check();
@@ -24,11 +27,11 @@ if (is_post()) {
 html_head('Change Password', 'dash');
 ?>
 <div class="auth-stage">
-  <?php if (empty($u['must_change_password'])) echo back_button('admin/index.php', 'Back to dashboard'); ?>
+  <?php if (empty($u['must_change_password'])) echo back_button(home_for($u), 'Back to dashboard'); ?>
 <div class="auth-card">
   <img class="auth-logo" src="<?= e(asset('images/ibits-logo.png')) ?>" alt="iBITS">
   <h1>Change Password</h1>
-  <p class="sub"><?= !empty($u['must_change_password']) ? 'For security, change the default officer password before continuing.' : 'Update your officer account password.' ?></p>
+  <p class="sub"><?= !empty($u['must_change_password']) ? 'For security, change the default officer password before continuing.' : 'Update your account password.' ?></p>
   <?= flash_render() ?>
   <?php if ($errors): ?><div class="alert error"><ul><?php foreach ($errors as $error): ?><li><?= e($error) ?></li><?php endforeach; ?></ul></div><?php endif; ?>
   <form method="post" autocomplete="off">

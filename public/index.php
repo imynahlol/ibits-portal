@@ -29,7 +29,7 @@ html_head('WE CODE AS ONE', 'home');
     <p>At iBITS, we unite brilliant minds and passionate builders<br>under a shared passion for technology to forge innovation<br>together as a single, unified force.</p>
     <div class="cta">
       <a class="btn cta-register" href="<?= e(url('register.php')) ?>">Join the Org</a>
-      <a class="btn btn-ghost" href="<?= e(url('login.php')) ?>">Member Login</a>
+      <a class="btn btn-ghost" href="<?= e(url('login.php')) ?>">Login</a>
     </div>
   </div>
 </header>

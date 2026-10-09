@@ -332,6 +332,7 @@ function dash_start(string $title, string $active): void {
         }
     } else {
         $items[] = ['index',    'Overview',  'member/index.php',    'home'];
+        $items[] = ['change-password', 'Change Password', 'change-password.php', 'user'];
         $items[] = ['helpdesk', 'Help Desk', 'member/helpdesk.php', 'helpdesk'];
     }
     ?>
