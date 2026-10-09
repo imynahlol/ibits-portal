@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
-
 /**
  * File attachments for Forms (PDF, Word, Excel).
  * Files are stored in storage/form-files (outside public/) and served only to
  * signed-in users through public/form-file.php.
+ * 
+ * Updated: matches UI display, role-based permissions, preserves all original logic
  */
-
 const FORM_FILE_MAX = 10 * 1024 * 1024; // 10 MB, also capped by the server's PHP limits
 
 /** extension => [label, mime type, colour key] */
@@ -17,6 +17,7 @@ function form_file_types(): array {
         'docx' => ['Word',  'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'word'],
         'xls'  => ['Excel', 'application/vnd.ms-excel', 'excel'],
         'xlsx' => ['Excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'excel'],
+        'link' => ['Link',   '', 'link'], // Added for Event Participation Waiver LINK type
     ];
 }
 
@@ -29,37 +30,55 @@ function form_files_migrate(): void {
     static $done = false;
     if ($done) return;
     $done = true;
+
     $pdo = db();
     $driver = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
     $have = [];
+
     if ($driver === 'sqlite') {
-        foreach ($pdo->query('PRAGMA table_info(forms)')->fetchAll() as $c) $have[] = $c['name'];
+        foreach ($pdo->query('PRAGMA table_info(forms)')->fetchAll() as $c) {
+            $have[] = $c['name'];
+        }
     } else {
-        foreach ($pdo->query('SHOW COLUMNS FROM forms')->fetchAll() as $c) $have[] = $c['Field'];
+        foreach ($pdo->query('SHOW COLUMNS FROM forms')->fetchAll() as $c) {
+            $have[] = $c['Field'];
+        }
     }
-    $cols = ['file_name' => $driver === 'sqlite' ? 'TEXT' : 'VARCHAR(255) NULL',
-             'file_path' => $driver === 'sqlite' ? 'TEXT' : 'VARCHAR(255) NULL',
-             'file_type' => $driver === 'sqlite' ? 'TEXT' : 'VARCHAR(10) NULL',
-             'file_size' => $driver === 'sqlite' ? 'INTEGER' : 'INT NULL'];
+
+    $cols = [
+        'file_name' => $driver === 'sqlite' ? 'TEXT' : 'VARCHAR(255) NULL',
+        'file_path' => $driver === 'sqlite' ? 'TEXT' : 'VARCHAR(255) NULL',
+        'file_type' => $driver === 'sqlite' ? 'TEXT' : 'VARCHAR(10) NULL',
+        'file_size' => $driver === 'sqlite' ? 'INTEGER' : 'INT NULL',
+        'form_link' => $driver === 'sqlite' ? 'TEXT' : 'VARCHAR(2048) NULL', // Added for Online Link type
+    ];
+
     foreach ($cols as $name => $def) {
-        if (!in_array($name, $have, true)) $pdo->exec('ALTER TABLE forms ADD COLUMN ' . $name . ' ' . $def);
+        if (!in_array($name, $have, true)) {
+            $pdo->exec('ALTER TABLE forms ADD COLUMN ' . $name . ' ' . $def);
+        }
     }
 }
 
 function form_ini_bytes(string $key): int {
     $v = trim((string)ini_get($key));
     if ($v === '' || $v === '0') return PHP_INT_MAX;
+
     $n = (int)$v;
-    switch (strtolower(substr($v, -1))) {
+    $suffix = strtolower(substr($v, -1));
+    
+    switch ($suffix) {
         case 'g': $n *= 1024;
         case 'm': $n *= 1024;
         case 'k': $n *= 1024;
     }
     return $n > 0 ? $n : PHP_INT_MAX;
 }
+
 function form_file_limit(): int {
     return min(FORM_FILE_MAX, form_ini_bytes('upload_max_filesize'), form_ini_bytes('post_max_size'));
 }
+
 function form_size_label(int $bytes): string {
     if ($bytes >= 1048576) return round($bytes / 1048576, 1) . ' MB';
     if ($bytes >= 1024)    return max(1, (int)round($bytes / 1024)) . ' KB';
@@ -72,40 +91,82 @@ function form_size_label(int $bytes): string {
  */
 function form_file_save(array $file): array {
     $err = (int)($file['error'] ?? UPLOAD_ERR_NO_FILE);
+    
     if ($err === UPLOAD_ERR_INI_SIZE || $err === UPLOAD_ERR_FORM_SIZE) {
         return ['error' => 'That file is too large (maximum ' . form_size_label(form_file_limit()) . ').'];
     }
+    
     if ($err !== UPLOAD_ERR_OK || !is_uploaded_file((string)$file['tmp_name'])) {
         return ['error' => 'The file could not be uploaded. Please try again.'];
     }
+
     $size = (int)$file['size'];
     if ($size <= 0 || $size > form_file_limit()) {
         return ['error' => 'That file is too large (maximum ' . form_size_label(form_file_limit()) . ').'];
     }
+
     $orig = basename(str_replace('\\', '/', (string)$file['name']));
     $ext  = strtolower(pathinfo($orig, PATHINFO_EXTENSION));
+    
     if (!isset(form_file_types()[$ext])) {
         return ['error' => 'Only PDF, Word (.doc, .docx) or Excel (.xls, .xlsx) files are allowed.'];
     }
-    // Check the real file signature, not only the extension.
+
+    // Check real file signature, not only extension
     $head = (string)file_get_contents((string)$file['tmp_name'], false, null, 0, 8);
     $ok = match ($ext) {
-        'pdf'          => str_starts_with($head, '%PDF'),
-        'docx', 'xlsx' => str_starts_with($head, "PK\x03\x04"),
-        default        => str_starts_with($head, "\xD0\xCF\x11\xE0"),
+        'pdf'                  => str_starts_with($head, '%PDF'),
+        'docx', 'xlsx'         => str_starts_with($head, "PK\x03\x04"),
+        'doc', 'xls'           => str_starts_with($head, "\xD0\xCF\x11\xE0"),
+        default                => false,
     };
-    if (!$ok) return ['error' => 'That file does not look like a real ' . form_file_types()[$ext][0] . ' document.'];
+
+    if (!$ok) {
+        return ['error' => 'That file does not look like a real ' . form_file_types()[$ext][0] . ' document.'];
+    }
 
     $dir = form_file_dir();
     if (!is_dir($dir) && !@mkdir($dir, 0750, true) && !is_dir($dir)) {
         return ['error' => 'The server could not create the upload folder.'];
     }
+
     $stored = bin2hex(random_bytes(16)) . '.' . $ext;
     if (!move_uploaded_file((string)$file['tmp_name'], $dir . '/' . $stored)) {
         return ['error' => 'The file could not be saved. Please try again.'];
     }
+
     $clean = trim((string)preg_replace('/[^\p{L}\p{N}\s._()\-]/u', '_', $orig));
-    return ['file_name' => mb_substr($clean, 0, 200), 'file_path' => $stored, 'file_type' => $ext, 'file_size' => $size];
+    
+    return [
+        'file_name' => mb_substr($clean, 0, 200),
+        'file_path' => $stored,
+        'file_type' => $ext,
+        'file_size' => $size
+    ];
+}
+
+/** Save an Online Link type form */
+function form_link_save(string $title, string $link, string $description = ''): array {
+    if (trim($link) === '') {
+        return ['error' => 'Please provide a valid link.'];
+    }
+    
+    if (!filter_var($link, FILTER_VALIDATE_URL)) {
+        return ['error' => 'Please enter a valid URL starting with http:// or https://'];
+    }
+
+    return [
+        'file_name' => mb_substr(trim($title) ?: 'Link', 0, 200),
+        'form_link' => $link,
+        'file_type' => 'link',
+        'file_size' => 0,
+    ];
+}
+
+/** Check if current user can edit/delete forms */
+function form_can_edit(): bool {
+    // Adjust to match your auth system
+    return isset($_SESSION['user_role']) && in_array($_SESSION['user_role'], ['Secretary', 'Admin']);
 }
 
 function form_file_delete(?string $stored): void {
