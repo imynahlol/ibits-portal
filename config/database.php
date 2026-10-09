@@ -20,7 +20,7 @@ function loadEnv(string $path): void {
     }
 }
 
-loadEnv(__DIR__ . '/../.env');c
+loadEnv(__DIR__ . '/../.env');
 
 function db(): PDO {
     static $pdo = null;
