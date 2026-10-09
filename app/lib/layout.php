@@ -257,17 +257,33 @@ function public_footer(): void { ?>
       <div>
         <h4>Address</h4>
         <p>Yumul St. Brgy. Burgos, PUP Lopez, Quezon</p>
-        <p><a href="https://www.google.com/maps/search/?api=1&amp;query=Yumul+St+Brgy+Burgos+PUP+Lopez+Quezon" target="_blank" rel="noopener"><img src="<?= e(asset('images/map-thumbnail.png')) ?>" alt="Google Maps" style="width:120px;height:80px;border-radius:8px;cursor:pointer;transition:transform .2s ease;display:block;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" title="Click to view on Google Maps"></a></p>
+        <p>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Yumul+St+Brgy+Burgos+PUP+Lopez+Quezon"
+             target="_blank"
+             rel="noopener"
+             title="Click to view on Google Maps">
+            <img src="<?= e(asset('images/map-thumbnail.png')) ?>"
+                 alt="Map showing the iBITS location — click to open Google Maps"
+                 style="width:120px;height:80px;border-radius:8px;cursor:pointer;transition:transform .2s ease;display:block;"
+                 onmouseover="this.style.transform='scale(1.05)'"
+                 onmouseout="this.style.transform='scale(1)'">
+          </a>
+        </p>
       </div>
       <div>
         <h4>Contact</h4>
         <p><a href="mailto:ibitspupofficial@gmail.com">ibitspupofficial@gmail.com</a></p>
         <p style="margin-top:12px;">
-          <a href="https://www.facebook.com/Ibits16" target="_blank" rel="noopener" style="display:inline-block;margin-right:12px;color:inherit;transition:color .2s ease;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='inherit'">Facebook</a>
+          <a href="https://www.facebook.com/Ibits16"
+             target="_blank"
+             rel="noopener"
+             style="display:inline-block;margin-right:12px;color:inherit;transition:color .2s ease;"
+             onmouseover="this.style.color='var(--gold)'"
+             onmouseout="this.style.color='inherit'">Facebook</a>
         </p>
       </div>
     </div>
-    <p class="copy">&copy; <?= date('Y') ?> iBITS PORTAL. Institute of Brilliant Information Technology Students. All rights reserved.</p>
+    <p class="copy">Institute of Brilliant Information Technology Students Portal @ 2026. All rights reserved.</p>
   </div>
 </footer>
 <?php }
