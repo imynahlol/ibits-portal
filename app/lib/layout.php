@@ -261,11 +261,13 @@ function public_footer(): void { ?>
         <p>
           <a href="https://www.google.com/maps/search/?api=1&amp;query=Yumul+St+Brgy+Burgos+PUP+Lopez+Quezon"
              target="_blank"
-             rel="noopener"
+             rel="noopener noreferrer"
              title="View location on Google Maps">
-            <img src="<?= e(asset('assets/images/map.png')) ?>"
+            <<img src="http://localhost/ibits-portal/public/assets/images/map.png"
                  alt="Map location: Yumul St. Brgy. Burgos, PUP Lopez, Quezon"
-                 style="width:120px;height:80px;object-fit:cover;border-radius:8px;cursor:pointer;transition:transform .2s ease;display:block;"
+                 width="120"
+                 height="120"
+                 style="width:120px;height:120px;object-fit:cover;border-radius:8px;cursor:pointer;transition:transform .2s ease;display:block;"
                  onmouseover="this.style.transform='scale(1.05)'"
                  onmouseout="this.style.transform='scale(1)'">
           </a>
@@ -291,7 +293,7 @@ function public_footer(): void { ?>
         <p style="margin-top:12px;">
           <a href="https://www.facebook.com/Ibits16"
              target="_blank"
-             rel="noopener"
+             rel="noopener noreferrer"
              title="Visit iBITS on Facebook"
              aria-label="Visit iBITS on Facebook"
              style="display:inline-flex;align-items:center;gap:6px;margin-right:12px;color:inherit;text-decoration:none;transition:color .2s ease;"
@@ -311,7 +313,6 @@ function public_footer(): void { ?>
   </div>
 </footer>
 <?php }
-
  
 /**
  * Dashboard shell (sidebar + content) for member and admin pages.
