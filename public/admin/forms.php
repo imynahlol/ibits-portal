@@ -40,11 +40,11 @@ function form_files_migrate(): void {
     }
 
     $columns = [
-        'file_name' => $driver === 'sqlite' ? 'TEXT NULL' : 'VARCHAR(255) NULL',
-        'file_path' => $driver === 'sqlite' ? 'TEXT NULL' : 'VARCHAR(255) NULL',
-        'file_type' => $driver === 'sqlite' ? 'TEXT NULL' : 'VARCHAR(10) NULL',
-        'file_size' => $driver === 'sqlite' ? 'INTEGER NULL' : 'INT NULL',
-        'form_link' => $driver === 'sqlite' ? 'TEXT NULL' : 'VARCHAR(2048) NULL',
+        'file_name' => $driver === 'sqlite' ? 'TEXT' : 'VARCHAR(255) NULL',
+        'file_path' => $driver === 'sqlite' ? 'TEXT' : 'VARCHAR(255) NULL',
+        'file_type' => $driver === 'sqlite' ? 'TEXT' : 'VARCHAR(10) NULL',
+        'file_size' => $driver === 'sqlite' ? 'INTEGER' : 'INT NULL',
+        'form_link' => $driver === 'sqlite' ? 'TEXT' : 'VARCHAR(255) NULL',
     ];
 
     foreach ($columns as $name => $definition) {
@@ -155,7 +155,14 @@ function form_file_delete(?string $stored): void {
     }
 }
 
-form_files_migrate();
+// Run the migration; if it fails, show the reason instead of a blank page.
+try {
+    form_files_migrate();
+} catch (Throwable $exception) {
+    error_log('[iBITS] forms migration failed: ' . $exception->getMessage());
+    http_response_code(500);
+    exit('Forms could not be loaded: ' . htmlspecialchars($exception->getMessage(), ENT_QUOTES, 'UTF-8'));
+}
 
 if (isset($_GET['download'])) {
     $form = q_one('SELECT * FROM forms WHERE id = ?', [(int)$_GET['download']]);
@@ -295,8 +302,8 @@ dash_start('Forms', 'forms');
       <div class="field">
         <label for="attachment-type">Attachment type</label>
         <select id="attachment-type" name="attachment_type" required>
-          <option value="file" <?= !empty($edit['file_path']) ? 'selected' : '' ?>>Upload a file</option>
-          <option value="link" <?= !empty($edit) && empty($edit['file_path']) ? 'selected' : '' ?>>Online link</option>
+          <option value="file" <?= (!$edit || !empty($edit['file_path'])) ? 'selected' : '' ?>>Upload a file</option>
+          <option value="link" <?= ($edit && empty($edit['file_path'])) ? 'selected' : '' ?>>Online link</option>
         </select>
       </div>
     </div>
@@ -357,7 +364,7 @@ dash_start('Forms', 'forms');
         <td>
           <?php if ($filePath !== ''): ?>
             <a class="btn btn-line btn-sm" href="<?= e(url('admin/forms.php?download=' . (int)$form['id'])) ?>">Download <?= e(strtoupper((string)$form['file_type'])) ?></a>
-            <small><?= e($form['file_name'] ?? '') ?><?= !empty($form['file_size']) ? ' Â· ' . e(form_size_label((int)$form['file_size'])) : '' ?></small>
+            <small><?= e($form['file_name'] ?? '') ?><?= !empty($form['file_size']) ? ' &middot; ' . e(form_size_label((int)$form['file_size'])) : '' ?></small>
           <?php elseif ($link !== ''): ?>
             <a class="btn btn-line btn-sm" href="<?= e($link) ?>" target="_blank" rel="noopener noreferrer">Open link</a>
           <?php else: ?>
