@@ -1,14 +1,5 @@
-/* =============================================================
-   iBITS Portal — app.js
-   Reads user/session data from <body data-*> set by PHP.
-   ============================================================= */
-
 (function () {
     'use strict';
-
-    /* ---------------------------------------------------------
-       1. Boot config — read from <body data-*>
-       --------------------------------------------------------- */
     const boot = document.body.dataset;
 
     const APP = {
@@ -29,9 +20,6 @@
 
     const has = p => APP.perms.includes(p);
 
-    /* ---------------------------------------------------------
-       2. DOM shortcuts
-       --------------------------------------------------------- */
     const $  = s => document.querySelector(s);
     const $$ = s => [...document.querySelectorAll(s)];
     const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({
@@ -46,9 +34,6 @@
     const views            = $$('.view-section');
     const navLinks         = $$('.nav-link');
 
-    /* ---------------------------------------------------------
-       3. UI state — driven by APP, not hardcoded
-       --------------------------------------------------------- */
     function updateUIState() {
         if (APP.isLoggedIn) {
             sidebar && sidebar.classList.remove('hidden');
@@ -68,9 +53,6 @@
         }
     }
 
-    /* ---------------------------------------------------------
-       4. Navigation
-       --------------------------------------------------------- */
     function navigate(viewId) {
         views.forEach(v => {
             v.classList.remove('active');
@@ -114,9 +96,6 @@
         document.documentElement.classList.toggle('dark');
     }
 
-    /* ---------------------------------------------------------
-       5. Custom modal
-       --------------------------------------------------------- */
     const modal = $('#custom-modal');
     const modalContent = $('#modal-content');
     let confirmCallback = null;
@@ -148,14 +127,10 @@
         closeModal();
     }
 
-    /* ---------------------------------------------------------
-       6. iBITS feature layer (unchanged from your v4 additions)
-       --------------------------------------------------------- */
     const LOGO = 'assets/images/ibits-logo.png';
     const RM = matchMedia('(prefers-reduced-motion:reduce)').matches;
     const AI_CONFIG = { endpoint: '' };
 
-    /* ---- Data (replace with API fetch when backend is ready) ---- */
     const DATA = window.__PORTAL_DATA__ || {
         population: {
             program: { BSIT: 850, DIT: 390 },
