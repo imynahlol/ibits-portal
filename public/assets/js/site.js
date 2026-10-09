@@ -41,24 +41,46 @@
     fill();
   }
 
-  /* Population counters */
-  var nums = document.querySelectorAll('[data-count]');
-  function run(el) {
-    var to = +el.dataset.count;
-    if (RM || !to) { el.textContent = to; return; }
-    var t0 = performance.now(), dur = 1100;
-    (function step(t) {
-      var p = Math.min(1, (t - t0) / dur);
-      el.textContent = Math.round(to * (1 - Math.pow(1 - p, 3)));
-      if (p < 1) requestAnimationFrame(step);
-    })(t0);
+  /* ---------- Population counters (scroll-triggered) ---------- */
+  function animateCounters() {
+    document.querySelectorAll('.pop-num[data-target]').forEach(function (el) {
+      if (el.dataset.animated) return;
+      el.dataset.animated = '1';
+
+      var target   = parseInt(el.dataset.target, 10) || 0;
+      var duration = 1500;
+      var startTime = performance.now();
+
+      (function tick(now) {
+        var progress = Math.min((now - startTime) / duration, 1);
+        var eased    = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.round(target * eased).toLocaleString();
+        if (progress < 1) requestAnimationFrame(tick);
+        else el.textContent = target.toLocaleString();
+      })(startTime);
+    });
   }
-  if ('IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (es) {
-      es.forEach(function (e) { if (e.isIntersecting) { run(e.target); io.unobserve(e.target); } });
-    }, { threshold: .4 });
-    nums.forEach(function (n) { io.observe(n); });
-  } else nums.forEach(run);
+
+  function setupPopObserver() {
+    var section = document.querySelector('.pop-section');
+    if (!section) return;
+
+    if (!('IntersectionObserver' in window)) { animateCounters(); return; }
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { animateCounters(); io.disconnect(); }
+      });
+    }, { threshold: 0.3 });
+    io.observe(section);
+
+    /* Safety net: if already visible on load */
+    setTimeout(function () {
+      var r = section.getBoundingClientRect();
+      if (r.top < innerHeight && r.bottom > 0) { animateCounters(); io.disconnect(); }
+    }, 400);
+  }
+  setupPopObserver();
 
   /* Binary rain */
   var canvases = [].slice.call(document.querySelectorAll('canvas.rain'));
