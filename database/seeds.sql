@@ -17,973 +17,728 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- ==========================================
 -- SET PASSWORD HASHES
 -- ==========================================
-SET @pw = '$2y$12$2bWkB.8FydBaORJzl13nP.A0qQrViA985uMTHBXJIikvY465Ocqye';
+SET @pw        = '$2y$12$2bWkB.8FydBaORJzl13nP.A0qQrViA985uMTHBXJIikvY465Ocqye';
 SET @member_pw = '$2y$10$CfV2r0Ai7XNoVAAS0smmDO3yl3Br96iQVCjuQujTwoXUMeov8MqUW';
 
 -- ==========================================
 -- 1. INSERT OFFICERS (Admin Access)
 -- ==========================================
 INSERT INTO `users` (
-    `full_name`, `id_number`, `sex`, `program`, `year_level`, `password_hash`, `account_type`, `position`, `must_change_password`
+    `full_name`, `id_number`, `sex`, `program`, `year_level`,
+    `password_hash`, `account_type`, `position`, `must_change_password`
 ) VALUES
-('Allea Grace C. Ranillo','2024-00534-LQ-0','Female','BSIT','3rd Year',@pw,'admin','President',1),
-('Johahnie Ynah Marise C. Gilbuena','2025-00122-LQ-0','Female','BSIT','2nd Year',@pw,'admin','Vice President',1),
-('EIyza Irene B. Ventura','2025-00121-LQ-0','Female','BSIT','2nd Year',@pw,'admin','Secretary',1),
-('Irish Nicole J. Japone','2025-00127-LQ-0','Female','BSIT','2nd Year',@pw,'admin','Treasurer',1),
-('Harvey S. Pumariga','2025-00589-LQ-0','Male','DIT','2nd Year',@pw,'admin','Auditor',1),
-('Angel Ivy D. Prada','2025-00138-LQ-0','Female','BSIT','2nd Year',@pw,'admin','STRAW',1),
-('Kathleen V. Maceda','2025-00125-LQ-0','Female','BSIT','2nd Year',@pw,'admin','STRAW',1);
+    ('Allea Grace C. Ranillo',           '2024-00534-LQ-0', 'Female', 'BSIT', '3rd Year', @pw, 'admin', 'President',      1),
+    ('Johahnie Ynah Marise C. Gilbuena', '2025-00122-LQ-0', 'Female', 'BSIT', '2nd Year', @pw, 'admin', 'Vice President', 1),
+    ('EIyza Irene B. Ventura',           '2025-00121-LQ-0', 'Female', 'BSIT', '2nd Year', @pw, 'admin', 'Secretary',      1),
+    ('Irish Nicole J. Japone',           '2025-00127-LQ-0', 'Female', 'BSIT', '2nd Year', @pw, 'admin', 'Treasurer',      1),
+    ('Harvey S. Pumariga',               '2025-00589-LQ-0', 'Male',   'DIT',  '2nd Year', @pw, 'admin', 'Auditor',        1),
+    ('Angel Ivy D. Prada',               '2025-00138-LQ-0', 'Female', 'BSIT', '2nd Year', @pw, 'admin', 'STRAW',          1),
+    ('Kathleen V. Maceda',               '2025-00125-LQ-0', 'Female', 'BSIT', '2nd Year', @pw, 'admin', 'STRAW',          1);
 
 -- ==========================================
 -- 2. INSERT EVENTS
 -- ==========================================
 INSERT INTO `events` (
-    `title`, `description`, `category`, `start_datetime`, `end_datetime`, `location`, `is_public`, `created_by`
+    `title`, `description`, `category`, `start_datetime`, `end_datetime`,
+    `location`, `is_public`, `created_by`
 ) VALUES
-(
-    'iBITS hackathon Booth', 
-    'Persons Involved: iBITS Organization Officers and iBITS Members. Remarks: Successfully showcased iBITS\' technical skills and creativity, engaging participants and promoting innovation within the campus.', 
-    'Booth/Exhibit', '2024-09-09 08:00:00', NULL, 'PUP Lopez Campus | Gymnasium', 1, 1
-),
-(
-    'Participation in PUP First year and Parents Orientation', 
-    'Persons Involved: iBITS Organization Advisers, iBITS Organization Officers and iBITS Members. Remarks: Actively welcomed and guided new students and parents, fostering a warm and informative introduction to PUP Lopez.', 
-    'Orientation', '2024-09-17 08:00:00', NULL, 'PUP Lopez Campus | Gymnasium', 1, 1
-),
-(
-    'iBITS Creativity challenge', 
-    'Persons Involved: iBITS Organization Officers and iBITS Members. Remarks: Encouraged members to express creativity skills through engaging online challenge.', 
-    'Competition', '2024-09-22 08:00:00', NULL, 'iBITS Facebook Page', 1, 1
-),
-(
-    'World Teacher\'s Day Celebration', 
-    'Persons Involved: iBITS Organization Advisers, iBITS Organization Officers and iBITS Members. Remarks: Honored and appreciated faculty members for their dedication and invaluable contributions to education.', 
-    'Celebration', '2024-10-05 08:00:00', NULL, 'PUP Lopez Campus | Gymnasium', 1, 1
-),
-(
-    'General Assembly & Acceptance Ceremony', 
-    'Persons Involved: iBITS Organization Advisers, iBITS Organization Officers and iBITS Members. Remarks: Formally inducted new members, strengthening unity and commitment to the organization\'s mission and vision.', 
-    'Ceremony', '2024-10-16 08:00:00', NULL, 'PUP Lopez Campus | Grandstand', 1, 1
-),
-(
-    'Acquaintance Party & Turnover Ceremony', 
-    'Persons Involved: iBITS Organization Advisers, iBITS Organization Officers and iBITS Members. Remarks: Provided a platform for building camaraderie among members and ensuring a smooth leadership transition.', 
-    'Ceremony', '2024-10-17 08:00:00', NULL, 'PUP Lopez Campus | Gymnasium', 1, 1
-),
-(
-    'iBITS Donation Drive', 
-    'Persons Involved: iBITS Organization Officers and iBITS Members. Remarks: Demonstrated compassion and social responsibility through collective efforts to help to our member.', 
-    'Outreach', '2024-10-18 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
-),
-(
-    'iBITS NGL & iBITS SMP', 
-    'Persons Involved: iBITS Organization Officers and iBITS Members. Remarks: Engaged members and followers through interactive and fun online content, fostering stronger digital community ties.', 
-    'Online Activity', '2024-10-22 08:00:00', NULL, 'iBITS Facebook Page', 1, 1
-),
-(
-    'October Month-End General Cleaning', 
-    'Persons Involved: iBITS Organization Officers and iBITS Members. Remarks: Promoted cleanliness and teamwork in maintaining an orderly campus environment.', 
-    'Community Service', '2024-10-29 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
-),
-(
-    'Screening for Ginoo at Binibining iBITS', 
-    'Persons Involved: iBITS Organization Advisers, iBITS Organization Officers and iBITS Members. Remarks: Highlighted talent, confidence, and personality in preparation for the organization\'s pageant event.', 
-    'Pageant', '2024-11-13 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
-),
-(
-    'November Month-End General Cleaning', 
-    'Persons Involved: iBITS Organization Officers and iBITS Members. Remarks: Continued efforts in campus upkeep, reflecting the organization\'s commitment to a clean and conducive learning space.', 
-    'Community Service', '2024-11-26 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
-),
-(
-    'iBITS x PicsPro | Cybersecurity Awareness Seminar – Don Emilio Elem.', 
-    'Persons Involved: iBITS Organization Advisers and iBITS Organization Officers. Remarks: Extended technical knowledge to the community, promoting online safety and awareness among students.', 
-    'Seminar', '2024-12-05 08:00:00', NULL, 'Don Emilio Lopez Quezon', 1, 1
-),
-(
-    'Flag Raising Ceremony', 
-    'Persons Involved: iBITS Organization Advisers, iBITS Organization Officers and iBITS Members. Remarks: Displayed patriotism and organizational unity in honoring the national flag and values it represents.', 
-    'Flag Ceremony', '2024-12-09 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
-),
-(
-    'Participation in Dunong Festival – Short Film Contest', 
-    'Persons Involved: iBITS Organization Officers. Remarks: Showcased creativity and storytelling skills while contributing to the municipality\'s cultural celebration.', 
-    'Cultural Event', '2024-12-14 08:00:00', NULL, 'Municipality of Lopez Quezon', 1, 1
-),
-(
-    'Participation in PUPLC – CSC Gift Giving', 
-    'Persons Involved: iBITS Organization Officers. Remarks: Spread joy and generosity through active participation in a meaningful community outreach activity.', 
-    'Outreach', '2024-12-15 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
-),
-(
-    'December Month-End General Cleaning', 
-    'Persons Involved: iBITS Organization Officers and iBITS Members. Remarks: Closed the year with dedication to campus maintenance and collaborative effort among members.', 
-    'Community Service', '2024-12-17 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
-),
-(
-    'Ginoo at Binibining iBITS 2025', 
-    'Persons Involved: iBITS Organization Advisers, iBITS Organization Officers and iBITS Members. Remarks: Celebrated talent, beauty, and confidence while fostering school spirit and entertainment.', 
-    'Pageant', '2024-12-18 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
-),
-(
-    'iBITS Sportsfest 2025', 
-    'Persons Involved: iBITS Organization Officers and iBITS Members. Remarks: Promoted sportsmanship, physical fitness, and camaraderie among members through friendly competitions.', 
-    'Sports', '2025-01-11 08:00:00', NULL, 'PUP Lopez Campus | Gymnasium', 1, 1
-),
-(
-    'Participation in Indak Festival', 
-    'Persons Involved: iBITS Organization Officers and iBITS Members. Remarks: Contributed energy and creativity in a vibrant cultural dance showcase, representing the organization with pride.', 
-    'Cultural Event', '2025-02-10 08:00:00', NULL, 'PUP Lopez Campus | Gymnasium', 1, 1
-),
-(
-    'Participation in PUP Idol', 
-    'Persons Involved: iBITS Organization Officers and iBITS Members. Remarks: Supported and showcased musical talent, adding to the festive atmosphere of the campus celebration.', 
-    'Cultural Event', '2025-02-14 08:00:00', NULL, 'PUP Lopez Campus | Gymnasium', 1, 1
-),
-(
-    'Participation in Ginoo at Binibining PUP 2025', 
-    'Persons Involved: iBITS Organization Advisers, iBITS Organization Officers and iBITS Members. Remarks: Represented the organization with grace and enthusiasm in a university-wide pageant event.', 
-    'Pageant', '2025-02-14 08:00:00', NULL, 'PUP Lopez Campus | Gymnasium', 1, 1
-),
-(
-    'iBITS Organization Day', 
-    'Persons Involved: iBITS Organization Advisers, iBITS Organization Officers and iBITS Members. Remarks: Actively welcomed and guided new students and parents, fostering a warm and informative introduction to PUP Lopez.', 
-    'Celebration', '2025-06-05 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
-),
-(
-    'IBITS Welcoming of Freshmen', 
-    'Objectives: Welcome incoming students; introduce org mission, officers, and membership process; boost member engagement. Strategies: Student Orientation and meetings with upperclassmen. Persons Involved: IBITS officers and Members.', 
-    'Orientation', '2026-08-25 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
-),
-(
-    'IBITS Merchandise & Project Showcase', 
-    'Objectives: Showcase and sell IBITS merchandise while hosting fun and educational showcasing of previous projects of students. Strategies: Opening of the IBITS booth, display of student projects, sale of merchandise, interactive games. Budget: Php 4,000.00. Persons Involved: IBITS Officers and Members.', 
-    'Fundraising', '2026-08-25 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
-),
-(
-    'iBITS Parents Orientation', 
-    'Objectives: Introduce the iBITS organization to parents and guardians, present its goals, planned activities, and encourage parental support. Strategies: Conduct an orientation program featuring iBITS advisers, present the annual work program, and hold an open forum. Budget: Php 3,000.00. Persons Involved: iBITS Advisers and Parents/Guardians of Freshmen.', 
-    'Orientation', '2026-08-26 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
-),
-(
-    'iBITS Turn Over Ceremony', 
-    'Objectives: Officially transfer duties and responsibilities to new elected leaders. Strategies: Give Certificate of Appreciation for outgoing officers to honor their service. A message for the new elected officers from the previous leaders. Budget: Php 2,500.00. Persons Involved: iBITS Advisers, Outgoing Officers & Newly Elected Officers.', 
-    'Ceremony', '2026-09-03 08:00:00', NULL, 'Online via Microsoft Teams', 1, 1
-),
-(
-    'iBITS General Assembly', 
-    'Objectives: Present accomplishments, approve semester work programs, and orient incoming officers and fun games. Strategies: Hybrid meeting (Microsoft Teams + FB Live), presentation of reports, Q&A. Budget: Php 1,000.00. Persons Involved: iBITS Advisers, Members & Organization Officers.', 
-    'Meeting', '2026-09-03 08:00:00', NULL, 'Online via Microsoft Teams', 1, 1
-),
-(
-    'Screening for Mr. & Ms. iBITS', 
-    'Objectives: Encourage talent, leadership, and positive representation of iBITS. Strategies: Screening & Q&A finals. Budget: Php 8,000.00. Persons Involved: iBITS Officers, Participants, Advisers and Invited Guest.', 
-    'Pageant', '2026-11-09 08:00:00', NULL, 'PUP Lopez Campus Engineering Building (Room 209)', 1, 1
-),
-(
-    'Flag Raising Ceremony', 
-    'Objectives: Encourage a sense of national identity and pride within the school community. Strategies: Ensure punctuality and prepare microphones, and speakers. Budget: Php 3,000. Persons Involved: iBITS officers, Members, Advisers & SYNERTECH Organization.', 
-    'Flag Ceremony', '2026-12-01 07:30:00', NULL, 'PUP Quadrangle', 1, 1
-),
-(
-    'Kamustahan 1.0 (End of 1st Sem Check-in)', 
-    'Objectives: Check the well-being of members post-semester. Strategies: Zoom session, feedback forms, fun activities. Budget: Php 2,000.00. Persons Involved: iBITS officers and Members.', 
-    'Meeting', '2026-12-19 08:00:00', NULL, 'Online via Microsoft Teams', 1, 1
-),
-(
-    'Monthly Zumba', 
-    'Objectives: Promote physical wellness of members. Strategies: Invite members to participate in group activity as part of collective engagement and collaboration strategy. Budget: Php 2,000. Persons Involved: iBITS officers, members, Advisers, iCEPT Organization & YES Organization.', 
-    'Wellness', '2027-01-22 06:30:00', NULL, 'PUP Quadrangle', 1, 1
-),
-(
-    'iBITS General Assembly', 
-    'Objectives: Present accomplishments, approve semester work programs, and orient incoming officers and fun games. Strategies: Hybrid meeting (Microsoft Teams + FB Live), presentation of reports, Q&A. Budget: Php 2,500.00. Persons Involved: iBITS Advisers, Members & Organization Officers.', 
-    'Meeting', '2027-01-23 08:00:00', NULL, 'Online via Microsoft Teams', 1, 1
-),
-(
-    'ICT Celebration (Organization Day & iBITS Night)', 
-    'Objectives: Encourage collaborative engagement between all members through various activities & Official Acceptance of Freshmen as new members. Strategies: One-day event filled with exciting activities, games, contests, and collaborative activities. Budget: Php 45,000.00. Persons Involved: iBITS officers, Professors, and Members.', 
-    'Celebration', '2027-02-20 08:00:00', NULL, 'PUP Lopez Campus Gymnasium, And Grandstand', 1, 1
-),
-(
-    'First Friday Holy Mass', 
-    'Objectives: Provide spiritual support & community bonding for members. Strategies: Coordinate with campus chaplain; simple prayer service. Budget: Php 5,000. Persons Involved: iBITS officers, Members, Adviser, & IEEE Organization.', 
-    'Religious', '2027-04-02 08:00:00', NULL, 'PUP Gymnasium', 1, 1
-),
-(
-    'Meeting De Avance', 
-    'Objectives: Provide candidates an opportunity to present their platforms. Strategies: Organize an online meeting to allow new candidates to present their platforms and engage with organization members and advisers. Budget: Php 1,000.00. Persons Involved: iBITS Newly Elected Officers, members, and Advisers.', 
-    'Meeting', '2027-04-08 08:00:00', NULL, 'Online via Microsoft Teams', 1, 1
-),
-(
-    'iBITS Election', 
-    'Objectives: Ensure a transparent selection of newly elected officers. Strategies: Conduct an accessible and organized online election process. Persons Involved: iBITS Officers, Newly Elected Officers, Members, and Advisers.', 
-    'Election', '2027-04-10 08:00:00', NULL, 'Online via Google Form', 1, 1
-),
-(
-    'Turn Over Ceremony', 
-    'Objectives: Officially transfer duties and responsibilities to new elected leaders. Strategies: Give Certificate of Appreciation for outgoing officers to honor their service. A message for the new elected officers from the previous leaders. Budget: Php 5,000.00. Persons Involved: iBITS Newly Elected Officers, iBITS Former Officers, and Advisers.', 
-    'Ceremony', '2027-04-30 08:00:00', NULL, 'Online via Microsoft Teams', 1, 1
-),
-(
-    'Kamustahan 2.0 (End of 2nd Sem Check-in)', 
-    'Objectives: Check the well-being of members post-semester. Strategies: Zoom session, feedback forms, fun activities. Budget: Php 2,000.00. Persons Involved: iBITS officers and Members.', 
-    'Meeting', '2027-05-29 08:00:00', NULL, 'Online via Microsoft Teams', 1, 1
-),
-(
-    'Hackathon: Build as One', 
-    '24 hours of building together.', 
-    'Competition', 
-    '2026-12-05 08:00:00', 
-    '2026-12-06 08:00:00', 
-    'Computer Lab', 
-    1, 
-    1
-);
+    (
+        'iBITS hackathon Booth',
+        'Persons Involved: iBITS Organization Officers and iBITS Members. Remarks: Successfully showcased iBITS\' technical skills and creativity, engaging participants and promoting innovation within the campus.',
+        'Booth/Exhibit', '2024-09-09 08:00:00', NULL, 'PUP Lopez Campus | Gymnasium', 1, 1
+    ),
+    (
+        'Participation in PUP First year and Parents Orientation',
+        'Persons Involved: iBITS Organization Advisers, iBITS Organization Officers and iBITS Members. Remarks: Actively welcomed and guided new students and parents, fostering a warm and informative introduction to PUP Lopez.',
+        'Orientation', '2024-09-17 08:00:00', NULL, 'PUP Lopez Campus | Gymnasium', 1, 1
+    ),
+    (
+        'iBITS Creativity challenge',
+        'Persons Involved: iBITS Organization Officers and iBITS Members. Remarks: Encouraged members to express creativity skills through engaging online challenge.',
+        'Competition', '2024-09-22 08:00:00', NULL, 'iBITS Facebook Page', 1, 1
+    ),
+    (
+        'World Teacher\'s Day Celebration',
+        'Persons Involved: iBITS Organization Advisers, iBITS Organization Officers and iBITS Members. Remarks: Honored and appreciated faculty members for their dedication and invaluable contributions to education.',
+        'Celebration', '2024-10-05 08:00:00', NULL, 'PUP Lopez Campus | Gymnasium', 1, 1
+    ),
+    (
+        'General Assembly & Acceptance Ceremony',
+        'Persons Involved: iBITS Organization Advisers, iBITS Organization Officers and iBITS Members. Remarks: Formally inducted new members, strengthening unity and commitment to the organization\'s mission and vision.',
+        'Ceremony', '2024-10-16 08:00:00', NULL, 'PUP Lopez Campus | Grandstand', 1, 1
+    ),
+    (
+        'Acquaintance Party & Turnover Ceremony',
+        'Persons Involved: iBITS Organization Advisers, iBITS Organization Officers and iBITS Members. Remarks: Provided a platform for building camaraderie among members and ensuring a smooth leadership transition.',
+        'Ceremony', '2024-10-17 08:00:00', NULL, 'PUP Lopez Campus | Gymnasium', 1, 1
+    ),
+    (
+        'iBITS Donation Drive',
+        'Persons Involved: iBITS Organization Officers and iBITS Members. Remarks: Demonstrated compassion and social responsibility through collective efforts to help to our member.',
+        'Outreach', '2024-10-18 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
+    ),
+    (
+        'iBITS NGL & iBITS SMP',
+        'Persons Involved: iBITS Organization Officers and iBITS Members. Remarks: Engaged members and followers through interactive and fun online content, fostering stronger digital community ties.',
+        'Online Activity', '2024-10-22 08:00:00', NULL, 'iBITS Facebook Page', 1, 1
+    ),
+    (
+        'October Month-End General Cleaning',
+        'Persons Involved: iBITS Organization Officers and iBITS Members. Remarks: Promoted cleanliness and teamwork in maintaining an orderly campus environment.',
+        'Community Service', '2024-10-29 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
+    ),
+    (
+        'Screening for Ginoo at Binibining iBITS',
+        'Persons Involved: iBITS Organization Advisers, iBITS Organization Officers and iBITS Members. Remarks: Highlighted talent, confidence, and personality in preparation for the organization\'s pageant event.',
+        'Pageant', '2024-11-13 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
+    ),
+    (
+        'November Month-End General Cleaning',
+        'Persons Involved: iBITS Organization Officers and iBITS Members. Remarks: Continued efforts in campus upkeep, reflecting the organization\'s commitment to a clean and conducive learning space.',
+        'Community Service', '2024-11-26 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
+    ),
+    (
+        'iBITS x PicsPro | Cybersecurity Awareness Seminar – Don Emilio Elem.',
+        'Persons Involved: iBITS Organization Advisers and iBITS Organization Officers. Remarks: Extended technical knowledge to the community, promoting online safety and awareness among students.',
+        'Seminar', '2024-12-05 08:00:00', NULL, 'Don Emilio Lopez Quezon', 1, 1
+    ),
+    (
+        'Flag Raising Ceremony',
+        'Persons Involved: iBITS Organization Advisers, iBITS Organization Officers and iBITS Members. Remarks: Displayed patriotism and organizational unity in honoring the national flag and values it represents.',
+        'Flag Ceremony', '2024-12-09 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
+    ),
+    (
+        'Participation in Dunong Festival – Short Film Contest',
+        'Persons Involved: iBITS Organization Officers. Remarks: Showcased creativity and storytelling skills while contributing to the municipality\'s cultural celebration.',
+        'Cultural Event', '2024-12-14 08:00:00', NULL, 'Municipality of Lopez Quezon', 1, 1
+    ),
+    (
+        'Participation in PUPLC – CSC Gift Giving',
+        'Persons Involved: iBITS Organization Officers. Remarks: Spread joy and generosity through active participation in a meaningful community outreach activity.',
+        'Outreach', '2024-12-15 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
+    ),
+    (
+        'December Month-End General Cleaning',
+        'Persons Involved: iBITS Organization Officers and iBITS Members. Remarks: Closed the year with dedication to campus maintenance and collaborative effort among members.',
+        'Community Service', '2024-12-17 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
+    ),
+    (
+        'Ginoo at Binibining iBITS 2025',
+        'Persons Involved: iBITS Organization Advisers, iBITS Organization Officers and iBITS Members. Remarks: Celebrated talent, beauty, and confidence while fostering school spirit and entertainment.',
+        'Pageant', '2024-12-18 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
+    ),
+    (
+        'iBITS Sportsfest 2025',
+        'Persons Involved: iBITS Organization Officers and iBITS Members. Remarks: Promoted sportsmanship, physical fitness, and camaraderie among members through friendly competitions.',
+        'Sports', '2025-01-11 08:00:00', NULL, 'PUP Lopez Campus | Gymnasium', 1, 1
+    ),
+    (
+        'Participation in Indak Festival',
+        'Persons Involved: iBITS Organization Officers and iBITS Members. Remarks: Contributed energy and creativity in a vibrant cultural dance showcase, representing the organization with pride.',
+        'Cultural Event', '2025-02-10 08:00:00', NULL, 'PUP Lopez Campus | Gymnasium', 1, 1
+    ),
+    (
+        'Participation in PUP Idol',
+        'Persons Involved: iBITS Organization Officers and iBITS Members. Remarks: Supported and showcased musical talent, adding to the festive atmosphere of the campus celebration.',
+        'Cultural Event', '2025-02-14 08:00:00', NULL, 'PUP Lopez Campus | Gymnasium', 1, 1
+    ),
+    (
+        'Participation in Ginoo at Binibining PUP 2025',
+        'Persons Involved: iBITS Organization Advisers, iBITS Organization Officers and iBITS Members. Remarks: Represented the organization with grace and enthusiasm in a university-wide pageant event.',
+        'Pageant', '2025-02-14 08:00:00', NULL, 'PUP Lopez Campus | Gymnasium', 1, 1
+    ),
+    (
+        'iBITS Organization Day',
+        'Persons Involved: iBITS Organization Advisers, iBITS Organization Officers and iBITS Members. Remarks: Actively welcomed and guided new students and parents, fostering a warm and informative introduction to PUP Lopez.',
+        'Celebration', '2025-06-05 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
+    ),
+    (
+        'IBITS Welcoming of Freshmen',
+        'Objectives: Welcome incoming students; introduce org mission, officers, and membership process; boost member engagement. Strategies: Student Orientation and meetings with upperclassmen. Persons Involved: IBITS officers and Members.',
+        'Orientation', '2026-08-25 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
+    ),
+    (
+        'IBITS Merchandise & Project Showcase',
+        'Objectives: Showcase and sell IBITS merchandise while hosting fun and educational showcasing of previous projects of students. Strategies: Opening of the IBITS booth, display of student projects, sale of merchandise, interactive games. Budget: Php 4,000.00. Persons Involved: IBITS Officers and Members.',
+        'Fundraising', '2026-08-25 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
+    ),
+    (
+        'iBITS Parents Orientation',
+        'Objectives: Introduce the iBITS organization to parents and guardians, present its goals, planned activities, and encourage parental support. Strategies: Conduct an orientation program featuring iBITS advisers, present the annual work program, and hold an open forum. Budget: Php 3,000.00. Persons Involved: iBITS Advisers and Parents/Guardians of Freshmen.',
+        'Orientation', '2026-08-26 08:00:00', NULL, 'PUP Lopez Campus', 1, 1
+    ),
+    (
+        'iBITS Turn Over Ceremony',
+        'Objectives: Officially transfer duties and responsibilities to new elected leaders. Strategies: Give Certificate of Appreciation for outgoing officers to honor their service. A message for the new elected officers from the previous leaders. Budget: Php 2,500.00. Persons Involved: iBITS Advisers, Outgoing Officers & Newly Elected Officers.',
+        'Ceremony', '2026-09-03 08:00:00', NULL, 'Online via Microsoft Teams', 1, 1
+    ),
+    (
+        'iBITS General Assembly',
+        'Objectives: Present accomplishments, approve semester work programs, and orient incoming officers and fun games. Strategies: Hybrid meeting (Microsoft Teams + FB Live), presentation of reports, Q&A. Budget: Php 1,000.00. Persons Involved: iBITS Advisers, Members & Organization Officers.',
+        'Meeting', '2026-09-03 08:00:00', NULL, 'Online via Microsoft Teams', 1, 1
+    ),
+    (
+        'Screening for Mr. & Ms. iBITS',
+        'Objectives: Encourage talent, leadership, and positive representation of iBITS. Strategies: Screening & Q&A finals. Budget: Php 8,000.00. Persons Involved: iBITS Officers, Participants, Advisers and Invited Guest.',
+        'Pageant', '2026-11-09 08:00:00', NULL, 'PUP Lopez Campus Engineering Building (Room 209)', 1, 1
+    ),
+    (
+        'Flag Raising Ceremony',
+        'Objectives: Encourage a sense of national identity and pride within the school community. Strategies: Ensure punctuality and prepare microphones, and speakers. Budget: Php 3,000. Persons Involved: iBITS officers, Members, Advisers & SYNERTECH Organization.',
+        'Flag Ceremony', '2026-12-01 07:30:00', NULL, 'PUP Quadrangle', 1, 1
+    ),
+    (
+        'Kamustahan 1.0 (End of 1st Sem Check-in)',
+        'Objectives: Check the well-being of members post-semester. Strategies: Zoom session, feedback forms, fun activities. Budget: Php 2,000.00. Persons Involved: iBITS officers and Members.',
+        'Meeting', '2026-12-19 08:00:00', NULL, 'Online via Microsoft Teams', 1, 1
+    ),
+    (
+        'Monthly Zumba',
+        'Objectives: Promote physical wellness of members. Strategies: Invite members to participate in group activity as part of collective engagement and collaboration strategy. Budget: Php 2,000. Persons Involved: iBITS officers, members, Advisers, iCEPT Organization & YES Organization.',
+        'Wellness', '2027-01-22 06:30:00', NULL, 'PUP Quadrangle', 1, 1
+    ),
+    (
+        'iBITS General Assembly',
+        'Objectives: Present accomplishments, approve semester work programs, and orient incoming officers and fun games. Strategies: Hybrid meeting (Microsoft Teams + FB Live), presentation of reports, Q&A. Budget: Php 2,500.00. Persons Involved: iBITS Advisers, Members & Organization Officers.',
+        'Meeting', '2027-01-23 08:00:00', NULL, 'Online via Microsoft Teams', 1, 1
+    ),
+    (
+        'ICT Celebration (Organization Day & iBITS Night)',
+        'Objectives: Encourage collaborative engagement between all members through various activities & Official Acceptance of Freshmen as new members. Strategies: One-day event filled with exciting activities, games, contests, and collaborative activities. Budget: Php 45,000.00. Persons Involved: iBITS officers, Professors, and Members.',
+        'Celebration', '2027-02-20 08:00:00', NULL, 'PUP Lopez Campus Gymnasium, And Grandstand', 1, 1
+    ),
+    (
+        'First Friday Holy Mass',
+        'Objectives: Provide spiritual support & community bonding for members. Strategies: Coordinate with campus chaplain; simple prayer service. Budget: Php 5,000. Persons Involved: iBITS officers, Members, Adviser, & IEEE Organization.',
+        'Religious', '2027-04-02 08:00:00', NULL, 'PUP Gymnasium', 1, 1
+    ),
+    (
+        'Meeting De Avance',
+        'Objectives: Provide candidates an opportunity to present their platforms. Strategies: Organize an online meeting to allow new candidates to present their platforms and engage with organization members and advisers. Budget: Php 1,000.00. Persons Involved: iBITS Newly Elected Officers, members, and Advisers.',
+        'Meeting', '2027-04-08 08:00:00', NULL, 'Online via Microsoft Teams', 1, 1
+    ),
+    (
+        'iBITS Election',
+        'Objectives: Ensure a transparent selection of newly elected officers. Strategies: Conduct an accessible and organized online election process. Persons Involved: iBITS Officers, Newly Elected Officers, Members, and Advisers.',
+        'Election', '2027-04-10 08:00:00', NULL, 'Online via Google Form', 1, 1
+    ),
+    (
+        'Turn Over Ceremony',
+        'Objectives: Officially transfer duties and responsibilities to new elected leaders. Strategies: Give Certificate of Appreciation for outgoing officers to honor their service. A message for the new elected officers from the previous leaders. Budget: Php 5,000.00. Persons Involved: iBITS Newly Elected Officers, iBITS Former Officers, and Advisers.',
+        'Ceremony', '2027-04-30 08:00:00', NULL, 'Online via Microsoft Teams', 1, 1
+    ),
+    (
+        'Kamustahan 2.0 (End of 2nd Sem Check-in)',
+        'Objectives: Check the well-being of members post-semester. Strategies: Zoom session, feedback forms, fun activities. Budget: Php 2,000.00. Persons Involved: iBITS officers and Members.',
+        'Meeting', '2027-05-29 08:00:00', NULL, 'Online via Microsoft Teams', 1, 1
+    ),
+    (
+        'Hackathon: Build as One',
+        '24 hours of building together.',
+        'Competition', '2026-12-05 08:00:00', '2026-12-06 08:00:00', 'Computer Lab', 1, 1
+    );
 
 -- ==========================================
 -- 3. INSERT MEMBERS (Student Accounts)
 -- ==========================================
 INSERT INTO `users` (
-    `full_name`, `id_number`, `sex`, `program`, `year_level`, `password_hash`, `account_type`, `position`, `must_change_password`
+    `full_name`, `id_number`, `sex`, `program`, `year_level`,
+    `password_hash`, `account_type`, `position`, `must_change_password`
 ) VALUES
-('Santino Justin O. Aguilar', '2026-00530-LQ-0','Male', 'BSIT','1st Year','37f5c7a7dd5f5a2d738af37fcf50d9ef2bc7f22de575a53ebf1f72c0cf9aabd5','member','Member',1),
-('Earl Benedict D. Alson', '2026-00510-LQ-0','Male', 'BSIT','1st Year','05409081f99b68ba0f453339c0ed02ccfa95f267f232d4097c4dec0547cb97e1','member','Member',1),
-('John Michael C. Barnuevo', '2026-00491-LQ-0','Male', 'BSIT','1st Year','d76ab7f6f710a9e989b212f284e39e9b04563a07c63c35ba40ed22b69e7591f7','member','Member',1),
-('Marian O. Basco', '2026-00465-LQ-0','Female', 'BSIT','1st Year','bc743ca77044a7ba42567290aded63e1f028830c05408ff27394a4302ed19fd7','member','Member',1),
-('Psalm Rywhel V. Base', '2026-00511-LQ-0','Male', 'BSIT','1st Year','a5ddcbcc61d89325b896bec54f365ae3bb868d92defee73e838e5d3945a23104','member','Member',1),
-('Vince Carlos M. Cabrera', '2026-00490-LQ-0','Male', 'BSIT','1st Year','db9691c60c28cc858ca35905ae2d448e9f66dad292d826495d0037245340ee3f','member','Member',1),
-('Jazryl P. Canzana', '2026-00477-LQ-0','Male', 'BSIT','1st Year','c35a81599eed3ec21985f9277cb437dcb4c526bdedafc03d4bd135a7ddb953ae','member','Member',1),
-('Michael Cedrick R. Carreon', '2026-00508-LQ-0','Male', 'BSIT','1st Year','63c0263df6e622c789ba528295ce00920477f181761a5b2076d7b451c250e52a','member','Member',1),
-('Renz Anthony M. Dapito', '2026-00518-LQ-0','Male', 'BSIT','1st Year','9444dfe0d45b41e2d69d7d759c7e3b1e58ccf7d427e02100c81bfdfde4465e91','member','Member',1),
-('Krizelle Yra O. Dela Cruz', '2026-00470-LQ-0','Female', 'BSIT','1st Year','41ff11fa3baf789923200e08f826d96730c39bb01492f6fe0ac9a29c1ace91dc','member','Member',1),
-('Maria Nicole M. Ebora', '2026-00497-LQ-0','Female', 'BSIT','1st Year','5e32d20c37cf604249227cb3202c61cdb2906cccf92441c18f82a7eefd69d494','member','Member',1),
-('Aeroe James M. Erandio', '2026-00466-LQ-0','Male', 'BSIT','1st Year','c32492f3fd9d79189c98d4fafb405ad6f3e9587e3bf4c9351c737efb2c104806','member','Member',1),
-('Carl Justine R. Garcia', '2026-00535-LQ-0','Male', 'BSIT','1st Year','cbb0e7fd26953121a348e403813269c20442382ef478b0c93fba60f75bb34c5e','member','Member',1),
-('John Kristian R. Garcia', '2026-00495-LQ-0','Male', 'BSIT','1st Year','eee3876b03dea4cfe263c17140c408d71e56fe67c55f22f238ae44994679d30a','member','Member',1),
-('Ceejay S. Glindro', '2026-00474-LQ-0','Male', 'BSIT','1st Year','14846d47fe441012de0c5fb5bcdbd0cfd68bb9a6944a15744a0789fd94ab1279','member','Member',1),
-('Armela Andrea C. Glinoga', '2026-00462-LQ-0','Female', 'BSIT','1st Year','aba360759dfb79a1e0dd7f602669337f6eb806ae2d626c169cac991162d86d6a','member','Member',1),
-('Lord Calex T. Gresola', '2026-00536-LQ-0','Male', 'BSIT','1st Year','aae3513685d739af7455b05c216195d57269b8d98c2fdfac1337d07ef0781d1a','member','Member',1),
-('Pol Julian G. Griego', '2026-00528-LQ-0','Male', 'BSIT','1st Year','8dc64f8c134fa7f0a32592c67a95bc27f93b35ed2bb96dd98c884915d698338d','member','Member',1),
-('Karina Gabrielle A. Hernandez', '2026-00476-LQ-0','Female', 'BSIT','1st Year','339ce6ca6b273550791055540f5de7e8cb8e18cfe342c87701b0a455c2063a08','member','Member',1),
-('Noelle F. Julaton', '2026-00516-LQ-0','Female', 'BSIT','1st Year','16311ff1d2285586ba1811cc814353508851f685b69befe253c70c9403c5b20c','member','Member',1),
-('Paul Rene R. Larcena', '2026-00469-LQ-0','Male', 'BSIT','1st Year','8a1e6a5e9ab7df7dcbfae243a5535a6399c45f7f5f570d2a8741ccfa52d6c8a8','member','Member',1),
-('Noel O. Mancilla', '2026-00479-LQ-0','Male', 'BSIT','1st Year','f486f3dfbffd3eb8ace8c409d460a4859104c2fa298ec754ddeabb2c962438f2','member','Member',1),
-('Nharil Zius P. Manuel', '2026-00501-LQ-0','Male', 'BSIT','1st Year','b3b24e4e9cb7043b29e8c308eaa65c88fcb52bcf45514b70a888361ec1d3a023','member','Member',1),
-('Calvin Lei L. Nollas', '2026-00475-LQ-0','Male', 'BSIT','1st Year','d305fbcbdd75a47ee38acdb5035f0d5a37f3b1667ad40507de21e7fb66a68a45','member','Member',1),
-('Angela M. Paligar', '2026-00488-LQ-0','Female', 'BSIT','1st Year','8130edcd4ff28a7eec694c815d018e3cae1c56f8e9a5c0d51ebfc57c9cf0a8b4','member','Member',1),
-('Rey Daniel B. Raet', '2026-00464-LQ-0','Male', 'BSIT','1st Year','9e2938075ebe8c936c2be04623c57efcca7cb9fd59014bb2ab0c4eb80fe6d69a','member','Member',1),
-('Stephen D. Ramirez', '2026-00499-LQ-0','Male', 'BSIT','1st Year','08df8d8a8ec8eca9a97fe4025b3d842ff41da9f5a0bf52c611758473d427e406','member','Member',1),
-('John Lawrence E. Recomendable', '2026-00473-LQ-0','Male', 'BSIT','1st Year','c555e34a1006c17797d842aa5f00f900511cad9f75249381a7fd3331f6ea999d','member','Member',1),
-('Christian James C. Salandanan', '2026-00493-LQ-0','Male', 'BSIT','1st Year','649c27c1d85812ff48e99e822ffaefbd26a7386a24c14ed7dbf6bfa37111a109','member','Member',1),
-('Shan Angelo F. Santos', '2026-00471-LQ-0','Male', 'BSIT','1st Year','db02e7ff52dae972dbe39d2772fe75e2c72e37062bbf18e77ec412ae3309280b','member','Member',1),
-('Paul Wilbert S. Siat', '2026-00486-LQ-0','Male', 'BSIT','1st Year','d03bd02252dc327f6c043a082f02b30e1d27a91159dfb29658783732c56c8de6','member','Member',1),
-('Kian Kurt D. Veluz', '2026-00485-LQ-0','Male', 'BSIT','1st Year','3029fac1ebab17a974c48a873273e775479ee0e0a9bba15fa7d7154d4b223592','member','Member',1),
-('Matt Angelo Villasanta', '2026-00526-LQ-0','Male', 'BSIT','1st Year','6a8cb2ec73238ca7e1b94684abf79808d98a48a0727223c2e80c8e7e96f27da8','member','Member',1),
-('Miel Martin Villasanta', '2026-00539-LQ-0','Male', 'BSIT','1st Year','cd0511c0081054ae9c6327ca9de29d1ed765cc7ae3315eb18d23df12e6f8a772','member','Member',1),
-('Ma. Isabel V. Abragon', '2025-00054-LQ-0','Female', 'BSIT','2nd Year','55cb3e708d82295de1cdeedc5dfd7139499c13fa0442248861bc6a3d88090361','member','Member',1),
-('Bea Joy E. Agustin', '2025-00089-LQ-0','Female', 'BSIT','2nd Year','7562f00d13a89298b450fe630d9ff78c9bfd0b75d86fb0dba5d2973df71eb1fc','member','Member',1),
-('Jhalaine A. Agustin', '2025-00123-LQ-0','Female', 'BSIT','2nd Year','2c6dc596e8c1a6db404afe6d85451bf952193ed357a6a4dc1b3965b5c7309747','member','Member',1),
-('Erl Lorrenz D. Aro', '2025-00090-LQ-0','Male', 'BSIT','2nd Year','75ee16819006de7eb22915021bbd2b5cef0d3b071b0579e976c535a96ed3b905','member','Member',1),
-('Sophia Ferlyn A. Austria', '2025-00132-LQ-0','Female', 'BSIT','2nd Year','956cd584bd5bf759d345b72486145b13fc164db5714fb75738b99a4cf19a0f66','member','Member',1),
-('Jesu Ian Kristoffer B. Aventurado', '2025-00058-LQ-0','Male', 'BSIT','2nd Year','ba36f38d515438e01df6ff7b50c5803c6c8aa0b703cc2b1e88412083ff79b07e','member','Member',1),
-('Heleana Arianne A. Barrera', '2025-00062-LQ-0','Female', 'BSIT','2nd Year','c2a53cde0840ac47268a636d86ddebf7968105835544bf96570905680c71c031','member','Member',1),
-('Niño Yno A. Bejerano', '2025-00048-LQ-0','Male', 'BSIT','2nd Year','d3ab69f6c49d46be9fcb756d6f393b5d9886d9f3943163347be2c36a728ad0ab','member','Member',1),
-('Shaira Cybelle V. Bitoin', '2025-00087-LQ-0','Female', 'BSIT','2nd Year','610f0c652b422b92eb4ee02e4c069f137ecf8a94c7efefbbe8f8d45d04123fb7','member','Member',1),
-('John Carl M. Buayaban', '2025-00131-LQ-0','Male', 'BSIT','2nd Year','dd6a135ebd484b37658e64717e0bb6a087f6e264ba645529c564dbcbaf6c1383','member','Member',1),
-('Romnick V. Buenaflor', '2025-00134-LQ-0','Male', 'BSIT','2nd Year','eed35ae10f8793e50102f9d3e2e5765bf1ab36bce6d9d56207bdfeb0595eb3ce','member','Member',1),
-('Liynkert Clarence B. Carillo', '2025-00126-LQ-0','Male', 'BSIT','2nd Year','4aecfd3362db38f3c5464a16ec49425cc7cd9b455d656c46e3090ab9fbc443ce','member','Member',1),
-('Cyrine Jill S. Damasco', '2025-00144-LQ-0','Female', 'BSIT','2nd Year','715d20ab989b4ee4f3de5611ac48b5f1b775f0ac2f1039ffffd297a04e18258a','member','Member',1),
-('Gian Carlo M. Depilo', '2025-00116-LQ-0','Male', 'BSIT','2nd Year','64015f871cf45c6f0a5e8952fdd052665b26f589c01b99f3037dcedbf5a554df','member','Member',1),
-('Ronalyn R. Dueñas', '2025-00115-LQ-0','Female', 'BSIT','2nd Year','cf06bcb45080eff3d9c94a5cc70dbb971ca9714c4d3214333bef8f167a7eb9d5','member','Member',1),
-('Alvin B. Elloso', '2025-00085-LQ-0','Male', 'BSIT','2nd Year','140c778c2bbba47121f0aec429af50e94dbfba659c25c67015a364a22c77dae1','member','Member',1),
-('Bryan Ivan Z. Florida', '2025-00143-LQ-0','Male', 'BSIT','2nd Year','785e3722737a47bd33c02087f5f3110e5cede7846a83040f33b92c94a3a98737','member','Member',1),
-('Xeq Laurenzo G. Garduña', '2025-00050-LQ-0','Male', 'BSIT','2nd Year','9c1023b761c89d1e16f31509b60677e14f4fa95a40ef6680481aee58c943dd50','member','Member',1),
-('Justin D. Guillepa', '2025-00136-LQ-0','Male', 'BSIT','2nd Year','11db576312e17818856a5396da6d33fe2b0879d274b71245475cd40ac8c98db8','member','Member',1),
-('Sheryn C. Hina', '2025-00118-LQ-0','Female', 'BSIT','2nd Year','625029958452ae3cb805dcb09ba2a7fd738b46026ac74b5c9ac321d0c3c4d9f8','member','Member',1),
-('Eriz Earl John A. Ibis', '2025-00120-LQ-0','Male', 'BSIT','2nd Year','1f1fab20be91833cdb0315bd483691a6303914ff19173c23e721dd4659735f39','member','Member',1),
-('Gabrielle V. Lopez', '2025-00139-LQ-0','Female', 'BSIT','2nd Year','67ddbb4002f5415f26b4e15c1c0db9775fb2dc42e0abc0534f9cbc6cdac44eed','member','Member',1),
-('Arlene J. Mabait', '2025-00141-LQ-0','Female', 'BSIT','2nd Year','c8780228c268090f67cf3b851ce3144dcc33b5f83766c58444f45a0b9b59f061','member','Member',1),
-('Jazen A. Mallapre', '2025-00145-LQ-0','Male', 'BSIT','2nd Year','4b8d53a419279d41adf140f6d82ec291a71d8ebda127cb6fe5d863f0006ab4f6','member','Member',1),
-('Sittie Aina M. Mamao', '2025-00056-LQ-0','Female', 'BSIT','2nd Year','ba4923514f35cba15149d6bdbd11eddbc7e3dcd89b591fd39c5534d116f108d5','member','Member',1),
-('John Denzel C. Manzano', '2025-00874-LQ-0','Male', 'BSIT','2nd Year','371bc27c9a7d028d17d8ff5ab4eaf1a1bd3c5d6584c49359286e9247403ed9e9','member','Member',1),
-('Mark Luigi B. Mapagdalita', '2025-00129-LQ-0','Male', 'BSIT','2nd Year','cbd251afa097e4bfd6be2da3b77ef2ea46408aa50fe2d2f5392b96f536984d53','member','Member',1),
-('Fiona Simone O. Mayores', '2025-00124-LQ-0','Female', 'BSIT','2nd Year','9efefb5fa461753eac0fdddf33322195727b3c92a95a2790f015594f0bbf1e9e','member','Member',1),
-('Justin Lloyd B. Mendez', '2025-00109-LQ-0','Male', 'BSIT','2nd Year','20b4cbad9d8964d0635b1b4df67061a86081af95f09fc756bd04db60d91b87a0','member','Member',1),
-('James Anthony M. Meriado', '2025-00081-LQ-0','Male', 'BSIT','2nd Year','341e11bdc66f56ded396c3cd879147d20a03b84497b94bd80b87e2837cc35363','member','Member',1),
-('Antonio David T. Olivenza', '2025-00142-LQ-0','Male', 'BSIT','2nd Year','d358394f7950acfcdf37af043e783d41d9deb13bce7ba97a9fb2a54a68775277','member','Member',1),
-('Cedrex Q. Pelagio', '2025-00093-LQ-0','Male', 'BSIT','2nd Year','3ffe8c6addf3d10330620e42c3d9b29f0d47f7eff17c082f4a2d32f016f4cf4a','member','Member',1),
-('Wella T. Retardo', '2025-00103-LQ-0','Female', 'BSIT','2nd Year','a2c1d4649a1f44adfc0fba5d5d843b01bedc4628e53073043d31d97b1c9b47c9','member','Member',1),
-('Rance Andrew A. Rubiales', '2025-00092-LQ-0','Male', 'BSIT','2nd Year','c301f2971f8ee0b1c0089ca01a595059b8324038f4bc5b9d1a7821712a404f89','member','Member',1),
-('Keziah Rabbi N. Salimo', '2025-00146-LQ-0','Female', 'BSIT','2nd Year','f1f605d54c818114ec4860061e4502b5fee23f5977367d3c03b2c291a29589d3','member','Member',1),
-('Niña Airies G. Santiago', '2025-00128-LQ-0','Female', 'BSIT','2nd Year','dd44d4239d0135f9cf6171a466514442dd7cf44afe02ef2ff31f4a5ace7c261f','member','Member',1),
-('Angelo O. Solas', '2025-00133-LQ-0','Male', 'BSIT','2nd Year','6c967d55b4ab49fe0a58a9c6ab764b8b9f91ee4d9c09a772fcfac9ddffc48c8f','member','Member',1),
-('Francheska Lorien L. Tabios', '2025-00095-LQ-0','Female', 'BSIT','2nd Year','57a8dbc09f5ffe219945b097d861d5fe7e7a680a7ae448f2d7400348507c0664','member','Member',1),
-('Rhea Jhane D. Tumala', '2025-00135-LQ-0','Female', 'BSIT','2nd Year','b6ed03620b9e562ffdc6de48ba0f92c5d4672a42c03722fec7db8fd9af8fdbeb','member','Member',1),
-('Roxan Ivy M. Unlayao', '2025-00113-LQ-0','Female', 'BSIT','2nd Year','0ca16af739ff1366ebb1739c1d1e1583cc59de072ab68a09bc82a84515dad492','member','Member',1),
-('Paul Andrein A. Veherano', '2025-00140-LQ-0','Male', 'BSIT','2nd Year','e862673e29a334a9e046dad5125a1168ee4665ddcea11d1c090e539b02586bb6','member','Member',1),
-('Jack F. Velez', '2025-00052-LQ-0','Male', 'BSIT','2nd Year','e0a4d21e521058ae4970df068294120b6d8cc89ddef8e56b9ef4a22fd607edab','member','Member',1),
-('James Raphael A. Veran', '2025-00060-LQ-0','Male', 'BSIT','2nd Year','0427422667d24388d529ed9b18c78dbbde20e3b83f6546f670a463b8cc521185','member','Member',1),
-('Ma. Eunice P. Villanueva', '2025-00111-LQ-0','Female', 'BSIT','2nd Year','9938eaa41fa9b6a8ed1ff255afb36bed72b0b2c02ebf475d8517d03f68ee116e','member','Member',1),
-('Jersy Rose M. Villanueva', '2025-00130-LQ-0','Female', 'BSIT','2nd Year','ed9a2978fb63c64c03abaf3dba507dd2ca438b558d205412b9e6808adfcf6e82','member','Member',1),
-('John Mark Oseiah A. Zamora', '2025-00064-LQ-0','Male', 'BSIT','2nd Year','442390a37b0c2836cb74afeee73555afd8f5d5cc0c5450841c47cbc3537a6402','member','Member',1),
-('Karla Andrea B. Ables', '2024-00549-LQ-0','Female', 'BSIT','3rd Year','e65ca98990e17afdb8147de8ea75ffce8eba3067a53fbfc96db05ed6d5e7a39d','member','Member',1),
-('Jireh Erika G. Alinar', '2024-00545-LQ-0','Female', 'BSIT','3rd Year','010bbbfe28fc637051ddb490a0eb31ce59e3c44495aeab08c8c8d5d321b4e0ec','member','Member',1),
-('Angel B. Andrade', '2024-00547-LQ-0','Female', 'BSIT','3rd Year','06a8d8570431ba84a5e7983ad6fa81916e2dda9d0f832d092c2498e8303b2677','member','Member',1),
-('Tyronne James C. Argamosa', '2024-00604-LQ-0','Male', 'BSIT','3rd Year','ab4a41b4f9b5619757440eafd01efe7e43bf66f02588a84f5da0f13b9755623e','member','Member',1),
-('Jhillian D. Atienza', '2024-00648-LQ-0','Female', 'BSIT','3rd Year','cebcafd14dc197b571919a2822bb304d7cb1d9c5bb86e7cc4fc03a70fd1276d8','member','Member',1),
-('Elaizza Pauleen A. Bancual', '2024-00618-LQ-0','Female', 'BSIT','3rd Year','78aee25cc51b15e40b14804b8241479e1e8c6a5679e8ce94d4e84b9f9f954e60','member','Member',1),
-('Philip Joshua O. Barba', '2024-00602-LQ-0','Male', 'BSIT','3rd Year','523e935d7a2771ce42fd14ef9e5c1e9bde4ef3ed022f269c6861a7683f1b7338','member','Member',1),
-('John Dreck V. Basanta', '2024-00605-LQ-0','Male', 'BSIT','3rd Year','5f9eb7059458a3d46acd4a8db03d48f961ac682fe2980ec5d52e97684d172eb0','member','Member',1),
-('Xezar F. Basanta', '2024-00542-LQ-0','Male', 'BSIT','3rd Year','36f690c25f91a9fa7d8bbb42f8d6de7aa8132d7e6d9caaf8d12470e39e53ed7b','member','Member',1),
-('Althea A. Dangalan', '2024-00627-LQ-0','Female', 'BSIT','3rd Year','de806345ad4743c93955edb483ee246a3da60e4160f396c2845ecbcecd0e36da','member','Member',1),
-('George Rovic B. De La Pena', '2024-00620-LQ-0','Male', 'BSIT','3rd Year','b37ed7892b1bee37bd7fcd3cc8ee87e1798148571737f339cc861fd98083d7d1','member','Member',1),
-('Nel Jhon V. Duran', '2024-00634-LQ-0','Male', 'BSIT','3rd Year','a9e05771796b48c526fb7780025992802a14b76c27a6d59649b5a4e90d18f93f','member','Member',1),
-('John Harry A. Endiafe', '2024-00543-LQ-0','Male', 'BSIT','3rd Year','3513fd27704b2808d72a0d30d86ac74ce521303f505c94a2aa4bf3c7c14b4ff5','member','Member',1),
-('Ashley L. Espartinez', '2024-00636-LQ-0','Female', 'BSIT','3rd Year','e54681cf2e4b33c33f01b2433260a3fa8e640a2c925ea1cfa14c638cdc708a36','member','Member',1),
-('Micah Mae C. Esplana', '2024-00600-LQ-0','Female', 'BSIT','3rd Year','a3e780f4c51f980d88f7d78195832b7470e4090cacd2901ef4e861e4c1242aa2','member','Member',1),
-('Shena Mae G. Gamier', '2024-00639-LQ-0','Female', 'BSIT','3rd Year','99b075015939e1fec683512723e97643a03d39efd2a074645b9035e6d63fd9a0','member','Member',1),
-('Cyrille Jane L. Garbida', '2024-00536-LQ-0','Female', 'BSIT','3rd Year','b61cdd3a352846261e8fa7148c440ee2cd391f563169895c4200ecc6a1ea7986','member','Member',1),
-('Zhedril C. Gonzales', '2024-00554-LQ-0','Male', 'BSIT','3rd Year','6808b6a6b2370d9d562d806968d36bfff9f31f096c94dfc0c76d83149d1a8ece','member','Member',1),
-('Althea Kristel P. Goyena', '2024-00550-LQ-0','Female', 'BSIT','3rd Year','3fbb419d86692722ff6001a15e55f30f617c5f0eb684c4da2156469be19a5430','member','Member',1),
-('Kaizzer P. Hernandez', '2024-00624-LQ-0','Male', 'BSIT','3rd Year','f35263604f602a28e09bd88c2eb9c47c09750f91f260a30a3eaa309b5374cf72','member','Member',1),
-('Emrald Ignacio Miguel R. Ignacio', '2024-00540-LQ-0','Male', 'BSIT','3rd Year','4be640917fdca27fee2c9add037f4386f5dc01c08061365426b119b69afb95c5','member','Member',1),
-('Gian Errol V. Labso', '2024-00552-LQ-0','Male', 'BSIT','3rd Year','27d13c65b26bfbc3ca477e8bf72f6b4cfbff241bd7ae7b6b8c8ec0c20edb3ccc','member','Member',1),
-('John Renz B. Latona', '2024-00885-LQ-0','Male', 'BSIT','3rd Year','84701767b6f5b1f7425a8e88b2dfce7b6ae44dbdb6dff2ba12ea95f860997781','member','Member',1),
-('John Lei V. Laurio', '2024-00539-LQ-0','Male', 'BSIT','3rd Year','0ea93f0a54d6a3ad3cd19e1832f6a9913a93825d31754036cefa19e90b11273c','member','Member',1),
-('Leravivs T. Licas', '2024-00629-LQ-0','Male', 'BSIT','3rd Year','04446e7541eaf8bf07ff1d1332ad413b34704133a3339fe278813920a6b13596','member','Member',1),
-('Janelle Gem B. Llaneta', '2024-00541-LQ-0','Female', 'BSIT','3rd Year','6250c6de3c40d216e7f35af803ec4f16cf99d7bdae3b8c9afec2fd48bc4e5514','member','Member',1),
-('Celine B. Loo', '2024-00548-LQ-0','Female', 'BSIT','3rd Year','7e6a774598d4893199270b4aa757cb8b3d371fb2414b328dac9c5c70f7c4728c','member','Member',1),
-('Ella Mae V. Loresto', '2025-00598-LQ-0','Female', 'BSIT','3rd Year','4e6ecfe1bf139583f1a13cced9621a377de2dbdc8e0dfefbc970ecec8fec3a32','member','Member',1),
-('Norainisa L. Macaalin', '2024-00641-LQ-0','Female', 'BSIT','3rd Year','35586538913d0bf1d192a413b7d4e0b91848e5ded34d5d19615706735606b7ee','member','Member',1),
-('Jodi Alexa M. Macahiya', '2024-00644-LQ-0','Female', 'BSIT','3rd Year','51506c2d1862ce5fd281a7e75b01c3de6f23add3b403f1007a558169face62df','member','Member',1),
-('Ana Marie R. Magallon', '2024-00546-LQ-0','Female', 'BSIT','3rd Year','70b2a850f7d2903e7a79913fe9beb450701b279af466f48cf3a0fac394514360','member','Member',1),
-('Jandra Nicole D. Mallorca', '2024-00553-LQ-0','Female', 'BSIT','3rd Year','d84346095516043d4f428452124a6ad99c562322472b41775ba50115415b0141','member','Member',1),
-('Micah Angelyn B. Manago', '2024-00632-LQ-0','Female', 'BSIT','3rd Year','9205980f6fb140b47d649c5cf5dc15b997d5ce809a6dea1991186aea14f96530','member','Member',1),
-('Jon Carlo A. Marasigan', '2024-00597-LQ-0','Male', 'BSIT','3rd Year','28867396c5dc82e2901f3a8285fde7df0dad02ee5d3af817cfc5b79f1dbb8a7b','member','Member',1),
-('Allyson Joy D. Marcaida', '2024-00533-LQ-0','Female', 'BSIT','3rd Year','5622eaa66599744ea3d87ffdc89e28f302f9d0bf23e6b19aca6a50c9e35d3872','member','Member',1),
-('Enrico Miguel B. Martinez', '2024-00607-LQ-0','Male', 'BSIT','3rd Year','2df50853196e45423b9dcfd19e60c90aa504da42de2f9599644ff32176925f12','member','Member',1),
-('Carl Jhomel P. Mensote', '2024-00529-LQ-0','Male', 'BSIT','3rd Year','f7a25f3c053d4f3ef32a39461af362b97c7cd5287587510fe98d4bb2d8bcd555','member','Member',1),
-('Alaiza Mae A. Mirando', '2024-00615-LQ-0','Female', 'BSIT','3rd Year','52b942454b35b93847cf998382d245e876960959d0b707d41498f3c992674b0e','member','Member',1),
-('Jane M. Paligar', '2024-00528-LQ-0','Female', 'BSIT','3rd Year','258a64cc08696fcd11429ec3c68f6f686911cd2952de3dc97cd3d09c6731d2a7','member','Member',1),
-('Crystal Mae B. Parro', '2024-00609-LQ-0','Female', 'BSIT','3rd Year','7cd85a0cb2c81c72ba26bb495584bc103f032893eb8014cf4837620fccb84c66','member','Member',1),
-('Sophia A. Plaza', '2024-00774-LQ-0','Female', 'BSIT','3rd Year','f477f8132064c53209ff29c0d18a665e7e6425a96ce90dd504035e8ddc57d19f','member','Member',1),
-('Kaye Princess M. Rago', '2024-00534-LQ-1','Female', 'BSIT','3rd Year','7de1bdb06663cf756c56f0b92acc9c2459b66b820553f4a6276e23d72ae1079e','member','Member',1),
-('Renz Matthew H. Simeon', '2024-00646-LQ-0','Male', 'BSIT','3rd Year','78d868c82675ca6694618ade599be8ef472d129271d1d778d06e38483799c3e7','member','Member',1),
-('Lawrence A. Supetran', '2024-00613-LQ-0','Male', 'BSIT','3rd Year','4ce80f84f290a2b90d2569ef396849f93f526def23dc22cc4574b43e0e36f448','member','Member',1),
-('Vince Jomer S. Valeros', '2024-00643-LQ-0','Male', 'BSIT','3rd Year','3dd5558198a2ace67c6e15eea38601907b8462423f865aba3af4b46d19fa790c','member','Member',1),
-('Carlos BJ A. Velando', '2024-00538-LQ-0','Male', 'BSIT','3rd Year','9357f849f1f1117f319a3c6c33128e09403b4ebd6de9df6408ac975d99cc948c','member','Member',1),
-('Shairabelle Nikole V. Villamor', '2024-00601-LQ-0','Female', 'BSIT','3rd Year','af2be654d7a062bd644da04a3dd28c135ace6c8ce530f6d24942b435951ac6fb','member','Member',1),
-('Lugelle T. Zabella', '2024-00622-LQ-0','Female', 'BSIT','3rd Year','5700b5d999c849f731538fda0279adf89572c924f3ffeec7a0d67acfd84b926a','member','Member',1),
-('Ivan Jake O. Acilo', '2023-00045-LQ-0','Male', 'BSIT','4th Year','b07bb7aacd157b9c14f0db4affccdb9e7cfe85ee2eafa0bab057a01187fde63c','member','Member',1),
-('Mon Gabriel D. Ambas', '2023-00017-LQ-0','Male', 'BSIT','4th Year','98320d1445696738d3e33e561dafb5a2209bb27b56f2d3c234afe9c297b6ee14','member','Member',1),
-('Aaron O. Asuncion', '2023-00028-LQ-0','Male', 'BSIT','4th Year','48e3bfd6b599bc941e20bfca350d87cde29356a4594dabe5fe99319b44a99f7c','member','Member',1),
-('Earl John L. Aurin', '2023-00014-LQ-0','Male', 'BSIT','4th Year','2eeceb2ff3379891bee3e40d34e3b1d07bd080b9ae8948f31e2ec05d24505149','member','Member',1),
-('Lynnel E. Barroa', '2023-00018-LQ-0','Female', 'BSIT','4th Year','a1e781345170ab15c84e45e3bb7a70600ccbb40261cf4a084496d88cb80b5a73','member','Member',1),
-('Julian Robert M. Basan', '2023-01013-LQ-0','Male', 'BSIT','4th Year','bdee525593b4b63d25cf6578156aa4511c33135e0c72ec10b12cf8765182a52b','member','Member',1),
-('Jasmyne Cozette S. Basco', '2023-00012-LQ-0','Female', 'BSIT','4th Year','61d24d0d4711a9e5e8ad37fbe768283e4ec1f0857dda65bfe3dfacff4c0e110e','member','Member',1),
-('Rayven Josh A. Basto', '2023-00001-LQ-0','Male', 'BSIT','4th Year','7e396734af426b5221b18ef9daabd88767873b6ce58bc59654f5ee780cbc021c','member','Member',1),
-('Louis Manuel R. Cacho', '2023-00006-LQ-0','Male', 'BSIT','4th Year','5b887b0b8a8c7b545e919c05d0fe24c34f529dfee2b8c9ffaa5d95b48477d520','member','Member',1),
-('Camille C. Caralian', '2023-00015-LQ-0','Female', 'BSIT','4th Year','f7f2ba07f0989136394cdfbfcfc7c29d982454cf0a5b8d61882b8a4146434723','member','Member',1),
-('Pauleen Jesareth L. Convento', '2023-00009-LQ-0','Female', 'BSIT','4th Year','005b228a5161969b98f91589cb95c84c25694f9d97d817693606ec4923962ce9','member','Member',1),
-('Dustin Dirk F. Juri', '2023-00949-LQ-1','Male', 'BSIT','4th Year','c4812ee2bb10fae03ca99cc6968c5946f06b3334cbb778a0c97e1cce52ea8026','member','Member',1),
-('Karl Christopher O. De Leon', '2023-00004-LQ-0','Male', 'BSIT','4th Year','83225a8514f1651b2b3131d72fb83d60ec3d55f7b48ea126daf35a392636cae7','member','Member',1),
-('Mikko C. Garduña', '2021-00990-LQ-1','Male', 'BSIT','4th Year','00914c4460be0bb41017cbe61311d76f5781f08d136d5db7304e358bd0c4c504','member','Member',1),
-('Zaldjhan Criz V. Gilbuena', '2022-00300-LQ-0','Male', 'BSIT','4th Year','58d2c5d770f6dceb6a11afb0d5bc219319df3417e1b40c91e3d7456a0bb98312','member','Member',1),
-('Jess Lorenz P. Lagsa', '2023-00008-LQ-0','Male', 'BSIT','4th Year','01717fa84ea2eb94103aeb2293205e3b22f269661ba642310971644269e50a8d','member','Member',1),
-('Vaness E. Legion', '2023-00034-LQ-0','Female', 'BSIT','4th Year','bbbc3b60eecd815cf949df626dade994117bea2ee54ed08aead222c70c652687','member','Member',1),
-('Lawrence Shane Joshua A. Lim', '2023-00022-LQ-0','Male', 'BSIT','4th Year','12aad3fc401659bd9157446d480af09dc5106e63ad3b49418b3f95434bbddf91','member','Member',1),
-('Kendrick Howell R. Macalinao', '2023-00044-LQ-0','Male', 'BSIT','4th Year','186d6797fad58810a3429ef3b98ff9706e73beec192b366a595b59f7914936a4','member','Member',1),
-('Princess Kaye E. Malabuyoc', '2023-00011-LQ-0','Female', 'BSIT','4th Year','c232e519cf94a5ffc4c1928ed2f3a7080c84bba4adb5e3564e3e2faea342bc55','member','Member',1),
-('Shane Ashly M. Manadan', '2023-00035-LQ-0','Female', 'BSIT','4th Year','33ac8153ecd5d06763826b6368b3ca37e993b08cdbbe3a82d38014348b4f2834','member','Member',1),
-('Jeus P. Manguiat', '2023-00967-LQ-1','Male', 'BSIT','4th Year','4f3e9861ec89b589c1b295cdd35f493a9dc6fc70a3fe074fb43aa132581e7584','member','Member',1),
-('Jehanne Shamel N. Marcaida', '2023-00036-LQ-0','Female', 'BSIT','4th Year','324db02eb2b52e3ca837afd9a95d3c5ae0d9daaf6b8279d822014eaa980bd62c','member','Member',1),
-('Zymon Joshua A. Marcaida', '2023-00037-LQ-0','Male', 'BSIT','4th Year','1f5da4b1ff8e922fd54375bccddf511bb5e2beada333fc65ad311ad00afad7c2','member','Member',1),
-('Micaella R. Marzan', '2023-00005-LQ-0','Female', 'BSIT','4th Year','4a67b4c0ef13fb0664c8ed0506e614b91ba4dbe170b51752f8fca008f3d2a5ac','member','Member',1),
-('Nathaniel N. Matriano', '2023-00038-LQ-0','Male', 'BSIT','4th Year','2aeea9945657df9e1c304ba6b62f21056ea1674a34d10234ee2cd6de7d78f6a1','member','Member',1),
-('Justine Bong V. Montante', '2024-00025-LQ-0','Male', 'BSIT','4th Year','ec8ccb18f894ccb6879fa73efe27d821f7fcc558c55e89c3283042abcd2c7f1d','member','Member',1),
-('Jenny Rose G. Montipalco', '2023-00039-LQ-0','Female', 'BSIT','4th Year','ac509ab01a6b3efda3bdbe24a42b2592525f30f5f1e56e37e2d851ca396225c7','member','Member',1),
-('Lovely Gift R. Navera', '2023-00031-LQ-0','Female', 'BSIT','4th Year','4b99b30f0c6fa82f9ebca74b82a790f8c13946f4d491a2394e0d8a7cf7e20f15','member','Member',1),
-('Bryan Ace A. Nuite', '2023-00019-LQ-0','Male', 'BSIT','4th Year','159f02549cb6ae38303de27f7abfa7171fd862561b19c0323ee3bc264822f07c','member','Member',1),
-('Conrad A. Oriarte', '2021-00958-LQ-0','Male', 'BSIT','4th Year','216c420576565a831d182126071815d57323108e759145ba3b3d48b2a2078576','member','Member',1),
-('Mariel G. Palaya', '2023-00010-LQ-0','Female', 'BSIT','4th Year','b7b8fddfadc5c60cfbb8624b3a9d077b1873ce24bcb6b3cfe4441118478ea8dc','member','Member',1),
-('Jhon Zechariah U. Parado', '2023-00013-LQ-0','Male', 'BSIT','4th Year','657757dd8f9c305a5764e3ac953ba958111bc8fac4d5a2959c5242e274a6f4ab','member','Member',1),
-('Dave Q. Petallano', '2023-00046-LQ-0','Male', 'BSIT','4th Year','12a2190423f2582db7f59074b78bb2de3475a60a09493953434826f18f26af40','member','Member',1),
-('Austin Jericho C. Pineda', '2023-00040-LQ-0','Male', 'BSIT','4th Year','79a47649e043138512aa462e7316ba8a79e8eaa284a6a9387fe7f54673bc322f','member','Member',1),
-('Ruth A. Poblete', '2023-00020-LQ-0','Female', 'BSIT','4th Year','3750da10e82594a83f17714e6258c271b34628c71be0f6ef0f7b6e3b533dae02','member','Member',1),
-('Angelica G. Porlay', '2023-00049-LQ-0','Female', 'BSIT','4th Year','8b3116976f85fd035d133d736146e4d16308a4ce7eb1e893784939adac7a8fef','member','Member',1),
-('Jenelyn F. Rejano', '2023-00002-LQ-0','Female', 'BSIT','4th Year','e92e1ff86e033f6f97cc13d4b3c8d6a642a9cc3409b3d76a991d4be3bd88475a','member','Member',1),
-('Kyle Nicholas M. Reodique', '2023-00959-LQ-1','Male', 'BSIT','4th Year','43fc1e3e9eafc89ce0edfd9467e9a97cc7fce1035004cd1839d9018158e989ed','member','Member',1),
-('Maica Angela I. Rodriguez', '2023-00041-LQ-0','Female', 'BSIT','4th Year','a59737a9dc4fc1b13b1b13c5e8d6a5f5ad6ce9c0ea6e1357bb2d1caf37ec8296','member','Member',1),
-('Ivan J. Romantico', '2023-00024-LQ-0','Male', 'BSIT','4th Year','d76ec573d5d73d923b29c3d662938a05ec9ee4095f3ede697449c9941e10eeeb','member','Member',1),
-('Sean Siegfred P. Salabo', '2023-00043-LQ-0','Male', 'BSIT','4th Year','0bf82e1a1dd8d2af87dc07e98ba805cf530ab0abbfd9175ccf6d0ec2bbfcea70','member','Member',1),
-('Hiram Paul B. Sigue', '2023-00958-LQ-1','Male', 'BSIT','4th Year','4a478d99c72dba477cd8c53ae16aabb99c497a21f55d91b6032b893e17b59be2','member','Member',1),
-('Andre Miller B. Tominez', '2024-00016-LQ-0','Male', 'BSIT','4th Year','fe0b0dbb5eb7854c0d1ccaed29a785d470d775da6c920570de0ecdf53f571547','member','Member',1),
-('Leigh Laurence A. Torres', '2023-00047-LQ-0','Female', 'BSIT','4th Year','1c3f241ef29d69c20ffc0a09420a1bd968ec37439a60be4b1c23498698700ef5','member','Member',1),
-('Sofia Angela T. Vilan', '2023-00042-LQ-0','Female', 'BSIT','4th Year','951baf567cb63dd31daa468d83b130a8c71f4ef51a03db12efd4b277be8ed8f1','member','Member',1),
-('Renz C. Vinuya', '2023-00023-LQ-0','Male', 'BSIT','4th Year','7a900ed7b5d0b6783640dfe320335705b925212b00a04e5457e45281c178eb7c','member','Member',1),
-('Krizzia M. Yabut', '2023-00026-LQ-0','Female', 'BSIT','4th Year','2f28da06660bd58be8aa82aa179814b5ea48591df990f5afef40c89e1db08f72','member','Member',1),
-('Elaija Jasmin C. Yap', '2023-00003-LQ-0','Female', 'BSIT','4th Year','446e87fbb91b337bdffe88100ad3e75369bd09896684336b65506f1c129b4e99','member','Member',1),
-('Kurt Roshon Mikhayl S. Yu', '2023-00048-LQ-0','Male', 'BSIT','4th Year','ef57eafcfacf8e0127761f51a99ad522a372cbcffb98e7852e7a2c039cdb7cda','member','Member',1),
-('Christian David P. Miranda', '2022-00307-LQ-0','Male', 'BSIT','4th Year','65bd1da1b622161241f0134bb28d06701bba4e78acbab7b0f31a0db30f4ab51e','member','Member',1),
-('Israel Isaac J. Pinawin', '2022-00302-LQ-0','Male', 'BSIT','4th Year','a3df38bf4d24d116bebcf0acc92aaa1015379da78192641932e960d9403b1d5e','member','Member',1),
-('Princes Catherine C. Ugay', '2022-00337-LQ-0','Female', 'BSIT','4th Year','ec889a3ed5fae1e6190e30a9f7e22902cc739cfea77a89d620c21aab9befc0a2','member','Member',1),
-('Ehrozz Jade P. Vilar', '2022-00332-LQ-0','Male', 'BSIT','4th Year','2c4360966b2ae319aa9441469a45ba1c9716c3c010b9417b61a6544945935507','member','Member',1),
-('Vea T. Alita', '2026-00534-LQ-0','Female', 'DIT','1st Year','06d391d117ddc06d8834537f588a1f9a9d19d4be5ab9d61d34f13370f837d5e0','member','Member',1),
-('Kervin James B. Alvarez', '2026-00540-LQ-0','Male', 'DIT','1st Year','3d2edf96514a85aeefa6f8ad0007c334df3b9ee3ac7ddd555775c7b8d9be6423','member','Member',1),
-('Matthew Jose C. Asegurado', '2026-00123-LQ-0','Male', 'DIT','1st Year','25627ef241165135cc4f130207a8ca7562d4ae31f3b475510fbd830261ae5dfa','member','Member',1),
-('Ruby M. Aveles', '2026-00547-LQ-0','Female', 'DIT','1st Year','6156b85780800bc8d8eae619acab1a0f7fe75ed9599c3dc8afc361a9730578e7','member','Member',1),
-('Gabriele Benedict E. Calibarra', '2026-00502-LQ-0','Male', 'DIT','1st Year','fa88c8432ac898505252955ad82cfa309c4d46b09d3f9c81b848fca961af2467','member','Member',1),
-('John Ronnel F. Caparros', '2026-00537-LQ-0','Male', 'DIT','1st Year','d68a89653fa028be87f1464315d2fa02ab074c182a901c488fcc3b26b76e19d7','member','Member',1),
-('KC Ann T. Capellan', '2026-00538-LQ-0','Female', 'DIT','1st Year','eadc16a556dda1501e6d9295d0804e96ad3e7678e4caf2848b5321ad0cbcf169','member','Member',1),
-('Yral Moises O. Capistrano', '2026-00548-LQ-0','Male', 'DIT','1st Year','7c5b235b8c8545ccf52ea28cc38dbd2412b2867f6f7b0ee51d819b50c41d483a','member','Member',1),
-('Sarah G. Carandang', '2026-00543-LQ-0','Female', 'DIT','1st Year','7b31d56f61706dc4c64aee07318ffea8e59a8de3742124009b5220b3f519ef41','member','Member',1),
-('Kian Raine P. Castro', '2026-00506-LQ-0','Male', 'DIT','1st Year','c9dd8c61736d0ba1a140e8bb3ce75cd819a98ed9b4c00528e350f868fef54757','member','Member',1),
-('Noah V. De Asid', '2026-00550-LQ-0','Male', 'DIT','1st Year','a852a1e37676f40abf97c778234c19966917645d6f8528c23419084572a30736','member','Member',1),
-('Mark Angelo O. Dubas', '2026-00544-LQ-0','Male', 'DIT','1st Year','78e62fc1f5a045ae372ba31ec466f0cd56e0395278563e496365275ea52a460b','member','Member',1),
-('Kate Ashley Valerie P. Esquibel', '2026-00546-LQ-0','Female', 'DIT','1st Year','43f1417463db23f47a979bde2efe273e7b7d2cf36726cdc4f1ede50b917e1641','member','Member',1),
-('Rocelyn S. Factor', '2026-00529-LQ-0','Female', 'DIT','1st Year','154d62d662712f8c1ac4fda225755bcb9778bec66848c3dc623d7165721299cd','member','Member',1),
-('Janna Mae D. Gendrano', '2026-00507-LQ-0','Female', 'DIT','1st Year','d0dbb4a65203d24245322a619e2dea210cd110997cd1ef9691def8cdc9062d3a','member','Member',1),
-('Edrian L. Gerez', '2026-00519-LQ-0','Male', 'DIT','1st Year','b0c10b564bacdcfd7b61e6af5c007331db59e2452b8bda3d8eab99dededc2b47','member','Member',1),
-('Arajenn O. Gliane', '2026-00549-LQ-0','Female', 'DIT','1st Year','44de9c487c7032a91ec0e02071e8fd1eb70445a5b39dbacc1f4573763ef2b6ff','member','Member',1),
-('Francisco Nash Z. Goes', '2026-00545-LQ-0','Male', 'DIT','1st Year','7ff2cc852096365873174cbc8b4f061acf9ad112b56382606cbd3da89b1f30eb','member','Member',1),
-('Princess Ashley N. Gracila', '2026-00527-LQ-0','Female', 'DIT','1st Year','a1bca906c970a24965657c8b5d0f3b4ba717cb58d306410d851e4421fc7b8065','member','Member',1),
-('Mark Dale Harris M. Jovita', '2026-00514-LQ-0','Male', 'DIT','1st Year','0a043b877d87e7586e99d07ca1956c354e99649c16b3d0189f44da86eb523531','member','Member',1),
-('Cassandra M. Latosa', '2026-00487-LQ-0','Female', 'DIT','1st Year','b00121287196658c3d0f68b8a960b94e20c90974c8b4ad6a401fee7e0c0fae91','member','Member',1),
-('Dens Clark J. Leonardo', '2026-00478-LQ-0','Male', 'DIT','1st Year','9f7b4a3ac3d02d75e6e404a8227d441563d45044931b247e45ec980433e12be5','member','Member',1),
-('Lance Ronan L. Llantos', '2026-00496-LQ-0','Male', 'DIT','1st Year','265d8156b26f7827e4db821eac78e3f2cbb4dc9495eb583fff518b2854a31c79','member','Member',1),
-('Angela A. Maningas', '2026-00509-LQ-0','Female', 'DIT','1st Year','c67634c036d95e6dcaf46c3546c329d6654b20386623a3ff030b3a0048f28b72','member','Member',1),
-('Resly Margarette G. Martinez', '2026-00482-LQ-0','Female', 'DIT','1st Year','d8013fd9dbfe7119cc0c1c3dff8895bd87d136d9131dc30ebb7d4fbff1fb2619','member','Member',1),
-('Gieroll Yvan R. Matin-ao', '2026-00542-LQ-0','Male', 'DIT','1st Year','9d5e622e2a9d9047adb36b539a237859907dab003f14a44bd55578ac705c294d','member','Member',1),
-('Adrian A. Paraon', '2026-00541-LQ-0','Male', 'DIT','1st Year','24aae53795a6a3215d49b034ad3277319af9cd801c5a47b29b57523fc2640e21','member','Member',1),
-('Louiesa V. Peras', '2026-00483-LQ-0','Female', 'DIT','1st Year','b8e9ccaadf2e2a07852a09d0e311579bdfb375882ad49ffe268755fc8102e123','member','Member',1),
-('Cyrus Jonell C. Quinain', '2026-00531-LQ-0','Male', 'DIT','1st Year','64f4f176e58dfc91c01da0837fbacfc4d27bb78599b54e26beea79a7105b9b42','member','Member',1),
-('Prince Jerick Rusiana', '2026-00489-LQ-0','Male', 'DIT','1st Year','db0d41256683f9e57f814724d2b895575c6a29bb293b5246c3a07f456a090eb9','member','Member',1),
-('Angelo Kriz G. Salvatus', '2026-00500-LQ-0','Male', 'DIT','1st Year','39b20726a50daf7d65285b49f315cc81918acfea2d4efe8597eca99b0327d19f','member','Member',1),
-('Jian Carlo D. Santos', '2026-00523-LQ-0','Male', 'DIT','1st Year','086affef3a0bee008416a073a221a9b92f0774167f83f4f1dd4088955cdf7748','member','Member',1),
-('Ralf Arcky J. Santos', '2026-00521-LQ-0','Male', 'DIT','1st Year','e60143c96f29f6a0bb0cabe17b1956787af68a38315cfaf2bc9186f1807e6b9f','member','Member',1),
-('Christine Anne T. Tulibas', '2026-00533-LQ-0','Female', 'DIT','1st Year','8f2346d9fed64d5248f20e893e964376236a64dd8418d611a547410ea4c4563a','member','Member',1),
-('Gian Zedrick C. Urbano', '2026-00484-LQ-0','Male', 'DIT','1st Year','0e748006a8f5db7aa11c80d34872700f55616776fd96afc34728345a9bca8f20','member','Member',1),
-('Mark Jeyfie G. Uy', '2026-00504-LQ-0','Male', 'DIT','1st Year','1a15ed30595cc2679a087ab42403b2c1877b16e48afb9ca6fe5add4c3194833b','member','Member',1),
-('Carvenel M. Valencia', '2026-00513-LQ-0','Male', 'DIT','1st Year','25163d4bed22fae046247880d2bb5591750fd0c204ac1673b986af8539c414d1','member','Member',1),
-('Maria Fiorella Mae V. Velez', '2026-00481-LQ-0','Female', 'DIT','1st Year','0efd0dee47271b7531fe0fd9831e2be5fca97d0d9d2fc077a601a999af9d0bd7','member','Member',1),
-('Eurobenrt V. Vilar', '2026-00512-LQ-0','Male', 'DIT','1st Year','e099366408042b981d8d74cad5722673b32d049b9cf5c4efdfa2f359ea8c4356','member','Member',1),
-('Andrei Vincent J. Villar', '2026-00498-LQ-0','Male', 'DIT','1st Year','c3563d7b2ced045863c7ea662cf12ace9d8514cc2d43eebeaaa99072ed442b24','member','Member',1),
-('Allyssa V. Abragon', '2025-00618-LQ-0','Female', 'DIT','2nd Year','4fa086eb77547bbbccddca4b5a6ea43efc2fdea8a4fecf73d64ea131e3eb02d6','member','Member',1),
-('Kaye Rochelle C. Abadines', '2025-00639-LQ-0','Female', 'DIT','2nd Year','5f0d8e85023da05fb907367c845287a278897827192f9aa94733b37e883c1ad6','member','Member',1),
-('Kriztelle Angeline A. Andoy', '2025-00578-LQ-0','Female', 'DIT','2nd Year','9b762fe1078575dae680f5cb427662713d477660f07a4a0b723e20d12ea8da0d','member','Member',1),
-('Karyl Joy O. Barcelona', '2025-00571-LQ-0','Female', 'DIT','2nd Year','781e5daf39a347d5fd8c94ed0770584b740be73b1c61dffa8711e69bc84dc15e','member','Member',1),
-('Maria Angelica C. Beslig', '2025-00642-LQ-0','Female', 'DIT','2nd Year','db2f1a047c492d7007bf6a6bac911ffcd337d4085ed126c53e4e2c8858e956be','member','Member',1),
-('Kristine Joy Y. Cantonjos', '2025-00643-LQ-0','Female', 'DIT','2nd Year','279ceb4ebb5bdea56d66a9d4d3a32bed951109c299bd9c6d875080ca0d1addf0','member','Member',1),
-('Sheryn G. Caraw', '2025-00631-LQ-0','Female', 'DIT','2nd Year','7fcc59c2735802125bfc2ad4640ea6478817fb07c36492fbf9bef6bb332e992e','member','Member',1),
-('Max Jay Credo', '2025-00915-LQ-0','Male', 'DIT','2nd Year','6aaef61a488db16f72936fd7197adf50dc9cd32895cf6800eb4a6a58a02e515c','member','Member',1),
-('Justine Harvey A. Cunanan', '2025-00629-LQ-0','Male', 'DIT','2nd Year','81d950dca6ab7b4cfda78c8d071bc1ce3db0fd81be0fe25a2bb559d9db199083','member','Member',1),
-('James Kevin M. De Belen', '2025-00641-LQ-0','Male', 'DIT','2nd Year','ace58e3fbe45d33af6c9c58ecb3e6e3b24a90357c635bce814c37c1f406f951b','member','Member',1),
-('Aira J. Elcano', '2025-00635-LQ-0','Female', 'DIT','2nd Year','34915a6b4b7301f4b4e933cd22076b988342165d1108f2db4c296a1361c92c09','member','Member',1),
-('Johanne Paul B. Enriquez', '2025-00569-LQ-0','Male', 'DIT','2nd Year','f42417d98bb9e35d8414f7648e1906fa0c0b6c27503e6cf9212add5c1439a3d2','member','Member',1),
-('Jopet Evangelista', '2025-00919-LQ-0','Male', 'DIT','2nd Year','0ad795cc177d048181773cd07761e4d9c398a6d7b4623628665370667afed4f4','member','Member',1),
-('John Carlo M. Gayeta', '2025-00855-LQ-0','Male', 'DIT','2nd Year','3c6ce787dda75fc103315ee465e4a76b59b6e0c9fd636730883ce0b0a381e452','member','Member',1),
-('Marvin Gresula', '2025-01052-LQ-0','Male', 'DIT','2nd Year','861c7cecda5cc867a62fd0dead01beece64c60a1c123a7c90c368c4c535e2c74','member','Member',1),
-('Jhan Ysen P. Handig', '2025-00640-LQ-0','Male', 'DIT','2nd Year','7d256030410b0d6287422f430c41deaa4b64c29d410572cad767bb4f13dfe2f4','member','Member',1),
-('Ram Harvey E. Llagan', '2025-00997-LQ-1','Male', 'DIT','2nd Year','f63fbe6db5786a4fcf6b24a97b2b4227e8fa066813e473ee9113b9fcb10ed034','member','Member',1),
-('Tristan Z. Lapiceros', '2025-00632-LQ-0','Male', 'DIT','2nd Year','0d55a1bcc51b432471c7e5ff1d0a16b5018163b4a9eb559a2bf934ab1f662f39','member','Member',1),
-('Christian James Magada', '2025-00637-LQ-0','Male', 'DIT','2nd Year','8f592b178a50b050caed3a6cb9ba0e63d80a29b4a10a0b9d2cc958c378f601fc','member','Member',1),
-('Jaymark D. Magana', '2025-00628-LQ-0','Male', 'DIT','2nd Year','011136eb937ba1342a548668c2d648610080f9f5fda54601b4925ba286a33f9a','member','Member',1),
-('Ela Rein C. Matibag', '2025-00570-LQ-0','Female', 'DIT','2nd Year','7c319250104701f6f9df689014a810d01b50b3f468d6b29bbd124eec0703e290','member','Member',1),
-('Anton Miguel T. Moraleda', '2025-00572-LQ-0','Male', 'DIT','2nd Year','de04a3b624035efd3f139ffcd39f56a66198d9cc5a99fa3962e5c348191cc987','member','Member',1),
-('Ralph Andrei B. Mayo', '2025-00918-LQ-0','Male', 'DIT','2nd Year','57962b04534147354720c1ba3cdbec658445bb4526265d7796e0b68d2ae0d5c6','member','Member',1),
-('Franz Jiro G. Nañoz', '2025-00630-LQ-0','Male', 'DIT','2nd Year','81be0ecfebb2bae7811f4725ddd5f1f7a21e7063f2b60b6870f4002b2648da94','member','Member',1),
-('Jhones Anthony Nevares', '2025-00634-LQ-0','Male', 'DIT','2nd Year','33cb68c3bfb0e7d558881c9e6a21b4fa4d05138d3e89b7f96b804d0b44f53968','member','Member',1),
-('JC Johnson P. Nitor', '2025-00917-LQ-0','Male', 'DIT','2nd Year','3841ce421c707d2975d080a66ef8dc2136c35c794bb68092c82229a99a3742a0','member','Member',1),
-('Julius P. Noora', '2025-00914-LQ-0','Male', 'DIT','2nd Year','205d89568a87d60feade98ea3994b145b4d8fefedc61581f1d1ef9de6d6c5ed7','member','Member',1),
-('Claudine Elaiza B. Ocampo', '2025-00584-LQ-0','Female', 'DIT','2nd Year','948b2a3417c0477d93b5f77af8b384cd048fd027fa5da81153c080e5fd4d07f9','member','Member',1),
-('James Mhelcer L. Osillo', '2025-00644-LQ-0','Male', 'DIT','2nd Year','a15a492c5f15d984f0e0a9d0da04ef188b2e7ff6e7f0f07ae03e62ad86080655','member','Member',1),
-('Edmar D. Pumay', '2025-00916-LQ-0','Male', 'DIT','2nd Year','39ba663bb61c5169859b356163fec5b80a65b687a1690bc83942f9553543b0a5','member','Member',1),
-('Johnmark T. Placino', '2025-00854-LQ-0','Male', 'DIT','2nd Year','f7baba3da6975c050d1ebfaf05b510d5c930856d394b613986986b50efcf9627','member','Member',1),
-('Michelle E. Quincina', '2025-00633-LQ-0','Female', 'DIT','2nd Year','1d17be931fe0cceecc89b8d33b497bd4dec45b294bd5078faa394c73c17416a9','member','Member',1),
-('Pia Camille A. Ramirez', '2025-00989-LQ-0','Female', 'DIT','2nd Year','2f8021af66a0252c73bf92c23a8e8e73380772b841aeb63d6b98ded9de62d29c','member','Member',1),
-('Jerome B. Sode', '2025-00595-LQ-0','Male', 'DIT','2nd Year','d67221af69e8452dab986066e8d533b2552c05cceb395e8cc84851c3f17b1d6c','member','Member',1),
-('Lorenz R. Solomon', '2025-00856-LQ-0','Male', 'DIT','2nd Year','4290479df11bdc0e463984eba21226d55515883bbe5280c585aec0a4b67b3ffa','member','Member',1),
-('Nathaniel Moriel M. Talidong', '2025-00573-LQ-0','Male', 'DIT','2nd Year','d3a617f13c8a7ac85cf746693cf6eb929f352c3dfb76b227911554e08fc34b39','member','Member',1),
-('Daniela A. Verdan', '2025-00636-LQ-0','Female', 'DIT','2nd Year','4ad78eca04674e2dd6f4dfa93ecfe8adc522f46fadac8ed2eb464d1e1fa22e5d','member','Member',1),
-('Krisha Jenizel N. Yuzon', '2025-00638-LQ-0','Female', 'DIT','2nd Year','5ce6ab9f28f1aafd06b6453147ec66676aed41427b31407b446df85661710b1d','member','Member',1),
-('Mark Aldrin V. Zurbano', '2025-00575-LQ-0','Male', 'DIT','2nd Year','afe1970721ec3388e6d1d4ff327bd527660ac6d9d7be45efd8ec5555c3a16202','member','Member',1),
-('Renier A. Acobado', '2024-00631-LQ-0','Male', 'DIT','3rd Year','9c5f9976580c42dd1b452ffb610b7d36505a077bc1467c86d595a7780f2fffb0','member','Member',1),
-('DM Kurt S. Adan', '2024-00651-LQ-0','Male', 'DIT','3rd Year','61b95a571beeaf658016ff27b1d58294950dbe8f7a5e537eda1cedfbebc2e87b','member','Member',1),
-('Andrei B. Anajao', '2024-00621-LQ-0','Male', 'DIT','3rd Year','97a58f07141df4866e144d461f664c27e2011b328ea6c5f0c80b3636a3141787','member','Member',1),
-('Paul Jared V. Atillano', '2024-00610-LQ-0','Male', 'DIT','3rd Year','3b1e098fc6a416363abaa2cb849c7af955c14dac6c95aaf485ff9ae922adb5fb','member','Member',1),
-('Michaella V. Balacaña', '2024-00633-LQ-0','Female', 'DIT','3rd Year','f638ca4717b31383021b1337b712bca80b169e931d8a5d225912e6565e92102e','member','Member',1),
-('Daphnie Buena', '2024-00650-LQ-0','Female', 'DIT','3rd Year','b692245967ee662dc35484b2b036d0436d3c1aa3729585815c3e5af24bc593d1','member','Member',1),
-('Sherwin M. Bulfa', '2024-00611-LQ-0','Male', 'DIT','3rd Year','5a13518bad5dddb6a0a1e0b358453613a3f37000a3c5ec62463680b7f8024e3b','member','Member',1),
-('Jame Nathaniel B. Buraga', '2024-00628-LQ-0','Male', 'DIT','3rd Year','0d5f0824f7514068830696d3e8bf5ce2452ad97f450d61c9ea72e6096d72f6e6','member','Member',1),
-('Rafaela G. Carabuena', '2024-00603-LQ-0','Female', 'DIT','3rd Year','47a8100fecac0214c6681066a7ea47e28219d943f9178f25c7bdbdb405da10e6','member','Member',1),
-('Melquisedec A. Chicogo', '2024-00623-LQ-0','Male', 'DIT','3rd Year','28acbb5bcb882b07468028f4e94b84f9fa3d814bf85bc2fa2eb9a7163342f722','member','Member',1),
-('Chellzy May N. Danseco', '2024-00635-LQ-0','Female', 'DIT','3rd Year','54934639d4b647b30d3d81fbfca337bec744e306cd64adeb9fbe5ba8e096bc43','member','Member',1),
-('Lanz Michael L. Durante', '2024-00612-LQ-0','Male', 'DIT','3rd Year','19577fc823ba711c0a4ae36a7bf011a34a74969b27a353ece05c80dbf2c0c48b','member','Member',1),
-('John Ariel C. Espinos', '2024-00652-LQ-0','Male', 'DIT','3rd Year','25c790e540f9780ec433bb298dd8b794660bf14417486cfc0bc2340ce8bda506','member','Member',1),
-('Jenuel E. Faller', '2024-00630-LQ-0','Male', 'DIT','3rd Year','d6b88a699af81d5202845099a349b4d537cd64758c710bdf04af0217a77b3a44','member','Member',1),
-('Mattew Kristoff B. Gonzales', '2024-00625-LQ-0','Male', 'DIT','3rd Year','9e0c0e5357c3b3706585d7b48e5f77d8003971e285af783d3aa274022ca517ad','member','Member',1),
-('Angelo Christian E. Gullod', '2024-00626-LQ-0','Male', 'DIT','3rd Year','9adf54a85f53e1abef5f282820d00c9f6673a914f435e5baf7268b37547e6c8a','member','Member',1),
-('Shyvelle M. Loyola', '2024-00888-LQ-0','Female', 'DIT','3rd Year','cf328a270c1c0503c100a5c6b2b8503b02ce02fd7f7ecbaf67a4d1cc5e7ab8d5','member','Member',1),
-('Anne W. Marasigan', '2024-00657-LQ-0','Female', 'DIT','3rd Year','7ef949fd4795ed1e3c1885f180cfc58015e6d7e038417de612e28eb1d4f6f30f','member','Member',1),
-('Frinz Derf G. Maravilla', '2024-00647-LQ-0','Male', 'DIT','3rd Year','859575086286d6e369a3f297af19ecda61c4cc520284123ed171e1c0f2a4bc8d','member','Member',1),
-('John Rarry C. Marjalino', '2024-00884-LQ-0','Male', 'DIT','3rd Year','e777b8559101ff288c0b9817dd7714e23db2830866137afac99cd1cd39659ef0','member','Member',1),
-('Phrencine Aicel S. Mayamaya', '2024-00662-LQ-0','Female', 'DIT','3rd Year','4bbb97c5dc55dcaacbf985437e918e8fe6a9dc232363b285a8a8f3ebd0d7ae05','member','Member',1),
-('Christopher P. Mermillo', '2024-00649-LQ-0','Male', 'DIT','3rd Year','0d5ab516b925be5b19bded0a6bcb9bc9e26fe6dc5e4d28d70025fb3a763f6205','member','Member',1),
-('Aldrin B. Pradia', '2024-00606-LQ-0','Male', 'DIT','3rd Year','9985db528ef555b14a5cfa46435fe29be0a3f844a35e921997fddd2a2d3c5393','member','Member',1),
-('Ken Cedrick L. Querubin', '2024-00661-LQ-0','Male', 'DIT','3rd Year','d231b0c00c2626d49026f69d7898894e68fbe96b641fc63d5a34671b83f13eea','member','Member',1),
-('Emerson D. Ramos', '2024-00663-LQ-0','Male', 'DIT','3rd Year','e3b2efdb48ba00c4eabf17b5a2e181c32f286a1d1747b2a1a04dd08e1080ea8d','member','Member',1),
-('Mery Jane E. Romero', '2024-00654-LQ-0','Female', 'DIT','3rd Year','22eb02fd4ebeb91e1cd83e1cc1e3aa0ac72b42c52b2a397325f7a34b69e5702e','member','Member',1),
-('Roanne Joy R. Segui', '2024-00617-LQ-0','Female', 'DIT','3rd Year','c58654178de95bc7230dad13ae9e728fbd80edaf93b7c41fdb17c4c9441a56d8','member','Member',1),
-('Cedrick James P. Siazon', '2024-00653-LQ-0','Male', 'DIT','3rd Year','591192a2133c0734d220dad3f7e0db9716269adac5d62146af2719ffc9b6ab0f','member','Member',1),
-('Mary Rose R. Vergara', '2024-00645-LQ-0','Female', 'DIT','3rd Year','d6b329c3535179411a97656997315112f9bea1f21a565c4ee59ec1fb6a1708ed','member','Member',1),
-('Zenjan Kiervin B. Arce', '2023-00836-LQ-0','Male', 'DIT','3rd Year','101650f551de47e126aa1cdc84a6dc468270fc157d38be2487d7df3a20def7bb','member','Member',1),
-('Ronan Kyle A. De Guzman', '2023-00848-LQ-0','Male', 'DIT','3rd Year','9c61f038eff9c355cd545abcfa1bee1eecd11f9b760dd1f787a4965af2080228','member','Member',1),
-('Nathaniel P. Grobador', '2023-00826-LQ-0','Male', 'DIT','3rd Year','06c8e945498c2898268a6d4f3972ac2fd489dc6318cff768d973b0350aa6795e','member','Member',1),
-('Gerald F. Latagan', '2023-00823-LQ-0','Male', 'DIT','3rd Year','80cc2894b981c5da600043afd4da47562d24a07e47d35cadbd50961e2827f77d','member','Member',1),
-('John Syrus C. Libranda', '2023-00837-LQ-0','Male', 'DIT','3rd Year','db1968ea883430fe0adb15ef7f86ecba40362ed2ed78bad83c3ff76302810eb5','member','Member',1),
-('David Ivan R. Luistro', '2023-00831-LQ-0','Male', 'DIT','3rd Year','1bac53b22924c055c12c77d89724d4938960d57ef5e227b25a01a847376337de','member','Member',1),
-('Alexis Jericho M. Pedragoza', '2023-00853-LQ-0','Male', 'DIT','3rd Year','3f221b98a4ef5a20961e153c0c3eb19dc43ec94fb5977e95386b0c1f1fdb801e','member','Member',1),
-('Mark Andrey D. Venus', '2023-00817-LQ-0','Male', 'DIT','3rd Year','3d6ea523b2b82c5306d8cbc1bb05e7e3b76d5d2fcb5ae387686d03adb6d9d97d','member','Member',1),
-('Ralph Rayniel Z. Villaos', '2023-00881-LQ-0','Male', 'DIT','3rd Year','89d3bc841fcb4f33d333e28ce276999002f5da584445ac72256f9efc7a89a20d','member','Member',1);
+    ('Santino Justin O. Aguilar',        '2026-00530-LQ-0', 'Male',   'BSIT', '1st Year', '37f5c7a7dd5f5a2d738af37fcf50d9ef2bc7f22de575a53ebf1f72c0cf9aabd5', 'member', 'Member', 1),
+    ('Earl Benedict D. Alson',           '2026-00510-LQ-0', 'Male',   'BSIT', '1st Year', '05409081f99b68ba0f453339c0ed02ccfa95f267f232d4097c4dec0547cb97e1', 'member', 'Member', 1),
+    ('John Michael C. Barnuevo',         '2026-00491-LQ-0', 'Male',   'BSIT', '1st Year', 'd76ab7f6f710a9e989b212f284e39e9b04563a07c63c35ba40ed22b69e7591f7', 'member', 'Member', 1),
+    ('Marian O. Basco',                  '2026-00465-LQ-0', 'Female', 'BSIT', '1st Year', 'bc743ca77044a7ba42567290aded63e1f028830c05408ff27394a4302ed19fd7', 'member', 'Member', 1),
+    ('Psalm Rywhel V. Base',             '2026-00511-LQ-0', 'Male',   'BSIT', '1st Year', 'a5ddcbcc61d89325b896bec54f365ae3bb868d92defee73e838e5d3945a23104', 'member', 'Member', 1),
+    ('Vince Carlos M. Cabrera',          '2026-00490-LQ-0', 'Male',   'BSIT', '1st Year', 'db9691c60c28cc858ca35905ae2d448e9f66dad292d826495d0037245340ee3f', 'member', 'Member', 1),
+    ('Jazryl P. Canzana',                '2026-00477-LQ-0', 'Male',   'BSIT', '1st Year', 'c35a81599eed3ec21985f9277cb437dcb4c526bdedafc03d4bd135a7ddb953ae', 'member', 'Member', 1),
+    ('Michael Cedrick R. Carreon',       '2026-00508-LQ-0', 'Male',   'BSIT', '1st Year', '63c0263df6e622c789ba528295ce00920477f181761a5b2076d7b451c250e52a', 'member', 'Member', 1),
+    ('Renz Anthony M. Dapito',           '2026-00518-LQ-0', 'Male',   'BSIT', '1st Year', '9444dfe0d45b41e2d69d7d759c7e3b1e58ccf7d427e02100c81bfdfde4465e91', 'member', 'Member', 1),
+    ('Krizelle Yra O. Dela Cruz',        '2026-00470-LQ-0', 'Female', 'BSIT', '1st Year', '41ff11fa3baf789923200e08f826d96730c39bb01492f6fe0ac9a29c1ace91dc', 'member', 'Member', 1),
+    ('Maria Nicole M. Ebora',            '2026-00497-LQ-0', 'Female', 'BSIT', '1st Year', '5e32d20c37cf604249227cb3202c61cdb2906cccf92441c18f82a7eefd69d494', 'member', 'Member', 1),
+    ('Aeroe James M. Erandio',           '2026-00466-LQ-0', 'Male',   'BSIT', '1st Year', 'c32492f3fd9d79189c98d4fafb405ad6f3e9587e3bf4c9351c737efb2c104806', 'member', 'Member', 1),
+    ('Carl Justine R. Garcia',           '2026-00535-LQ-0', 'Male',   'BSIT', '1st Year', 'cbb0e7fd26953121a348e403813269c20442382ef478b0c93fba60f75bb34c5e', 'member', 'Member', 1),
+    ('John Kristian R. Garcia',          '2026-00495-LQ-0', 'Male',   'BSIT', '1st Year', 'eee3876b03dea4cfe263c17140c408d71e56fe67c55f22f238ae44994679d30a', 'member', 'Member', 1),
+    ('Ceejay S. Glindro',                '2026-00474-LQ-0', 'Male',   'BSIT', '1st Year', '14846d47fe441012de0c5fb5bcdbd0cfd68bb9a6944a15744a0789fd94ab1279', 'member', 'Member', 1),
+    ('Armela Andrea C. Glinoga',         '2026-00462-LQ-0', 'Female', 'BSIT', '1st Year', 'aba360759dfb79a1e0dd7f602669337f6eb806ae2d626c169cac991162d86d6a', 'member', 'Member', 1),
+    ('Lord Calex T. Gresola',            '2026-00536-LQ-0', 'Male',   'BSIT', '1st Year', 'aae3513685d739af7455b05c216195d57269b8d98c2fdfac1337d07ef0781d1a', 'member', 'Member', 1),
+    ('Pol Julian G. Griego',             '2026-00528-LQ-0', 'Male',   'BSIT', '1st Year', '8dc64f8c134fa7f0a32592c67a95bc27f93b35ed2bb96dd98c884915d698338d', 'member', 'Member', 1),
+    ('Karina Gabrielle A. Hernandez',    '2026-00476-LQ-0', 'Female', 'BSIT', '1st Year', '339ce6ca6b273550791055540f5de7e8cb8e18cfe342c87701b0a455c2063a08', 'member', 'Member', 1),
+    ('Noelle F. Julaton',                '2026-00516-LQ-0', 'Female', 'BSIT', '1st Year', '16311ff1d2285586ba1811cc814353508851f685b69befe253c70c9403c5b20c', 'member', 'Member', 1),
+    ('Paul Rene R. Larcena',             '2026-00469-LQ-0', 'Male',   'BSIT', '1st Year', '8a1e6a5e9ab7df7dcbfae243a5535a6399c45f7f5f570d2a8741ccfa52d6c8a8', 'member', 'Member', 1),
+    ('Noel O. Mancilla',                 '2026-00479-LQ-0', 'Male',   'BSIT', '1st Year', 'f486f3dfbffd3eb8ace8c409d460a4859104c2fa298ec754ddeabb2c962438f2', 'member', 'Member', 1),
+    ('Nharil Zius P. Manuel',            '2026-00501-LQ-0', 'Male',   'BSIT', '1st Year', 'b3b24e4e9cb7043b29e8c308eaa65c88fcb52bcf45514b70a888361ec1d3a023', 'member', 'Member', 1),
+    ('Calvin Lei L. Nollas',             '2026-00475-LQ-0', 'Male',   'BSIT', '1st Year', 'd305fbcbdd75a47ee38acdb5035f0d5a37f3b1667ad40507de21e7fb66a68a45', 'member', 'Member', 1),
+    ('Angela M. Paligar',                '2026-00488-LQ-0', 'Female', 'BSIT', '1st Year', '8130edcd4ff28a7eec694c815d018e3cae1c56f8e9a5c0d51ebfc57c9cf0a8b4', 'member', 'Member', 1),
+    ('Rey Daniel B. Raet',               '2026-00464-LQ-0', 'Male',   'BSIT', '1st Year', '9e2938075ebe8c936c2be04623c57efcca7cb9fd59014bb2ab0c4eb80fe6d69a', 'member', 'Member', 1),
+    ('Stephen D. Ramirez',               '2026-00499-LQ-0', 'Male',   'BSIT', '1st Year', '08df8d8a8ec8eca9a97fe4025b3d842ff41da9f5a0bf52c611758473d427e406', 'member', 'Member', 1),
+    ('John Lawrence E. Recomendable',    '2026-00473-LQ-0', 'Male',   'BSIT', '1st Year', 'c555e34a1006c17797d842aa5f00f900511cad9f75249381a7fd3331f6ea999d', 'member', 'Member', 1),
+    ('Christian James C. Salandanan',    '2026-00493-LQ-0', 'Male',   'BSIT', '1st Year', '649c27c1d85812ff48e99e822ffaefbd26a7386a24c14ed7dbf6bfa37111a109', 'member', 'Member', 1),
+    ('Shan Angelo F. Santos',            '2026-00471-LQ-0', 'Male',   'BSIT', '1st Year', 'db02e7ff52dae972dbe39d2772fe75e2c72e37062bbf18e77ec412ae3309280b', 'member', 'Member', 1),
+    ('Paul Wilbert S. Siat',             '2026-00486-LQ-0', 'Male',   'BSIT', '1st Year', 'd03bd02252dc327f6c043a082f02b30e1d27a91159dfb29658783732c56c8de6', 'member', 'Member', 1),
+    ('Kian Kurt D. Veluz',               '2026-00485-LQ-0', 'Male',   'BSIT', '1st Year', '3029fac1ebab17a974c48a873273e775479ee0e0a9bba15fa7d7154d4b223592', 'member', 'Member', 1),
+    ('Matt Angelo Villasanta',           '2026-00526-LQ-0', 'Male',   'BSIT', '1st Year', '6a8cb2ec73238ca7e1b94684abf79808d98a48a0727223c2e80c8e7e96f27da8', 'member', 'Member', 1),
+    ('Miel Martin Villasanta',           '2026-00539-LQ-0', 'Male',   'BSIT', '1st Year', 'cd0511c0081054ae9c6327ca9de29d1ed765cc7ae3315eb18d23df12e6f8a772', 'member', 'Member', 1),
+    ('Ma. Isabel V. Abragon',            '2025-00054-LQ-0', 'Female', 'BSIT', '2nd Year', '55cb3e708d82295de1cdeedc5dfd7139499c13fa0442248861bc6a3d88090361', 'member', 'Member', 1),
+    ('Bea Joy E. Agustin',               '2025-00089-LQ-0', 'Female', 'BSIT', '2nd Year', '7562f00d13a89298b450fe630d9ff78c9bfd0b75d86fb0dba5d2973df71eb1fc', 'member', 'Member', 1),
+    ('Jhalaine A. Agustin',              '2025-00123-LQ-0', 'Female', 'BSIT', '2nd Year', '2c6dc596e8c1a6db404afe6d85451bf952193ed357a6a4dc1b3965b5c7309747', 'member', 'Member', 1),
+    ('Erl Lorrenz D. Aro',               '2025-00090-LQ-0', 'Male',   'BSIT', '2nd Year', '75ee16819006de7eb22915021bbd2b5cef0d3b071b0579e976c535a96ed3b905', 'member', 'Member', 1),
+    ('Sophia Ferlyn A. Austria',         '2025-00132-LQ-0', 'Female', 'BSIT', '2nd Year', '956cd584bd5bf759d345b72486145b13fc164db5714fb75738b99a4cf19a0f66', 'member', 'Member', 1),
+    ('Jesu Ian Kristoffer B. Aventurado','2025-00058-LQ-0', 'Male',   'BSIT', '2nd Year', 'ba36f38d515438e01df6ff7b50c5803c6c8aa0b703cc2b1e88412083ff79b07e', 'member', 'Member', 1),
+    ('Heleana Arianne A. Barrera',       '2025-00062-LQ-0', 'Female', 'BSIT', '2nd Year', 'c2a53cde0840ac47268a636d86ddebf7968105835544bf96570905680c71c031', 'member', 'Member', 1),
+    ('Niño Yno A. Bejerano',             '2025-00048-LQ-0', 'Male',   'BSIT', '2nd Year', 'd3ab69f6c49d46be9fcb756d6f393b5d9886d9f3943163347be2c36a728ad0ab', 'member', 'Member', 1),
+    ('Shaira Cybelle V. Bitoin',         '2025-00087-LQ-0', 'Female', 'BSIT', '2nd Year', '610f0c652b422b92eb4ee02e4c069f137ecf8a94c7efefbbe8f8d45d04123fb7', 'member', 'Member', 1),
+    ('John Carl M. Buayaban',            '2025-00131-LQ-0', 'Male',   'BSIT', '2nd Year', 'dd6a135ebd484b37658e64717e0bb6a087f6e264ba645529c564dbcbaf6c1383', 'member', 'Member', 1),
+    ('Romnick V. Buenaflor',             '2025-00134-LQ-0', 'Male',   'BSIT', '2nd Year', 'eed35ae10f8793e50102f9d3e2e5765bf1ab36bce6d9d56207bdfeb0595eb3ce', 'member', 'Member', 1),
+    ('Liynkert Clarence B. Carillo',     '2025-00126-LQ-0', 'Male',   'BSIT', '2nd Year', '4aecfd3362db38f3c5464a16ec49425cc7cd9b455d656c46e3090ab9fbc443ce', 'member', 'Member', 1),
+    ('Cyrine Jill S. Damasco',           '2025-00144-LQ-0', 'Female', 'BSIT', '2nd Year', '715d20ab989b4ee4f3de5611ac48b5f1b775f0ac2f1039ffffd297a04e18258a', 'member', 'Member', 1),
+    ('Gian Carlo M. Depilo',             '2025-00116-LQ-0', 'Male',   'BSIT', '2nd Year', '64015f871cf45c6f0a5e8952fdd052665b26f589c01b99f3037dcedbf5a554df', 'member', 'Member', 1),
+    ('Ronalyn R. Dueñas',                '2025-00115-LQ-0', 'Female', 'BSIT', '2nd Year', 'cf06bcb45080eff3d9c94a5cc70dbb971ca9714c4d3214333bef8f167a7eb9d5', 'member', 'Member', 1),
+    ('Alvin B. Elloso',                  '2025-00085-LQ-0', 'Male',   'BSIT', '2nd Year', '140c778c2bbba47121f0aec429af50e94dbfba659c25c67015a364a22c77dae1', 'member', 'Member', 1),
+    ('Bryan Ivan Z. Florida',            '2025-00143-LQ-0', 'Male',   'BSIT', '2nd Year', '785e3722737a47bd33c02087f5f3110e5cede7846a83040f33b92c94a3a98737', 'member', 'Member', 1),
+    ('Xeq Laurenzo G. Garduña',          '2025-00050-LQ-0', 'Male',   'BSIT', '2nd Year', '9c1023b761c89d1e16f31509b60677e14f4fa95a40ef6680481aee58c943dd50', 'member', 'Member', 1),
+    ('Justin D. Guillepa',               '2025-00136-LQ-0', 'Male',   'BSIT', '2nd Year', '11db576312e17818856a5396da6d33fe2b0879d274b71245475cd40ac8c98db8', 'member', 'Member', 1),
+    ('Sheryn C. Hina',                   '2025-00118-LQ-0', 'Female', 'BSIT', '2nd Year', '625029958452ae3cb805dcb09ba2a7fd738b46026ac74b5c9ac321d0c3c4d9f8', 'member', 'Member', 1),
+    ('Eriz Earl John A. Ibis',           '2025-00120-LQ-0', 'Male',   'BSIT', '2nd Year', '1f1fab20be91833cdb0315bd483691a6303914ff19173c23e721dd4659735f39', 'member', 'Member', 1),
+    ('Gabrielle V. Lopez',               '2025-00139-LQ-0', 'Female', 'BSIT', '2nd Year', '67ddbb4002f5415f26b4e15c1c0db9775fb2dc42e0abc0534f9cbc6cdac44eed', 'member', 'Member', 1),
+    ('Arlene J. Mabait',                 '2025-00141-LQ-0', 'Female', 'BSIT', '2nd Year', 'c8780228c268090f67cf3b851ce3144dcc33b5f83766c58444f45a0b9b59f061', 'member', 'Member', 1),
+    ('Jazen A. Mallapre',                '2025-00145-LQ-0', 'Male',   'BSIT', '2nd Year', '4b8d53a419279d41adf140f6d82ec291a71d8ebda127cb6fe5d863f0006ab4f6', 'member', 'Member', 1),
+    ('Sittie Aina M. Mamao',             '2025-00056-LQ-0', 'Female', 'BSIT', '2nd Year', 'ba4923514f35cba15149d6bdbd11eddbc7e3dcd89b591fd39c5534d116f108d5', 'member', 'Member', 1),
+    ('John Denzel C. Manzano',           '2025-00874-LQ-0', 'Male',   'BSIT', '2nd Year', '371bc27c9a7d028d17d8ff5ab4eaf1a1bd3c5d6584c49359286e9247403ed9e9', 'member', 'Member', 1),
+    ('Mark Luigi B. Mapagdalita',        '2025-00129-LQ-0', 'Male',   'BSIT', '2nd Year', 'cbd251afa097e4bfd6be2da3b77ef2ea46408aa50fe2d2f5392b96f536984d53', 'member', 'Member', 1),
+    ('Fiona Simone O. Mayores',          '2025-00124-LQ-0', 'Female', 'BSIT', '2nd Year', '9efefb5fa461753eac0fdddf33322195727b3c92a95a2790f015594f0bbf1e9e', 'member', 'Member', 1),
+    ('Justin Lloyd B. Mendez',           '2025-00109-LQ-0', 'Male',   'BSIT', '2nd Year', '20b4cbad9d8964d0635b1b4df67061a86081af95f09fc756bd04db60d91b87a0', 'member', 'Member', 1),
+    ('James Anthony M. Meriado',         '2025-00081-LQ-0', 'Male',   'BSIT', '2nd Year', '341e11bdc66f56ded396c3cd879147d20a03b84497b94bd80b87e2837cc35363', 'member', 'Member', 1),
+    ('Antonio David T. Olivenza',        '2025-00142-LQ-0', 'Male',   'BSIT', '2nd Year', 'd358394f7950acfcdf37af043e783d41d9deb13bce7ba97a9fb2a54a68775277', 'member', 'Member', 1),
+    ('Cedrex Q. Pelagio',                '2025-00093-LQ-0', 'Male',   'BSIT', '2nd Year', '3ffe8c6addf3d10330620e42c3d9b29f0d47f7eff17c082f4a2d32f016f4cf4a', 'member', 'Member', 1),
+    ('Wella T. Retardo',                 '2025-00103-LQ-0', 'Female', 'BSIT', '2nd Year', 'a2c1d4649a1f44adfc0fba5d5d843b01bedc4628e53073043d31d97b1c9b47c9', 'member', 'Member', 1),
+    ('Rance Andrew A. Rubiales',         '2025-00092-LQ-0', 'Male',   'BSIT', '2nd Year', 'c301f2971f8ee0b1c0089ca01a595059b8324038f4bc5b9d1a7821712a404f89', 'member', 'Member', 1),
+    ('Keziah Rabbi N. Salimo',           '2025-00146-LQ-0', 'Female', 'BSIT', '2nd Year', 'f1f605d54c818114ec4860061e4502b5fee23f5977367d3c03b2c291a29589d3', 'member', 'Member', 1),
+    ('Niña Airies G. Santiago',          '2025-00128-LQ-0', 'Female', 'BSIT', '2nd Year', 'dd44d4239d0135f9cf6171a466514442dd7cf44afe02ef2ff31f4a5ace7c261f', 'member', 'Member', 1),
+    ('Angelo O. Solas',                  '2025-00133-LQ-0', 'Male',   'BSIT', '2nd Year', '6c967d55b4ab49fe0a58a9c6ab764b8b9f91ee4d9c09a772fcfac9ddffc48c8f', 'member', 'Member', 1),
+    ('Francheska Lorien L. Tabios',      '2025-00095-LQ-0', 'Female', 'BSIT', '2nd Year', '57a8dbc09f5ffe219945b097d861d5fe7e7a680a7ae448f2d7400348507c0664', 'member', 'Member', 1),
+    ('Rhea Jhane D. Tumala',             '2025-00135-LQ-0', 'Female', 'BSIT', '2nd Year', 'b6ed03620b9e562ffdc6de48ba0f92c5d4672a42c03722fec7db8fd9af8fdbeb', 'member', 'Member', 1),
+    ('Roxan Ivy M. Unlayao',             '2025-00113-LQ-0', 'Female', 'BSIT', '2nd Year', '0ca16af739ff1366ebb1739c1d1e1583cc59de072ab68a09bc82a84515dad492', 'member', 'Member', 1),
+    ('Paul Andrein A. Veherano',         '2025-00140-LQ-0', 'Male',   'BSIT', '2nd Year', 'e862673e29a334a9e046dad5125a1168ee4665ddcea11d1c090e539b02586bb6', 'member', 'Member', 1),
+    ('Jack F. Velez',                    '2025-00052-LQ-0', 'Male',   'BSIT', '2nd Year', 'e0a4d21e521058ae4970df068294120b6d8cc89ddef8e56b9ef4a22fd607edab', 'member', 'Member', 1),
+    ('James Raphael A. Veran',           '2025-00060-LQ-0', 'Male',   'BSIT', '2nd Year', '0427422667d24388d529ed9b18c78dbbde20e3b83f6546f670a463b8cc521185', 'member', 'Member', 1),
+    ('Ma. Eunice P. Villanueva',         '2025-00111-LQ-0', 'Female', 'BSIT', '2nd Year', '9938eaa41fa9b6a8ed1ff255afb36bed72b0b2c02ebf475d8517d03f68ee116e', 'member', 'Member', 1),
+    ('Jersy Rose M. Villanueva',         '2025-00130-LQ-0', 'Female', 'BSIT', '2nd Year', 'ed9a2978fb63c64c03abaf3dba507dd2ca438b558d205412b9e6808adfcf6e82', 'member', 'Member', 1),
+    ('John Mark Oseiah A. Zamora',       '2025-00064-LQ-0', 'Male',   'BSIT', '2nd Year', '442390a37b0c2836cb74afeee73555afd8f5d5cc0c5450841c47cbc3537a6402', 'member', 'Member', 1),
+    ('Karla Andrea B. Ables',            '2024-00549-LQ-0', 'Female', 'BSIT', '3rd Year', 'e65ca98990e17afdb8147de8ea75ffce8eba3067a53fbfc96db05ed6d5e7a39d', 'member', 'Member', 1),
+    ('Jireh Erika G. Alinar',            '2024-00545-LQ-0', 'Female', 'BSIT', '3rd Year', '010bbbfe28fc637051ddb490a0eb31ce59e3c44495aeab08c8c8d5d321b4e0ec', 'member', 'Member', 1),
+    ('Angel B. Andrade',                 '2024-00547-LQ-0', 'Female', 'BSIT', '3rd Year', '06a8d8570431ba84a5e7983ad6fa81916e2dda9d0f832d092c2498e8303b2677', 'member', 'Member', 1),
+    ('Tyronne James C. Argamosa',        '2024-00604-LQ-0', 'Male',   'BSIT', '3rd Year', 'ab4a41b4f9b5619757440eafd01efe7e43bf66f02588a84f5da0f13b9755623e', 'member', 'Member', 1),
+    ('Jhillian D. Atienza',              '2024-00648-LQ-0', 'Female', 'BSIT', '3rd Year', 'cebcafd14dc197b571919a2822bb304d7cb1d9c5bb86e7cc4fc03a70fd1276d8', 'member', 'Member', 1),
+    ('Elaizza Pauleen A. Bancual',       '2024-00618-LQ-0', 'Female', 'BSIT', '3rd Year', '78aee25cc51b15e40b14804b8241479e1e8c6a5679e8ce94d4e84b9f9f954e60', 'member', 'Member', 1),
+    ('Philip Joshua O. Barba',           '2024-00602-LQ-0', 'Male',   'BSIT', '3rd Year', '523e935d7a2771ce42fd14ef9e5c1e9bde4ef3ed022f269c6861a7683f1b7338', 'member', 'Member', 1),
+    ('John Dreck V. Basanta',            '2024-00605-LQ-0', 'Male',   'BSIT', '3rd Year', '5f9eb7059458a3d46acd4a8db03d48f961ac682fe2980ec5d52e97684d172eb0', 'member', 'Member', 1),
+    ('Xezar F. Basanta',                 '2024-00542-LQ-0', 'Male',   'BSIT', '3rd Year', '36f690c25f91a9fa7d8bbb42f8d6de7aa8132d7e6d9caaf8d12470e39e53ed7b', 'member', 'Member', 1),
+    ('Althea A. Dangalan',               '2024-00627-LQ-0', 'Female', 'BSIT', '3rd Year', 'de806345ad4743c93955edb483ee246a3da60e4160f396c2845ecbcecd0e36da', 'member', 'Member', 1),
+    ('George Rovic B. De La Pena',       '2024-00620-LQ-0', 'Male',   'BSIT', '3rd Year', 'b37ed7892b1bee37bd7fcd3cc8ee87e1798148571737f339cc861fd98083d7d1', 'member', 'Member', 1),
+    ('Nel Jhon V. Duran',                '2024-00634-LQ-0', 'Male',   'BSIT', '3rd Year', 'a9e05771796b48c526fb7780025992802a14b76c27a6d59649b5a4e90d18f93f', 'member', 'Member', 1),
+    ('John Harry A. Endiafe',            '2024-00543-LQ-0', 'Male',   'BSIT', '3rd Year', '3513fd27704b2808d72a0d30d86ac74ce521303f505c94a2aa4bf3c7c14b4ff5', 'member', 'Member', 1),
+    ('Ashley L. Espartinez',             '2024-00636-LQ-0', 'Female', 'BSIT', '3rd Year', 'e54681cf2e4b33c33f01b2433260a3fa8e640a2c925ea1cfa14c638cdc708a36', 'member', 'Member', 1),
+    ('Micah Mae C. Esplana',             '2024-00600-LQ-0', 'Female', 'BSIT', '3rd Year', 'a3e780f4c51f980d88f7d78195832b7470e4090cacd2901ef4e861e4c1242aa2', 'member', 'Member', 1),
+    ('Shena Mae G. Gamier',              '2024-00639-LQ-0', 'Female', 'BSIT', '3rd Year', '99b075015939e1fec683512723e97643a03d39efd2a074645b9035e6d63fd9a0', 'member', 'Member', 1),
+    ('Cyrille Jane L. Garbida',          '2024-00536-LQ-0', 'Female', 'BSIT', '3rd Year', 'b61cdd3a352846261e8fa7148c440ee2cd391f563169895c4200ecc6a1ea7986', 'member', 'Member', 1),
+    ('Zhedril C. Gonzales',              '2024-00554-LQ-0', 'Male',   'BSIT', '3rd Year', '6808b6a6b2370d9d562d806968d36bfff9f31f096c94dfc0c76d83149d1a8ece', 'member', 'Member', 1),
+    ('Althea Kristel P. Goyena',         '2024-00550-LQ-0', 'Female', 'BSIT', '3rd Year', '3fbb419d86692722ff6001a15e55f30f617c5f0eb684c4da2156469be19a5430', 'member', 'Member', 1),
+    ('Kaizzer P. Hernandez',             '2024-00624-LQ-0', 'Male',   'BSIT', '3rd Year', 'f35263604f602a28e09bd88c2eb9c47c09750f91f260a30a3eaa309b5374cf72', 'member', 'Member', 1),
+    ('Emrald Ignacio Miguel R. Ignacio', '2024-00540-LQ-0', 'Male',   'BSIT', '3rd Year', '4be640917fdca27fee2c9add037f4386f5dc01c08061365426b119b69afb95c5', 'member', 'Member', 1),
+    ('Gian Errol V. Labso',              '2024-00552-LQ-0', 'Male',   'BSIT', '3rd Year', '27d13c65b26bfbc3ca477e8bf72f6b4cfbff241bd7ae7b6b8c8ec0c20edb3ccc', 'member', 'Member', 1),
+    ('John Renz B. Latona',              '2024-00885-LQ-0', 'Male',   'BSIT', '3rd Year', '84701767b6f5b1f7425a8e88b2dfce7b6ae44dbdb6dff2ba12ea95f860997781', 'member', 'Member', 1),
+    ('John Lei V. Laurio',               '2024-00539-LQ-0', 'Male',   'BSIT', '3rd Year', '0ea93f0a54d6a3ad3cd19e1832f6a9913a93825d31754036cefa19e90b11273c', 'member', 'Member', 1),
+    ('Leravivs T. Licas',                '2024-00629-LQ-0', 'Male',   'BSIT', '3rd Year', '04446e7541eaf8bf07ff1d1332ad413b34704133a3339fe278813920a6b13596', 'member', 'Member', 1),
+    ('Janelle Gem B. Llaneta',           '2024-00541-LQ-0', 'Female', 'BSIT', '3rd Year', '6250c6de3c40d216e7f35af803ec4f16cf99d7bdae3b8c9afec2fd48bc4e5514', 'member', 'Member', 1),
+    ('Celine B. Loo',                    '2024-00548-LQ-0', 'Female', 'BSIT', '3rd Year', '7e6a774598d4893199270b4aa757cb8b3d371fb2414b328dac9c5c70f7c4728c', 'member', 'Member', 1),
+    ('Ella Mae V. Loresto',              '2025-00598-LQ-0', 'Female', 'BSIT', '3rd Year', '4e6ecfe1bf139583f1a13cced9621a377de2dbdc8e0dfefbc970ecec8fec3a32', 'member', 'Member', 1),
+    ('Norainisa L. Macaalin',            '2024-00641-LQ-0', 'Female', 'BSIT', '3rd Year', '35586538913d0bf1d192a413b7d4e0b91848e5ded34d5d19615706735606b7ee', 'member', 'Member', 1),
+    ('Jodi Alexa M. Macahiya',           '2024-00644-LQ-0', 'Female', 'BSIT', '3rd Year', '51506c2d1862ce5fd281a7e75b01c3de6f23add3b403f1007a558169face62df', 'member', 'Member', 1),
+    ('Ana Marie R. Magallon',            '2024-00546-LQ-0', 'Female', 'BSIT', '3rd Year', '70b2a850f7d2903e7a79913fe9beb450701b279af466f48cf3a0fac394514360', 'member', 'Member', 1),
+    ('Jandra Nicole D. Mallorca',        '2024-00553-LQ-0', 'Female', 'BSIT', '3rd Year', 'd84346095516043d4f428452124a6ad99c562322472b41775ba50115415b0141', 'member', 'Member', 1),
+    ('Micah Angelyn B. Manago',          '2024-00632-LQ-0', 'Female', 'BSIT', '3rd Year', '9205980f6fb140b47d649c5cf5dc15b997d5ce809a6dea1991186aea14f96530', 'member', 'Member', 1),
+    ('Jon Carlo A. Marasigan',           '2024-00597-LQ-0', 'Male',   'BSIT', '3rd Year', '28867396c5dc82e2901f3a8285fde7df0dad02ee5d3af817cfc5b79f1dbb8a7b', 'member', 'Member', 1),
+    ('Allyson Joy D. Marcaida',          '2024-00533-LQ-0', 'Female', 'BSIT', '3rd Year', '5622eaa66599744ea3d87ffdc89e28f302f9d0bf23e6b19aca6a50c9e35d3872', 'member', 'Member', 1),
+    ('Enrico Miguel B. Martinez',        '2024-00607-LQ-0', 'Male',   'BSIT', '3rd Year', '2df50853196e45423b9dcfd19e60c90aa504da42de2f9599644ff32176925f12', 'member', 'Member', 1),
+    ('Carl Jhomel P. Mensote',           '2024-00529-LQ-0', 'Male',   'BSIT', '3rd Year', 'f7a25f3c053d4f3ef32a39461af362b97c7cd5287587510fe98d4bb2d8bcd555', 'member', 'Member', 1),
+    ('Alaiza Mae A. Mirando',            '2024-00615-LQ-0', 'Female', 'BSIT', '3rd Year', '52b942454b35b93847cf998382d245e876960959d0b707d41498f3c992674b0e', 'member', 'Member', 1),
+    ('Jane M. Paligar',                  '2024-00528-LQ-0', 'Female', 'BSIT', '3rd Year', '258a64cc08696fcd11429ec3c68f6f686911cd2952de3dc97cd3d09c6731d2a7', 'member', 'Member', 1),
+    ('Crystal Mae B. Parro',             '2024-00609-LQ-0', 'Female', 'BSIT', '3rd Year', '7cd85a0cb2c81c72ba26bb495584bc103f032893eb8014cf4837620fccb84c66', 'member', 'Member', 1),
+    ('Sophia A. Plaza',                  '2024-00774-LQ-0', 'Female', 'BSIT', '3rd Year', 'f477f8132064c53209ff29c0d18a665e7e6425a96ce90dd504035e8ddc57d19f', 'member', 'Member', 1),
+    ('Kaye Princess M. Rago',            '2024-00534-LQ-1', 'Female', 'BSIT', '3rd Year', '7de1bdb06663cf756c56f0b92acc9c2459b66b820553f4a6276e23d72ae1079e', 'member', 'Member', 1),
+    ('Renz Matthew H. Simeon',           '2024-00646-LQ-0', 'Male',   'BSIT', '3rd Year', '78d868c82675ca6694618ade599be8ef472d129271d1d778d06e38483799c3e7', 'member', 'Member', 1),
+    ('Lawrence A. Supetran',             '2024-00613-LQ-0', 'Male',   'BSIT', '3rd Year', '4ce80f84f290a2b90d2569ef396849f93f526def23dc22cc4574b43e0e36f448', 'member', 'Member', 1),
+    ('Vince Jomer S. Valeros',           '2024-00643-LQ-0', 'Male',   'BSIT', '3rd Year', '3dd5558198a2ace67c6e15eea38601907b8462423f865aba3af4b46d19fa790c', 'member', 'Member', 1),
+    ('Carlos BJ A. Velando',             '2024-00538-LQ-0', 'Male',   'BSIT', '3rd Year', '9357f849f1f1117f319a3c6c33128e09403b4ebd6de9df6408ac975d99cc948c', 'member', 'Member', 1),
+    ('Shairabelle Nikole V. Villamor',   '2024-00601-LQ-0', 'Female', 'BSIT', '3rd Year', 'af2be654d7a062bd644da04a3dd28c135ace6c8ce530f6d24942b435951ac6fb', 'member', 'Member', 1),
+    ('Lugelle T. Zabella',               '2024-00622-LQ-0', 'Female', 'BSIT', '3rd Year', '5700b5d999c849f731538fda0279adf89572c924f3ffeec7a0d67acfd84b926a', 'member', 'Member', 1),
+    ('Ivan Jake O. Acilo',               '2023-00045-LQ-0', 'Male',   'BSIT', '4th Year', 'b07bb7aacd157b9c14f0db4affccdb9e7cfe85ee2eafa0bab057a01187fde63c', 'member', 'Member', 1),
+    ('Mon Gabriel D. Ambas',             '2023-00017-LQ-0', 'Male',   'BSIT', '4th Year', '98320d1445696738d3e33e561dafb5a2209bb27b56f2d3c234afe9c297b6ee14', 'member', 'Member', 1),
+    ('Aaron O. Asuncion',                '2023-00028-LQ-0', 'Male',   'BSIT', '4th Year', '48e3bfd6b599bc941e20bfca350d87cde29356a4594dabe5fe99319b44a99f7c', 'member', 'Member', 1),
+    ('Earl John L. Aurin',               '2023-00014-LQ-0', 'Male',   'BSIT', '4th Year', '2eeceb2ff3379891bee3e40d34e3b1d07bd080b9ae8948f31e2ec05d24505149', 'member', 'Member', 1),
+    ('Lynnel E. Barroa',                 '2023-00018-LQ-0', 'Female', 'BSIT', '4th Year', 'a1e781345170ab15c84e45e3bb7a70600ccbb40261cf4a084496d88cb80b5a73', 'member', 'Member', 1),
+    ('Julian Robert M. Basan',           '2023-01013-LQ-0', 'Male',   'BSIT', '4th Year', 'bdee525593b4b63d25cf6578156aa4511c33135e0c72ec10b12cf8765182a52b', 'member', 'Member', 1),
+    ('Jasmyne Cozette S. Basco',         '2023-00012-LQ-0', 'Female', 'BSIT', '4th Year', '61d24d0d4711a9e5e8ad37fbe768283e4ec1f0857dda65bfe3dfacff4c0e110e', 'member', 'Member', 1),
+    ('Rayven Josh A. Basto',             '2023-00001-LQ-0', 'Male',   'BSIT', '4th Year', '7e396734af426b5221b18ef9daabd88767873b6ce58bc59654f5ee780cbc021c', 'member', 'Member', 1),
+    ('Louis Manuel R. Cacho',            '2023-00006-LQ-0', 'Male',   'BSIT', '4th Year', '5b887b0b8a8c7b545e919c05d0fe24c34f529dfee2b8c9ffaa5d95b48477d520', 'member', 'Member', 1),
+    ('Camille C. Caralian',              '2023-00015-LQ-0', 'Female', 'BSIT', '4th Year', 'f7f2ba07f0989136394cdfbfcfc7c29d982454cf0a5b8d61882b8a4146434723', 'member', 'Member', 1),
+    ('Pauleen Jesareth L. Convento',     '2023-00009-LQ-0', 'Female', 'BSIT', '4th Year', '005b228a5161969b98f91589cb95c84c25694f9d97d817693606ec4923962ce9', 'member', 'Member', 1),
+    ('Dustin Dirk F. Juri',              '2023-00949-LQ-1', 'Male',   'BSIT', '4th Year', 'c4812ee2bb10fae03ca99cc6968c5946f06b3334cbb778a0c97e1cce52ea8026', 'member', 'Member', 1),
+    ('Karl Christopher O. De Leon',      '2023-00004-LQ-0', 'Male',   'BSIT', '4th Year', '83225a8514f1651b2b3131d72fb83d60ec3d55f7b48ea126daf35a392636cae7', 'member', 'Member', 1),
+    ('Mikko C. Garduña',                 '2021-00990-LQ-1', 'Male',   'BSIT', '4th Year', '00914c4460be0bb41017cbe61311d76f5781f08d136d5db7304e358bd0c4c504', 'member', 'Member', 1),
+    ('Zaldjhan Criz V. Gilbuena',        '2022-00300-LQ-0', 'Male',   'BSIT', '4th Year', '58d2c5d770f6dceb6a11afb0d5bc219319df3417e1b40c91e3d7456a0bb98312', 'member', 'Member', 1),
+    ('Jess Lorenz P. Lagsa',             '2023-00008-LQ-0', 'Male',   'BSIT', '4th Year', '01717fa84ea2eb94103aeb2293205e3b22f269661ba642310971644269e50a8d', 'member', 'Member', 1),
+    ('Vaness E. Legion',                 '2023-00034-LQ-0', 'Female', 'BSIT', '4th Year', 'bbbc3b60eecd815cf949df626dade994117bea2ee54ed08aead222c70c652687', 'member', 'Member', 1),
+    ('Lawrence Shane Joshua A. Lim',     '2023-00022-LQ-0', 'Male',   'BSIT', '4th Year', '12aad3fc401659bd9157446d480af09dc5106e63ad3b49418b3f95434bbddf91', 'member', 'Member', 1),
+    ('Kendrick Howell R. Macalinao',     '2023-00044-LQ-0', 'Male',   'BSIT', '4th Year', '186d6797fad58810a3429ef3b98ff9706e73beec192b366a595b59f7914936a4', 'member', 'Member', 1),
+    ('Princess Kaye E. Malabuyoc',       '2023-00011-LQ-0', 'Female', 'BSIT', '4th Year', 'c232e519cf94a5ffc4c1928ed2f3a7080c84bba4adb5e3564e3e2faea342bc55', 'member', 'Member', 1),
+    ('Shane Ashly M. Manadan',           '2023-00035-LQ-0', 'Female', 'BSIT', '4th Year', '33ac8153ecd5d06763826b6368b3ca37e993b08cdbbe3a82d38014348b4f2834', 'member', 'Member', 1),
+    ('Jeus P. Manguiat',                 '2023-00967-LQ-1', 'Male',   'BSIT', '4th Year', '4f3e9861ec89b589c1b295cdd35f493a9dc6fc70a3fe074fb43aa132581e7584', 'member', 'Member', 1),
+    ('Jehanne Shamel N. Marcaida',       '2023-00036-LQ-0', 'Female', 'BSIT', '4th Year', '324db02eb2b52e3ca837afd9a95d3c5ae0d9daaf6b8279d822014eaa980bd62c', 'member', 'Member', 1),
+    ('Zymon Joshua A. Marcaida',         '2023-00037-LQ-0', 'Male',   'BSIT', '4th Year', '1f5da4b1ff8e922fd54375bccddf511bb5e2beada333fc65ad311ad00afad7c2', 'member', 'Member', 1),
+    ('Micaella R. Marzan',               '2023-00005-LQ-0', 'Female', 'BSIT', '4th Year', '4a67b4c0ef13fb0664c8ed0506e614b91ba4dbe170b51752f8fca008f3d2a5ac', 'member', 'Member', 1),
+    ('Nathaniel N. Matriano',            '2023-00038-LQ-0', 'Male',   'BSIT', '4th Year', '2aeea9945657df9e1c304ba6b62f21056ea1674a34d10234ee2cd6de7d78f6a1', 'member', 'Member', 1),
+    ('Justine Bong V. Montante',         '2024-00025-LQ-0', 'Male',   'BSIT', '4th Year', 'ec8ccb18f894ccb6879fa73efe27d821f7fcc558c55e89c3283042abcd2c7f1d', 'member', 'Member', 1),
+    ('Jenny Rose G. Montipalco',         '2023-00039-LQ-0', 'Female', 'BSIT', '4th Year', 'ac509ab01a6b3efda3bdbe24a42b2592525f30f5f1e56e37e2d851ca396225c7', 'member', 'Member', 1),
+    ('Lovely Gift R. Navera',            '2023-00031-LQ-0', 'Female', 'BSIT', '4th Year', '4b99b30f0c6fa82f9ebca74b82a790f8c13946f4d491a2394e0d8a7cf7e20f15', 'member', 'Member', 1),
+    ('Bryan Ace A. Nuite',               '2023-00019-LQ-0', 'Male',   'BSIT', '4th Year', '159f02549cb6ae38303de27f7abfa7171fd862561b19c0323ee3bc264822f07c', 'member', 'Member', 1),
+    ('Conrad A. Oriarte',                '2021-00958-LQ-0', 'Male',   'BSIT', '4th Year', '216c420576565a831d182126071815d57323108e759145ba3b3d48b2a2078576', 'member', 'Member', 1),
+    ('Mariel G. Palaya',                 '2023-00010-LQ-0', 'Female', 'BSIT', '4th Year', 'b7b8fddfadc5c60cfbb8624b3a9d077b1873ce24bcb6b3cfe4441118478ea8dc', 'member', 'Member', 1),
+    ('Jhon Zechariah U. Parado',         '2023-00013-LQ-0', 'Male',   'BSIT', '4th Year', '657757dd8f9c305a5764e3ac953ba958111bc8fac4d5a2959c5242e274a6f4ab', 'member', 'Member', 1),
+    ('Dave Q. Petallano',                '2023-00046-LQ-0', 'Male',   'BSIT', '4th Year', '12a2190423f2582db7f59074b78bb2de3475a60a09493953434826f18f26af40', 'member', 'Member', 1),
+    ('Austin Jericho C. Pineda',         '2023-00040-LQ-0', 'Male',   'BSIT', '4th Year', '79a47649e043138512aa462e7316ba8a79e8eaa284a6a9387fe7f54673bc322f', 'member', 'Member', 1),
+    ('Ruth A. Poblete',                  '2023-00020-LQ-0', 'Female', 'BSIT', '4th Year', '3750da10e82594a83f17714e6258c271b34628c71be0f6ef0f7b6e3b533dae02', 'member', 'Member', 1),
+    ('Angelica G. Porlay',               '2023-00049-LQ-0', 'Female', 'BSIT', '4th Year', '8b3116976f85fd035d133d736146e4d16308a4ce7eb1e893784939adac7a8fef', 'member', 'Member', 1),
+    ('Jenelyn F. Rejano',                '2023-00002-LQ-0', 'Female', 'BSIT', '4th Year', 'e92e1ff86e033f6f97cc13d4b3c8d6a642a9cc3409b3d76a991d4be3bd88475a', 'member', 'Member', 1),
+    ('Kyle Nicholas M. Reodique',        '2023-00959-LQ-1', 'Male',   'BSIT', '4th Year', '43fc1e3e9eafc89ce0edfd9467e9a97cc7fce1035004cd1839d9018158e989ed', 'member', 'Member', 1),
+    ('Maica Angela I. Rodriguez',        '2023-00041-LQ-0', 'Female', 'BSIT', '4th Year', 'a59737a9dc4fc1b13b1b13c5e8d6a5f5ad6ce9c0ea6e1357bb2d1caf37ec8296', 'member', 'Member', 1),
+    ('Ivan J. Romantico',                '2023-00024-LQ-0', 'Male',   'BSIT', '4th Year', 'd76ec573d5d73d923b29c3d662938a05ec9ee4095f3ede697449c9941e10eeeb', 'member', 'Member', 1),
+    ('Sean Siegfred P. Salabo',          '2023-00043-LQ-0', 'Male',   'BSIT', '4th Year', '0bf82e1a1dd8d2af87dc07e98ba805cf530ab0abbfd9175ccf6d0ec2bbfcea70', 'member', 'Member', 1),
+    ('Hiram Paul B. Sigue',              '2023-00958-LQ-1', 'Male',   'BSIT', '4th Year', '4a478d99c72dba477cd8c53ae16aabb99c497a21f55d91b6032b893e17b59be2', 'member', 'Member', 1),
+    ('Andre Miller B. Tominez',          '2024-00016-LQ-0', 'Male',   'BSIT', '4th Year', 'fe0b0dbb5eb7854c0d1ccaed29a785d470d775da6c920570de0ecdf53f571547', 'member', 'Member', 1),
+    ('Leigh Laurence A. Torres',         '2023-00047-LQ-0', 'Female', 'BSIT', '4th Year', '1c3f241ef29d69c20ffc0a09420a1bd968ec37439a60be4b1c23498698700ef5', 'member', 'Member', 1),
+    ('Sofia Angela T. Vilan',            '2023-00042-LQ-0', 'Female', 'BSIT', '4th Year', '951baf567cb63dd31daa468d83b130a8c71f4ef51a03db12efd4b277be8ed8f1', 'member', 'Member', 1),
+    ('Renz C. Vinuya',                   '2023-00023-LQ-0', 'Male',   'BSIT', '4th Year', '7a900ed7b5d0b6783640dfe320335705b925212b00a04e5457e45281c178eb7c', 'member', 'Member', 1),
+    ('Krizzia M. Yabut',                 '2023-00026-LQ-0', 'Female', 'BSIT', '4th Year', '2f28da06660bd58be8aa82aa179814b5ea48591df990f5afef40c89e1db08f72', 'member', 'Member', 1),
+    ('Elaija Jasmin C. Yap',             '2023-00003-LQ-0', 'Female', 'BSIT', '4th Year', '446e87fbb91b337bdffe88100ad3e75369bd09896684336b65506f1c129b4e99', 'member', 'Member', 1),
+    ('Kurt Roshon Mikhayl S. Yu',        '2023-00048-LQ-0', 'Male',   'BSIT', '4th Year', 'ef57eafcfacf8e0127761f51a99ad522a372cbcffb98e7852e7a2c039cdb7cda', 'member', 'Member', 1),
+    ('Christian David P. Miranda',       '2022-00307-LQ-0', 'Male',   'BSIT', '4th Year', '65bd1da1b622161241f0134bb28d06701bba4e78acbab7b0f31a0db30f4ab51e', 'member', 'Member', 1),
+    ('Israel Isaac J. Pinawin',          '2022-00302-LQ-0', 'Male',   'BSIT', '4th Year', 'a3df38bf4d24d116bebcf0acc92aaa1015379da78192641932e960d9403b1d5e', 'member', 'Member', 1),
+    ('Princes Catherine C. Ugay',        '2022-00337-LQ-0', 'Female', 'BSIT', '4th Year', 'ec889a3ed5fae1e6190e30a9f7e22902cc739cfea77a89d620c21aab9befc0a2', 'member', 'Member', 1),
+    ('Ehrozz Jade P. Vilar',             '2022-00332-LQ-0', 'Male',   'BSIT', '4th Year', '2c4360966b2ae319aa9441469a45ba1c9716c3c010b9417b61a6544945935507', 'member', 'Member', 1),
+    ('Vea T. Alita',                     '2026-00534-LQ-0', 'Female', 'DIT',  '1st Year', '06d391d117ddc06d8834537f588a1f9a9d19d4be5ab9d61d34f13370f837d5e0', 'member', 'Member', 1),
+    ('Kervin James B. Alvarez',          '2026-00540-LQ-0', 'Male',   'DIT',  '1st Year', '3d2edf96514a85aeefa6f8ad0007c334df3b9ee3ac7ddd555775c7b8d9be6423', 'member', 'Member', 1),
+    ('Matthew Jose C. Asegurado',        '2026-00123-LQ-0', 'Male',   'DIT',  '1st Year', '25627ef241165135cc4f130207a8ca7562d4ae31f3b475510fbd830261ae5dfa', 'member', 'Member', 1),
+    ('Ruby M. Aveles',                   '2026-00547-LQ-0', 'Female', 'DIT',  '1st Year', '6156b85780800bc8d8eae619acab1a0f7fe75ed9599c3dc8afc361a9730578e7', 'member', 'Member', 1),
+    ('Gabriele Benedict E. Calibarra',   '2026-00502-LQ-0', 'Male',   'DIT',  '1st Year', 'fa88c8432ac898505252955ad82cfa309c4d46b09d3f9c81b848fca961af2467', 'member', 'Member', 1),
+    ('John Ronnel F. Caparros',          '2026-00537-LQ-0', 'Male',   'DIT',  '1st Year', 'd68a89653fa028be87f1464315d2fa02ab074c182a901c488fcc3b26b76e19d7', 'member', 'Member', 1),
+    ('KC Ann T. Capellan',               '2026-00538-LQ-0', 'Female', 'DIT',  '1st Year', 'eadc16a556dda1501e6d9295d0804e96ad3e7678e4caf2848b5321ad0cbcf169', 'member', 'Member', 1),
+    ('Yral Moises O. Capistrano',        '2026-00548-LQ-0', 'Male',   'DIT',  '1st Year', '7c5b235b8c8545ccf52ea28cc38dbd2412b2867f6f7b0ee51d819b50c41d483a', 'member', 'Member', 1),
+    ('Sarah G. Carandang',               '2026-00543-LQ-0', 'Female', 'DIT',  '1st Year', '7b31d56f61706dc4c64aee07318ffea8e59a8de3742124009b5220b3f519ef41', 'member', 'Member', 1),
+    ('Kian Raine P. Castro',             '2026-00506-LQ-0', 'Male',   'DIT',  '1st Year', 'c9dd8c61736d0ba1a140e8bb3ce75cd819a98ed9b4c00528e350f868fef54757', 'member', 'Member', 1),
+    ('Noah V. De Asid',                  '2026-00550-LQ-0', 'Male',   'DIT',  '1st Year', 'a852a1e37676f40abf97c778234c19966917645d6f8528c23419084572a30736', 'member', 'Member', 1),
+    ('Mark Angelo O. Dubas',             '2026-00544-LQ-0', 'Male',   'DIT',  '1st Year', '78e62fc1f5a045ae372ba31ec466f0cd56e0395278563e496365275ea52a460b', 'member', 'Member', 1),
+    ('Kate Ashley Valerie P. Esquibel',  '2026-00546-LQ-0', 'Female', 'DIT',  '1st Year', '43f1417463db23f47a979bde2efe273e7b7d2cf36726cdc4f1ede50b917e1641', 'member', 'Member', 1),
+    ('Rocelyn S. Factor',                '2026-00529-LQ-0', 'Female', 'DIT',  '1st Year', '154d62d662712f8c1ac4fda225755bcb9778bec66848c3dc623d7165721299cd', 'member', 'Member', 1),
+    ('Janna Mae D. Gendrano',            '2026-00507-LQ-0', 'Female', 'DIT',  '1st Year', 'd0dbb4a65203d24245322a619e2dea210cd110997cd1ef9691def8cdc9062d3a', 'member', 'Member', 1),
+    ('Edrian L. Gerez',                  '2026-00519-LQ-0', 'Male',   'DIT',  '1st Year', 'b0c10b564bacdcfd7b61e6af5c007331db59e2452b8bda3d8eab99dededc2b47', 'member', 'Member', 1),
+    ('Arajenn O. Gliane',                '2026-00549-LQ-0', 'Female', 'DIT',  '1st Year', '44de9c487c7032a91ec0e02071e8fd1eb70445a5b39dbacc1f4573763ef2b6ff', 'member', 'Member', 1),
+    ('Francisco Nash Z. Goes',           '2026-00545-LQ-0', 'Male',   'DIT',  '1st Year', '7ff2cc852096365873174cbc8b4f061acf9ad112b56382606cbd3da89b1f30eb', 'member', 'Member', 1),
+    ('Princess Ashley N. Gracila',       '2026-00527-LQ-0', 'Female', 'DIT',  '1st Year', 'a1bca906c970a24965657c8b5d0f3b4ba717cb58d306410d851e4421fc7b8065', 'member', 'Member', 1),
+    ('Mark Dale Harris M. Jovita',       '2026-00514-LQ-0', 'Male',   'DIT',  '1st Year', '0a043b877d87e7586e99d07ca1956c354e99649c16b3d0189f44da86eb523531', 'member', 'Member', 1),
+    ('Cassandra M. Latosa',              '2026-00487-LQ-0', 'Female', 'DIT',  '1st Year', 'b00121287196658c3d0f68b8a960b94e20c90974c8b4ad6a401fee7e0c0fae91', 'member', 'Member', 1),
+    ('Dens Clark J. Leonardo',           '2026-00478-LQ-0', 'Male',   'DIT',  '1st Year', '9f7b4a3ac3d02d75e6e404a8227d441563d45044931b247e45ec980433e12be5', 'member', 'Member', 1),
+    ('Lance Ronan L. Llantos',           '2026-00496-LQ-0', 'Male',   'DIT',  '1st Year', '265d8156b26f7827e4db821eac78e3f2cbb4dc9495eb583fff518b2854a31c79', 'member', 'Member', 1),
+    ('Angela A. Maningas',               '2026-00509-LQ-0', 'Female', 'DIT',  '1st Year', 'c67634c036d95e6dcaf46c3546c329d6654b20386623a3ff030b3a0048f28b72', 'member', 'Member', 1),
+    ('Resly Margarette G. Martinez',     '2026-00482-LQ-0', 'Female', 'DIT',  '1st Year', 'd8013fd9dbfe7119cc0c1c3dff8895bd87d136d9131dc30ebb7d4fbff1fb2619', 'member', 'Member', 1),
+    ('Gieroll Yvan R. Matin-ao',         '2026-00542-LQ-0', 'Male',   'DIT',  '1st Year', '9d5e622e2a9d9047adb36b539a237859907dab003f14a44bd55578ac705c294d', 'member', 'Member', 1),
+    ('Adrian A. Paraon',                 '2026-00541-LQ-0', 'Male',   'DIT',  '1st Year', '24aae53795a6a3215d49b034ad3277319af9cd801c5a47b29b57523fc2640e21', 'member', 'Member', 1),
+    ('Louiesa V. Peras',                 '2026-00483-LQ-0', 'Female', 'DIT',  '1st Year', 'b8e9ccaadf2e2a07852a09d0e311579bdfb375882ad49ffe268755fc8102e123', 'member', 'Member', 1),
+    ('Cyrus Jonell C. Quinain',          '2026-00531-LQ-0', 'Male',   'DIT',  '1st Year', '64f4f176e58dfc91c01da0837fbacfc4d27bb78599b54e26beea79a7105b9b42', 'member', 'Member', 1),
+    ('Prince Jerick Rusiana',            '2026-00489-LQ-0', 'Male',   'DIT',  '1st Year', 'db0d41256683f9e57f814724d2b895575c6a29bb293b5246c3a07f456a090eb9', 'member', 'Member', 1),
+    ('Angelo Kriz G. Salvatus',          '2026-00500-LQ-0', 'Male',   'DIT',  '1st Year', '39b20726a50daf7d65285b49f315cc81918acfea2d4efe8597eca99b0327d19f', 'member', 'Member', 1),
+    ('Jian Carlo D. Santos',             '2026-00523-LQ-0', 'Male',   'DIT',  '1st Year', '086affef3a0bee008416a073a221a9b92f0774167f83f4f1dd4088955cdf7748', 'member', 'Member', 1),
+    ('Ralf Arcky J. Santos',             '2026-00521-LQ-0', 'Male',   'DIT',  '1st Year', 'e60143c96f29f6a0bb0cabe17b1956787af68a38315cfaf2bc9186f1807e6b9f', 'member', 'Member', 1),
+    ('Christine Anne T. Tulibas',        '2026-00533-LQ-0', 'Female', 'DIT',  '1st Year', '8f2346d9fed64d5248f20e893e964376236a64dd8418d611a547410ea4c4563a', 'member', 'Member', 1),
+    ('Gian Zedrick C. Urbano',           '2026-00484-LQ-0', 'Male',   'DIT',  '1st Year', '0e748006a8f5db7aa11c80d34872700f55616776fd96afc34728345a9bca8f20', 'member', 'Member', 1),
+    ('Mark Jeyfie G. Uy',                '2026-00504-LQ-0', 'Male',   'DIT',  '1st Year', '1a15ed30595cc2679a087ab42403b2c1877b16e48afb9ca6fe5add4c3194833b', 'member', 'Member', 1),
+    ('Carvenel M. Valencia',             '2026-00513-LQ-0', 'Male',   'DIT',  '1st Year', '25163d4bed22fae046247880d2bb5591750fd0c204ac1673b986af8539c414d1', 'member', 'Member', 1),
+    ('Maria Fiorella Mae V. Velez',      '2026-00481-LQ-0', 'Female', 'DIT',  '1st Year', '0efd0dee47271b7531fe0fd9831e2be5fca97d0d9d2fc077a601a999af9d0bd7', 'member', 'Member', 1),
+    ('Eurobenrt V. Vilar',               '2026-00512-LQ-0', 'Male',   'DIT',  '1st Year', 'e099366408042b981d8d74cad5722673b32d049b9cf5c4efdfa2f359ea8c4356', 'member', 'Member', 1),
+    ('Andrei Vincent J. Villar',         '2026-00498-LQ-0', 'Male',   'DIT',  '1st Year', 'c3563d7b2ced045863c7ea662cf12ace9d8514cc2d43eebeaaa99072ed442b24', 'member', 'Member', 1),
+    ('Allyssa V. Abragon',               '2025-00618-LQ-0', 'Female', 'DIT',  '2nd Year', '4fa086eb77547bbbccddca4b5a6ea43efc2fdea8a4fecf73d64ea131e3eb02d6', 'member', 'Member', 1),
+    ('Kaye Rochelle C. Abadines',        '2025-00639-LQ-0', 'Female', 'DIT',  '2nd Year', '5f0d8e85023da05fb907367c845287a278897827192f9aa94733b37e883c1ad6', 'member', 'Member', 1),
+    ('Kriztelle Angeline A. Andoy',      '2025-00578-LQ-0', 'Female', 'DIT',  '2nd Year', '9b762fe1078575dae680f5cb427662713d477660f07a4a0b723e20d12ea8da0d', 'member', 'Member', 1),
+    ('Karyl Joy O. Barcelona',           '2025-00571-LQ-0', 'Female', 'DIT',  '2nd Year', '781e5daf39a347d5fd8c94ed0770584b740be73b1c61dffa8711e69bc84dc15e', 'member', 'Member', 1),
+    ('Maria Angelica C. Beslig',         '2025-00642-LQ-0', 'Female', 'DIT',  '2nd Year', 'db2f1a047c492d7007bf6a6bac911ffcd337d4085ed126c53e4e2c8858e956be', 'member', 'Member', 1),
+    ('Kristine Joy Y. Cantonjos',        '2025-00643-LQ-0', 'Female', 'DIT',  '2nd Year', '279ceb4ebb5bdea56d66a9d4d3a32bed951109c299bd9c6d875080ca0d1addf0', 'member', 'Member', 1),
+    ('Sheryn G. Caraw',                  '2025-00631-LQ-0', 'Female', 'DIT',  '2nd Year', '7fcc59c2735802125bfc2ad4640ea6478817fb07c36492fbf9bef6bb332e992e', 'member', 'Member', 1),
+    ('Max Jay Credo',                    '2025-00915-LQ-0', 'Male',   'DIT',  '2nd Year', '6aaef61a488db16f72936fd7197adf50dc9cd32895cf6800eb4a6a58a02e515c', 'member', 'Member', 1),
+    ('Justine Harvey A. Cunanan',        '2025-00629-LQ-0', 'Male',   'DIT',  '2nd Year', '81d950dca6ab7b4cfda78c8d071bc1ce3db0fd81be0fe25a2bb559d9db199083', 'member', 'Member', 1),
+    ('James Kevin M. De Belen',          '2025-00641-LQ-0', 'Male',   'DIT',  '2nd Year', 'ace58e3fbe45d33af6c9c58ecb3e6e3b24a90357c635bce814c37c1f406f951b', 'member', 'Member', 1),
+    ('Aira J. Elcano',                   '2025-00635-LQ-0', 'Female', 'DIT',  '2nd Year', '34915a6b4b7301f4b4e933cd22076b988342165d1108f2db4c296a1361c92c09', 'member', 'Member', 1),
+    ('Johanne Paul B. Enriquez',         '2025-00569-LQ-0', 'Male',   'DIT',  '2nd Year', 'f42417d98bb9e35d8414f7648e1906fa0c0b6c27503e6cf9212add5c1439a3d2', 'member', 'Member', 1),
+    ('Jopet Evangelista',                '2025-00919-LQ-0', 'Male',   'DIT',  '2nd Year', '0ad795cc177d048181773cd07761e4d9c398a6d7b4623628665370667afed4f4', 'member', 'Member', 1),
+    ('John Carlo M. Gayeta',             '2025-00855-LQ-0', 'Male',   'DIT',  '2nd Year', '3c6ce787dda75fc103315ee465e4a76b59b6e0c9fd636730883ce0b0a381e452', 'member', 'Member', 1),
+    ('Marvin Gresula',                   '2025-01052-LQ-0', 'Male',   'DIT',  '2nd Year', '861c7cecda5cc867a62fd0dead01beece64c60a1c123a7c90c368c4c535e2c74', 'member', 'Member', 1),
+    ('Jhan Ysen P. Handig',              '2025-00640-LQ-0', 'Male',   'DIT',  '2nd Year', '7d256030410b0d6287422f430c41deaa4b64c29d410572cad767bb4f13dfe2f4', 'member', 'Member', 1),
+    ('Ram Harvey E. Llagan',             '2025-00997-LQ-1', 'Male',   'DIT',  '2nd Year', 'f63fbe6db5786a4fcf6b24a97b2b4227e8fa066813e473ee9113b9fcb10ed034', 'member', 'Member', 1),
+    ('Tristan Z. Lapiceros',             '2025-00632-LQ-0', 'Male',   'DIT',  '2nd Year', '0d55a1bcc51b432471c7e5ff1d0a16b5018163b4a9eb559a2bf934ab1f662f39', 'member', 'Member', 1),
+    ('Christian James Magada',           '2025-00637-LQ-0', 'Male',   'DIT',  '2nd Year', '8f592b178a50b050caed3a6cb9ba0e63d80a29b4a10a0b9d2cc958c378f601fc', 'member', 'Member', 1),
+    ('Jaymark D. Magana',                '2025-00628-LQ-0', 'Male',   'DIT',  '2nd Year', '011136eb937ba1342a548668c2d648610080f9f5fda54601b4925ba286a33f9a', 'member', 'Member', 1),
+    ('Ela Rein C. Matibag',              '2025-00570-LQ-0', 'Female', 'DIT',  '2nd Year', '7c319250104701f6f9df689014a810d01b50b3f468d6b29bbd124eec0703e290', 'member', 'Member', 1),
+    ('Anton Miguel T. Moraleda',         '2025-00572-LQ-0', 'Male',   'DIT',  '2nd Year', 'de04a3b624035efd3f139ffcd39f56a66198d9cc5a99fa3962e5c348191cc987', 'member', 'Member', 1),
+    ('Ralph Andrei B. Mayo',             '2025-00918-LQ-0', 'Male',   'DIT',  '2nd Year', '57962b04534147354720c1ba3cdbec658445bb4526265d7796e0b68d2ae0d5c6', 'member', 'Member', 1),
+    ('Franz Jiro G. Nañoz',              '2025-00630-LQ-0', 'Male',   'DIT',  '2nd Year', '81be0ecfebb2bae7811f4725ddd5f1f7a21e7063f2b60b6870f4002b2648da94', 'member', 'Member', 1),
+    ('Jhones Anthony Nevares',           '2025-00634-LQ-0', 'Male',   'DIT',  '2nd Year', '33cb68c3bfb0e7d558881c9e6a21b4fa4d05138d3e89b7f96b804d0b44f53968', 'member', 'Member', 1),
+    ('JC Johnson P. Nitor',              '2025-00917-LQ-0', 'Male',   'DIT',  '2nd Year', '3841ce421c707d2975d080a66ef8dc2136c35c794bb68092c82229a99a3742a0', 'member', 'Member', 1),
+    ('Julius P. Noora',                  '2025-00914-LQ-0', 'Male',   'DIT',  '2nd Year', '205d89568a87d60feade98ea3994b145b4d8fefedc61581f1d1ef9de6d6c5ed7', 'member', 'Member', 1),
+    ('Claudine Elaiza B. Ocampo',        '2025-00584-LQ-0', 'Female', 'DIT',  '2nd Year', '948b2a3417c0477d93b5f77af8b384cd048fd027fa5da81153c080e5fd4d07f9', 'member', 'Member', 1),
+    ('James Mhelcer L. Osillo',          '2025-00644-LQ-0', 'Male',   'DIT',  '2nd Year', 'a15a492c5f15d984f0e0a9d0da04ef188b2e7ff6e7f0f07ae03e62ad86080655', 'member', 'Member', 1),
+    ('Edmar D. Pumay',                   '2025-00916-LQ-0', 'Male',   'DIT',  '2nd Year', '39ba663bb61c5169859b356163fec5b80a65b687a1690bc83942f9553543b0a5', 'member', 'Member', 1),
+    ('Johnmark T. Placino',              '2025-00854-LQ-0', 'Male',   'DIT',  '2nd Year', 'f7baba3da6975c050d1ebfaf05b510d5c930856d394b613986986b50efcf9627', 'member', 'Member', 1),
+    ('Michelle E. Quincina',             '2025-00633-LQ-0', 'Female', 'DIT',  '2nd Year', '1d17be931fe0cceecc89b8d33b497bd4dec45b294bd5078faa394c73c17416a9', 'member', 'Member', 1),
+    ('Pia Camille A. Ramirez',           '2025-00989-LQ-0', 'Female', 'DIT',  '2nd Year', '2f8021af66a0252c73bf92c23a8e8e73380772b841aeb63d6b98ded9de62d29c', 'member', 'Member', 1),
+    ('Jerome B. Sode',                   '2025-00595-LQ-0', 'Male',   'DIT',  '2nd Year', 'd67221af69e8452dab986066e8d533b2552c05cceb395e8cc84851c3f17b1d6c', 'member', 'Member', 1),
+    ('Lorenz R. Solomon',                '2025-00856-LQ-0', 'Male',   'DIT',  '2nd Year', '4290479df11bdc0e463984eba21226d55515883bbe5280c585aec0a4b67b3ffa', 'member', 'Member', 1),
+    ('Nathaniel Moriel M. Talidong',     '2025-00573-LQ-0', 'Male',   'DIT',  '2nd Year', 'd3a617f13c8a7ac85cf746693cf6eb929f352c3dfb76b227911554e08fc34b39', 'member', 'Member', 1),
+    ('Daniela A. Verdan',                '2025-00636-LQ-0', 'Female', 'DIT',  '2nd Year', '4ad78eca04674e2dd6f4dfa93ecfe8adc522f46fadac8ed2eb464d1e1fa22e5d', 'member', 'Member', 1),
+    ('Krisha Jenizel N. Yuzon',          '2025-00638-LQ-0', 'Female', 'DIT',  '2nd Year', '5ce6ab9f28f1aafd06b6453147ec66676aed41427b31407b446df85661710b1d', 'member', 'Member', 1),
+    ('Mark Aldrin V. Zurbano',           '2025-00575-LQ-0', 'Male',   'DIT',  '2nd Year', 'afe1970721ec3388e6d1d4ff327bd527660ac6d9d7be45efd8ec5555c3a16202', 'member', 'Member', 1),
+    ('Renier A. Acobado',                '2024-00631-LQ-0', 'Male',   'DIT',  '3rd Year', '9c5f9976580c42dd1b452ffb610b7d36505a077bc1467c86d595a7780f2fffb0', 'member', 'Member', 1),
+    ('DM Kurt S. Adan',                  '2024-00651-LQ-0', 'Male',   'DIT',  '3rd Year', '61b95a571beeaf658016ff27b1d58294950dbe8f7a5e537eda1cedfbebc2e87b', 'member', 'Member', 1),
+    ('Andrei B. Anajao',                 '2024-00621-LQ-0', 'Male',   'DIT',  '3rd Year', '97a58f07141df4866e144d461f664c27e2011b328ea6c5f0c80b3636a3141787', 'member', 'Member', 1),
+    ('Paul Jared V. Atillano',           '2024-00610-LQ-0', 'Male',   'DIT',  '3rd Year', '3b1e098fc6a416363abaa2cb849c7af955c14dac6c95aaf485ff9ae922adb5fb', 'member', 'Member', 1),
+    ('Michaella V. Balacaña',            '2024-00633-LQ-0', 'Female', 'DIT',  '3rd Year', 'f638ca4717b31383021b1337b712bca80b169e931d8a5d225912e6565e92102e', 'member', 'Member', 1),
+    ('Daphnie Buena',                    '2024-00650-LQ-0', 'Female', 'DIT',  '3rd Year', 'b692245967ee662dc35484b2b036d0436d3c1aa3729585815c3e5af24bc593d1', 'member', 'Member', 1),
+    ('Sherwin M. Bulfa',                 '2024-00611-LQ-0', 'Male',   'DIT',  '3rd Year', '5a13518bad5dddb6a0a1e0b358453613a3f37000a3c5ec62463680b7f8024e3b', 'member', 'Member', 1),
+    ('Jame Nathaniel B. Buraga',         '2024-00628-LQ-0', 'Male',   'DIT',  '3rd Year', '0d5f0824f7514068830696d3e8bf5ce2452ad97f450d61c9ea72e6096d72f6e6', 'member', 'Member', 1),
+    ('Rafaela G. Carabuena',             '2024-00603-LQ-0', 'Female', 'DIT',  '3rd Year', '47a8100fecac0214c6681066a7ea47e28219d943f9178f25c7bdbdb405da10e6', 'member', 'Member', 1),
+    ('Melquisedec A. Chicogo',           '2024-00623-LQ-0', 'Male',   'DIT',  '3rd Year', '28acbb5bcb882b07468028f4e94b84f9fa3d814bf85bc2fa2eb9a7163342f722', 'member', 'Member', 1),
+    ('Chellzy May N. Danseco',           '2024-00635-LQ-0', 'Female', 'DIT',  '3rd Year', '54934639d4b647b30d3d81fbfca337bec744e306cd64adeb9fbe5ba8e096bc43', 'member', 'Member', 1),
+    ('Lanz Michael L. Durante',          '2024-00612-LQ-0', 'Male',   'DIT',  '3rd Year', '19577fc823ba711c0a4ae36a7bf011a34a74969b27a353ece05c80dbf2c0c48b', 'member', 'Member', 1),
+    ('John Ariel C. Espinos',            '2024-00652-LQ-0', 'Male',   'DIT',  '3rd Year', '25c790e540f9780ec433bb298dd8b794660bf14417486cfc0bc2340ce8bda506', 'member', 'Member', 1),
+    ('Jenuel E. Faller',                 '2024-00630-LQ-0', 'Male',   'DIT',  '3rd Year', 'd6b88a699af81d5202845099a349b4d537cd64758c710bdf04af0217a77b3a44', 'member', 'Member', 1),
+    ('Mattew Kristoff B. Gonzales',      '2024-00625-LQ-0', 'Male',   'DIT',  '3rd Year', '9e0c0e5357c3b3706585d7b48e5f77d8003971e285af783d3aa274022ca517ad', 'member', 'Member', 1),
+    ('Angelo Christian E. Gullod',       '2024-00626-LQ-0', 'Male',   'DIT',  '3rd Year', '9adf54a85f53e1abef5f282820d00c9f6673a914f435e5baf7268b37547e6c8a', 'member', 'Member', 1),
+    ('Shyvelle M. Loyola',               '2024-00888-LQ-0', 'Female', 'DIT',  '3rd Year', 'cf328a270c1c0503c100a5c6b2b8503b02ce02fd7f7ecbaf67a4d1cc5e7ab8d5', 'member', 'Member', 1),
+    ('Anne W. Marasigan',                '2024-00657-LQ-0', 'Female', 'DIT',  '3rd Year', '7ef949fd4795ed1e3c1885f180cfc58015e6d7e038417de612e28eb1d4f6f30f', 'member', 'Member', 1),
+    ('Frinz Derf G. Maravilla',          '2024-00647-LQ-0', 'Male',   'DIT',  '3rd Year', '859575086286d6e369a3f297af19ecda61c4cc520284123ed171e1c0f2a4bc8d', 'member', 'Member', 1),
+    ('John Rarry C. Marjalino',          '2024-00884-LQ-0', 'Male',   'DIT',  '3rd Year', 'e777b8559101ff288c0b9817dd7714e23db2830866137afac99cd1cd39659ef0', 'member', 'Member', 1),
+    ('Phrencine Aicel S. Mayamaya',      '2024-00662-LQ-0', 'Female', 'DIT',  '3rd Year', '4bbb97c5dc55dcaacbf985437e918e8fe6a9dc232363b285a8a8f3ebd0d7ae05', 'member', 'Member', 1),
+    ('Christopher P. Mermillo',          '2024-00649-LQ-0', 'Male',   'DIT',  '3rd Year', '0d5ab516b925be5b19bded0a6bcb9bc9e26fe6dc5e4d28d70025fb3a763f6205', 'member', 'Member', 1),
+    ('Aldrin B. Pradia',                 '2024-00606-LQ-0', 'Male',   'DIT',  '3rd Year', '9985db528ef555b14a5cfa46435fe29be0a3f844a35e921997fddd2a2d3c5393', 'member', 'Member', 1),
+    ('Ken Cedrick L. Querubin',          '2024-00661-LQ-0', 'Male',   'DIT',  '3rd Year', 'd231b0c00c2626d49026f69d7898894e68fbe96b641fc63d5a34671b83f13eea', 'member', 'Member', 1),
+    ('Emerson D. Ramos',                 '2024-00663-LQ-0', 'Male',   'DIT',  '3rd Year', 'e3b2efdb48ba00c4eabf17b5a2e181c32f286a1d1747b2a1a04dd08e1080ea8d', 'member', 'Member', 1),
+    ('Mery Jane E. Romero',              '2024-00654-LQ-0', 'Female', 'DIT',  '3rd Year', '22eb02fd4ebeb91e1cd83e1cc1e3aa0ac72b42c52b2a397325f7a34b69e5702e', 'member', 'Member', 1),
+    ('Roanne Joy R. Segui',              '2024-00617-LQ-0', 'Female', 'DIT',  '3rd Year', 'c58654178de95bc7230dad13ae9e728fbd80edaf93b7c41fdb17c4c9441a56d8', 'member', 'Member', 1),
+    ('Cedrick James P. Siazon',          '2024-00653-LQ-0', 'Male',   'DIT',  '3rd Year', '591192a2133c0734d220dad3f7e0db9716269adac5d62146af2719ffc9b6ab0f', 'member', 'Member', 1),
+    ('Mary Rose R. Vergara',             '2024-00645-LQ-0', 'Female', 'DIT',  '3rd Year', 'd6b329c3535179411a97656997315112f9bea1f21a565c4ee59ec1fb6a1708ed', 'member', 'Member', 1),
+    ('Zenjan Kiervin B. Arce',           '2023-00836-LQ-0', 'Male',   'DIT',  '3rd Year', '101650f551de47e126aa1cdc84a6dc468270fc157d38be2487d7df3a20def7bb', 'member', 'Member', 1),
+    ('Ronan Kyle A. De Guzman',          '2023-00848-LQ-0', 'Male',   'DIT',  '3rd Year', '9c61f038eff9c355cd545abcfa1bee1eecd11f9b760dd1f787a4965af2080228', 'member', 'Member', 1),
+    ('Nathaniel P. Grobador',            '2023-00826-LQ-0', 'Male',   'DIT',  '3rd Year', '06c8e945498c2898268a6d4f3972ac2fd489dc6318cff768d973b0350aa6795e', 'member', 'Member', 1),
+    ('Gerald F. Latagan',                '2023-00823-LQ-0', 'Male',   'DIT',  '3rd Year', '80cc2894b981c5da600043afd4da47562d24a07e47d35cadbd50961e2827f77d', 'member', 'Member', 1),
+    ('John Syrus C. Libranda',           '2023-00837-LQ-0', 'Male',   'DIT',  '3rd Year', 'db1968ea883430fe0adb15ef7f86ecba40362ed2ed78bad83c3ff76302810eb5', 'member', 'Member', 1),
+    ('David Ivan R. Luistro',            '2023-00831-LQ-0', 'Male',   'DIT',  '3rd Year', '1bac53b22924c055c12c77d89724d4938960d57ef5e227b25a01a847376337de', 'member', 'Member', 1),
+    ('Alexis Jericho M. Pedragoza',      '2023-00853-LQ-0', 'Male',   'DIT',  '3rd Year', '3f221b98a4ef5a20961e153c0c3eb19dc43ec94fb5977e95386b0c1f1fdb801e', 'member', 'Member', 1),
+    ('Mark Andrey D. Venus',             '2023-00817-LQ-0', 'Male',   'DIT',  '3rd Year', '3d6ea523b2b82c5306d8cbc1bb05e7e3b76d5d2fcb5ae387686d03adb6d9d97d', 'member', 'Member', 1),
+    ('Ralph Rayniel Z. Villaos',         '2023-00881-LQ-0', 'Male',   'DIT',  '3rd Year', '89d3bc841fcb4f33d333e28ce276999002f5da584445ac72256f9efc7a89a20d', 'member', 'Member', 1);
 
 -- ==========================================
 -- 4. INSERT FINES (TOTAL = 6,767 PHP)
 -- ==========================================
 INSERT INTO `fines` (
-    `user_id`, 
-    `amount`, 
-    `reason`, 
-    `status`, 
-    `due_date`, 
-    `created_by`
-) 
-VALUES 
--- Organizational Officers (300 PHP)
-(
-    (SELECT id FROM users WHERE id_number = '2024-00534-LQ-0'), 
-    300.00, 'Unexcused absence during General Assembly', 'unpaid', '2025-02-15', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2025-00122-LQ-0'), 
-    300.00, 'Late submission of financial report', 'paid', '2025-02-15', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2025-00121-LQ-0'), 
-    300.00, 'Missed mandatory organizational cleaning duty', 'unpaid', '2025-03-01', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0'), 
-    300.00, 'Failure to attend mandatory officer meeting', 'unpaid', '2025-03-10', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2025-00589-LQ-0'), 
-    300.00, 'Late submission of audit reports', 'paid', '2025-03-15', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2025-00138-LQ-0'), 
-    300.00, 'Unexcused absence during Org Day', 'unpaid', '2025-04-01', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2025-00125-LQ-0'), 
-    300.00, 'Missed mandatory flag raising ceremony', 'unpaid', '2025-04-15', (SELECT id FROM users LIMIT 1)
-),
+    `user_id`, `amount`, `reason`, `status`, `due_date`, `created_by`
+) VALUES
+    -- Organizational Officers (300 PHP)
+    ((SELECT id FROM users WHERE id_number = '2024-00534-LQ-0'), 300.00, 'Unexcused absence during General Assembly',              'unpaid', '2025-02-15', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2025-00122-LQ-0'), 300.00, 'Late submission of financial report',                    'paid',   '2025-02-15', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2025-00121-LQ-0'), 300.00, 'Missed mandatory organizational cleaning duty',          'unpaid', '2025-03-01', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2025-00127-LQ-0'), 300.00, 'Failure to attend mandatory officer meeting',            'unpaid', '2025-03-10', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2025-00589-LQ-0'), 300.00, 'Late submission of audit reports',                       'paid',   '2025-03-15', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2025-00138-LQ-0'), 300.00, 'Unexcused absence during Org Day',                       'unpaid', '2025-04-01', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2025-00125-LQ-0'), 300.00, 'Missed mandatory flag raising ceremony',                 'unpaid', '2025-04-15', (SELECT id FROM users LIMIT 1)),
 
--- Class Officers (150 PHP)
-(
-    (SELECT id FROM users WHERE id_number = '2026-00530-LQ-0'), 
-    150.00, 'Late submission of class list to Secretary', 'unpaid', '2025-02-20', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2026-00510-LQ-0'), 
-    150.00, 'Unexcused absence during Class Officer meeting', 'paid', '2025-03-05', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2026-00491-LQ-0'), 
-    150.00, 'Failure to relay announcements to class members', 'unpaid', '2025-03-20', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2026-00465-LQ-0'), 
-    150.00, 'Late submission of class clearance form', 'unpaid', '2025-04-10', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2026-00511-LQ-0'), 
-    150.00, 'Missed mandatory class officer training', 'unpaid', '2025-04-25', (SELECT id FROM users LIMIT 1)
-),
+    -- Class Officers (150 PHP)
+    ((SELECT id FROM users WHERE id_number = '2026-00530-LQ-0'), 150.00, 'Late submission of class list to Secretary',             'unpaid', '2025-02-20', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2026-00510-LQ-0'), 150.00, 'Unexcused absence during Class Officer meeting',         'paid',   '2025-03-05', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2026-00491-LQ-0'), 150.00, 'Failure to relay announcements to class members',        'unpaid', '2025-03-20', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2026-00465-LQ-0'), 150.00, 'Late submission of class clearance form',                'unpaid', '2025-04-10', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2026-00511-LQ-0'), 150.00, 'Missed mandatory class officer training',                'unpaid', '2025-04-25', (SELECT id FROM users LIMIT 1)),
 
--- Regular Members (100 PHP)
-(
-    (SELECT id FROM users WHERE id_number = '2026-00490-LQ-0'), 
-    100.00, 'Missed mandatory organizational cleaning duty', 'unpaid', '2025-03-01', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2026-00477-LQ-0'), 
-    100.00, 'Late payment of membership fee', 'paid', '2025-01-31', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2026-00508-LQ-0'), 
-    100.00, 'Unexcused absence during General Assembly', 'unpaid', '2025-02-15', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2026-00518-LQ-0'), 
-    100.00, 'Failure to submit required documents for organization clearance', 'unpaid', '2025-04-10', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2026-00470-LQ-0'), 
-    100.00, 'Missed mandatory flag raising ceremony', 'unpaid', '2025-04-15', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2026-00497-LQ-0'), 
-    100.00, 'Late payment of membership fee', 'paid', '2025-01-31', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2026-00466-LQ-0'), 
-    100.00, 'Unexcused absence during Org Day', 'unpaid', '2025-04-01', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2026-00535-LQ-0'), 
-    100.00, 'Missed mandatory organizational cleaning duty', 'unpaid', '2025-03-01', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2026-00495-LQ-0'), 
-    100.00, 'Late submission of membership requirements', 'paid', '2025-02-28', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2026-00474-LQ-0'), 
-    100.00, 'Failure to attend org meeting', 'unpaid', '2025-03-15', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2026-00462-LQ-0'), 
-    100.00, 'Unexcused absence during General Assembly', 'unpaid', '2025-02-15', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2026-00536-LQ-0'), 
-    100.00, 'Missed mandatory organizational cleaning duty', 'unpaid', '2025-03-01', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2026-00528-LQ-0'), 
-    100.00, 'Late payment of membership fee', 'paid', '2025-01-31', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2026-00476-LQ-0'), 
-    100.00, 'Failure to submit required documents for organization clearance', 'unpaid', '2025-04-10', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2026-00516-LQ-0'), 
-    100.00, 'Unexcused absence during Org Day', 'unpaid', '2025-04-01', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2025-00054-LQ-0'), 
-    100.00, 'Missed mandatory flag raising ceremony', 'unpaid', '2025-04-15', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2025-00089-LQ-0'), 
-    100.00, 'Late submission of membership requirements', 'paid', '2025-02-28', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2025-00123-LQ-0'), 
-    100.00, 'Unexcused absence during General Assembly', 'unpaid', '2025-02-15', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2025-00090-LQ-0'), 
-    100.00, 'Missed mandatory organizational cleaning duty', 'unpaid', '2025-03-01', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2025-00132-LQ-0'), 
-    100.00, 'Failure to attend org meeting', 'unpaid', '2025-03-15', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2025-00058-LQ-0'), 
-    100.00, 'Late payment of membership fee', 'paid', '2025-01-31', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2025-00062-LQ-0'), 
-    100.00, 'Unexcused absence during Org Day', 'unpaid', '2025-04-01', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2025-00048-LQ-0'), 
-    100.00, 'Missed mandatory flag raising ceremony', 'unpaid', '2025-04-15', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2024-00549-LQ-0'), 
-    100.00, 'Failure to submit required documents for organization clearance', 'unpaid', '2025-04-10', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2024-00545-LQ-0'), 
-    100.00, 'Unexcused absence during General Assembly', 'unpaid', '2025-02-15', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2024-00547-LQ-0'), 
-    100.00, 'Missed mandatory organizational cleaning duty', 'unpaid', '2025-03-01', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2024-00604-LQ-0'), 
-    100.00, 'Late payment of membership fee', 'paid', '2025-01-31', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2023-00045-LQ-0'), 
-    100.00, 'Failure to attend org meeting', 'unpaid', '2025-03-15', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2023-00017-LQ-0'), 
-    100.00, 'Missed mandatory flag raising ceremony', 'unpaid', '2025-04-15', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2023-00028-LQ-0'), 
-    100.00, 'Unexcused absence during Org Day', 'unpaid', '2025-04-01', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2023-00014-LQ-0'), 
-    100.00, 'Late submission of membership requirements', 'paid', '2025-02-28', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2023-00018-LQ-0'), 
-    100.00, 'Failure to submit required documents for organization clearance', 'unpaid', '2025-04-10', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2023-00012-LQ-0'), 
-    100.00, 'Unexcused absence during General Assembly', 'unpaid', '2025-02-15', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2023-00001-LQ-0'), 
-    100.00, 'Missed mandatory organizational cleaning duty', 'unpaid', '2025-03-01', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2023-00006-LQ-0'), 
-    100.00, 'Late payment of membership fee', 'paid', '2025-01-31', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2023-00015-LQ-0'), 
-    100.00, 'Failure to attend org meeting', 'unpaid', '2025-03-15', (SELECT id FROM users LIMIT 1)
-),
-(
-    (SELECT id FROM users WHERE id_number = '2023-00009-LQ-0'), 
-    100.00, 'Missed mandatory flag raising ceremony', 'unpaid', '2025-04-15', (SELECT id FROM users LIMIT 1)
-),
+    -- Regular Members (100 PHP)
+    ((SELECT id FROM users WHERE id_number = '2026-00490-LQ-0'), 100.00, 'Missed mandatory organizational cleaning duty',          'unpaid', '2025-03-01', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2026-00477-LQ-0'), 100.00, 'Late payment of membership fee',                         'paid',   '2025-01-31', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2026-00508-LQ-0'), 100.00, 'Unexcused absence during General Assembly',              'unpaid', '2025-02-15', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2026-00518-LQ-0'), 100.00, 'Failure to submit required documents for organization clearance', 'unpaid', '2025-04-10', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2026-00470-LQ-0'), 100.00, 'Missed mandatory flag raising ceremony',                 'unpaid', '2025-04-15', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2026-00497-LQ-0'), 100.00, 'Late payment of membership fee',                         'paid',   '2025-01-31', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2026-00466-LQ-0'), 100.00, 'Unexcused absence during Org Day',                       'unpaid', '2025-04-01', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2026-00535-LQ-0'), 100.00, 'Missed mandatory organizational cleaning duty',          'unpaid', '2025-03-01', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2026-00495-LQ-0'), 100.00, 'Late submission of membership requirements',             'paid',   '2025-02-28', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2026-00474-LQ-0'), 100.00, 'Failure to attend org meeting',                          'unpaid', '2025-03-15', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2026-00462-LQ-0'), 100.00, 'Unexcused absence during General Assembly',              'unpaid', '2025-02-15', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2026-00536-LQ-0'), 100.00, 'Missed mandatory organizational cleaning duty',          'unpaid', '2025-03-01', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2026-00528-LQ-0'), 100.00, 'Late payment of membership fee',                         'paid',   '2025-01-31', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2026-00476-LQ-0'), 100.00, 'Failure to submit required documents for organization clearance', 'unpaid', '2025-04-10', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2026-00516-LQ-0'), 100.00, 'Unexcused absence during Org Day',                       'unpaid', '2025-04-01', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2025-00054-LQ-0'), 100.00, 'Missed mandatory flag raising ceremony',                 'unpaid', '2025-04-15', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2025-00089-LQ-0'), 100.00, 'Late submission of membership requirements',             'paid',   '2025-02-28', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2025-00123-LQ-0'), 100.00, 'Unexcused absence during General Assembly',              'unpaid', '2025-02-15', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2025-00090-LQ-0'), 100.00, 'Missed mandatory organizational cleaning duty',          'unpaid', '2025-03-01', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2025-00132-LQ-0'), 100.00, 'Failure to attend org meeting',                          'unpaid', '2025-03-15', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2025-00058-LQ-0'), 100.00, 'Late payment of membership fee',                         'paid',   '2025-01-31', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2025-00062-LQ-0'), 100.00, 'Unexcused absence during Org Day',                       'unpaid', '2025-04-01', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2025-00048-LQ-0'), 100.00, 'Missed mandatory flag raising ceremony',                 'unpaid', '2025-04-15', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2024-00549-LQ-0'), 100.00, 'Failure to submit required documents for organization clearance', 'unpaid', '2025-04-10', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2024-00545-LQ-0'), 100.00, 'Unexcused absence during General Assembly',              'unpaid', '2025-02-15', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2024-00547-LQ-0'), 100.00, 'Missed mandatory organizational cleaning duty',          'unpaid', '2025-03-01', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2024-00604-LQ-0'), 100.00, 'Late payment of membership fee',                         'paid',   '2025-01-31', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2023-00045-LQ-0'), 100.00, 'Failure to attend org meeting',                          'unpaid', '2025-03-15', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2023-00017-LQ-0'), 100.00, 'Missed mandatory flag raising ceremony',                 'unpaid', '2025-04-15', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2023-00028-LQ-0'), 100.00, 'Unexcused absence during Org Day',                       'unpaid', '2025-04-01', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2023-00014-LQ-0'), 100.00, 'Late submission of membership requirements',             'paid',   '2025-02-28', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2023-00018-LQ-0'), 100.00, 'Failure to submit required documents for organization clearance', 'unpaid', '2025-04-10', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2023-00012-LQ-0'), 100.00, 'Unexcused absence during General Assembly',              'unpaid', '2025-02-15', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2023-00001-LQ-0'), 100.00, 'Missed mandatory organizational cleaning duty',          'unpaid', '2025-03-01', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2023-00006-LQ-0'), 100.00, 'Late payment of membership fee',                         'paid',   '2025-01-31', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2023-00015-LQ-0'), 100.00, 'Failure to attend org meeting',                          'unpaid', '2025-03-15', (SELECT id FROM users LIMIT 1)),
+    ((SELECT id FROM users WHERE id_number = '2023-00009-LQ-0'), 100.00, 'Missed mandatory flag raising ceremony',                 'unpaid', '2025-04-15', (SELECT id FROM users LIMIT 1)),
 
--- Special Adjustment Fine (117 PHP)
-(
-    (SELECT id FROM users WHERE id_number = '2023-00949-LQ-1'), 
-    117.00, 'Penalty for late payment (adjusted)', 'unpaid', '2025-05-01', (SELECT id FROM users LIMIT 1)
-);
+    -- Special Adjustment Fine (117 PHP)
+    ((SELECT id FROM users WHERE id_number = '2023-00949-LQ-1'), 117.00, 'Penalty for late payment (adjusted)',                    'unpaid', '2025-05-01', (SELECT id FROM users LIMIT 1));
 
 -- ==========================================
 -- 5. INSERT FINANCES
 -- ==========================================
 INSERT INTO `finances` (
-    `date_`, 
-    `event_`, 
-    `event_id`, 
-    `budget`, 
-    `expense`, 
-    `inflow`, 
-    `created_by`
-) 
-VALUES 
-(
-    '2024-09-09', 
-    'iBITS hackathon Booth', 
-    (SELECT id FROM events WHERE title = 'iBITS hackathon Booth' AND DATE(start_datetime) = '2024-09-09' LIMIT 1), 
-    2000.00, 1500.00, 0.00, 
-    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
-),
-(
-    '2024-10-16', 
-    'General Assembly & Acceptance Ceremony', 
-    (SELECT id FROM events WHERE title = 'General Assembly & Acceptance Ceremony' AND DATE(start_datetime) = '2024-10-16' LIMIT 1), 
-    3000.00, 3200.00, 0.00, 
-    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
-),
-(
-    '2024-12-18', 
-    'Ginoo at Binibining iBITS 2025', 
-    (SELECT id FROM events WHERE title = 'Ginoo at Binibining iBITS 2025' AND DATE(start_datetime) = '2024-12-18' LIMIT 1), 
-    5000.00, 4800.00, 1500.00, 
-    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
-),
-(
-    '2025-01-11', 
-    'iBITS Sportsfest 2025', 
-    (SELECT id FROM events WHERE title = 'iBITS Sportsfest 2025' AND DATE(start_datetime) = '2025-01-11' LIMIT 1), 
-    3000.00, 3500.00, 2000.00, 
-    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
-),
-(
-    '2026-08-25', 
-    'IBITS Merchandise & Project Showcase', 
-    (SELECT id FROM events WHERE title = 'IBITS Merchandise & Project Showcase' AND DATE(start_datetime) = '2026-08-25' LIMIT 1), 
-    4000.00, 1500.00, 5500.00, 
-    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
-),
-(
-    '2026-08-26', 
-    'iBITS Parents Orientation', 
-    (SELECT id FROM events WHERE title = 'iBITS Parents Orientation' AND DATE(start_datetime) = '2026-08-26' LIMIT 1), 
-    3000.00, 2800.00, 0.00, 
-    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
-),
-(
-    '2026-09-03', 
-    'iBITS Turn Over Ceremony', 
-    (SELECT id FROM events WHERE title = 'iBITS Turn Over Ceremony' AND DATE(start_datetime) = '2026-09-03' LIMIT 1), 
-    2500.00, 2500.00, 0.00, 
-    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
-),
-(
-    '2026-09-03', 
-    'iBITS General Assembly', 
-    (SELECT id FROM events WHERE title = 'iBITS General Assembly' AND DATE(start_datetime) = '2026-09-03' LIMIT 1), 
-    1000.00, 1000.00, 0.00, 
-    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
-),
-(
-    '2026-11-09', 
-    'Screening for Mr. & Ms. iBITS', 
-    (SELECT id FROM events WHERE title = 'Screening for Mr. & Ms. iBITS' AND DATE(start_datetime) = '2026-11-09' LIMIT 1), 
-    8000.00, 7800.00, 0.00, 
-    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
-),
-(
-    '2026-12-01', 
-    'Flag Raising Ceremony', 
-    (SELECT id FROM events WHERE title = 'Flag Raising Ceremony' AND DATE(start_datetime) = '2026-12-01' LIMIT 1), 
-    3000.00, 3000.00, 0.00, 
-    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
-),
-(
-    '2026-12-05', 
-    'Hackathon: Build as One', 
-    (SELECT id FROM events WHERE title = 'Hackathon: Build as One' AND DATE(start_datetime) = '2026-12-05' LIMIT 1), 
-    5000.00, 4500.00, 0.00, 
-    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
-),
-(
-    '2026-12-19', 
-    'Kamustahan 1.0 (End of 1st Sem Check-in)', 
-    (SELECT id FROM events WHERE title = 'Kamustahan 1.0 (End of 1st Sem Check-in)' AND DATE(start_datetime) = '2026-12-19' LIMIT 1), 
-    2000.00, 2000.00, 0.00, 
-    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
-),
-(
-    '2027-01-22', 
-    'Monthly Zumba', 
-    (SELECT id FROM events WHERE title = 'Monthly Zumba' AND DATE(start_datetime) = '2027-01-22' LIMIT 1), 
-    2000.00, 1500.00, 0.00, 
-    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
-),
-(
-    '2027-01-23', 
-    'iBITS General Assembly', 
-    (SELECT id FROM events WHERE title = 'iBITS General Assembly' AND DATE(start_datetime) = '2027-01-23' LIMIT 1), 
-    2500.00, 2500.00, 0.00, 
-    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
-),
-(
-    '2027-02-20', 
-    'ICT Celebration (Organization Day & iBITS Night)', 
-    (SELECT id FROM events WHERE title = 'ICT Celebration (Organization Day & iBITS Night)' AND DATE(start_datetime) = '2027-02-20' LIMIT 1), 
-    45000.00, 42000.00, 5000.00, 
-    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
-),
-(
-    '2027-04-02', 
-    'First Friday Holy Mass', 
-    (SELECT id FROM events WHERE title = 'First Friday Holy Mass' AND DATE(start_datetime) = '2027-04-02' LIMIT 1), 
-    5000.00, 5000.00, 0.00, 
-    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
-),
-(
-    '2027-04-08', 
-    'Meeting De Avance', 
-    (SELECT id FROM events WHERE title = 'Meeting De Avance' AND DATE(start_datetime) = '2027-04-08' LIMIT 1), 
-    1000.00, 1000.00, 0.00, 
-    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
-),
-(
-    '2027-04-30', 
-    'Turn Over Ceremony', 
-    (SELECT id FROM events WHERE title = 'Turn Over Ceremony' AND DATE(start_datetime) = '2027-04-30' LIMIT 1), 
-    5000.00, 5000.00, 0.00, 
-    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
-),
-(
-    '2027-05-29', 
-    'Kamustahan 2.0 (End of 2nd Sem Check-in)', 
-    (SELECT id FROM events WHERE title = 'Kamustahan 2.0 (End of 2nd Sem Check-in)' AND DATE(start_datetime) = '2027-05-29' LIMIT 1), 
-    2000.00, 2000.00, 0.00, 
-    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)
-);
+    `date_`, `event_`, `event_id`, `budget`, `expense`, `inflow`, `created_by`
+) VALUES
+    ('2024-09-09', 'iBITS hackathon Booth',
+        (SELECT id FROM events WHERE title = 'iBITS hackathon Booth' AND DATE(start_datetime) = '2024-09-09' LIMIT 1),
+        2000.00, 1500.00, 0.00, (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)),
+    ('2024-10-16', 'General Assembly & Acceptance Ceremony',
+        (SELECT id FROM events WHERE title = 'General Assembly & Acceptance Ceremony' AND DATE(start_datetime) = '2024-10-16' LIMIT 1),
+        3000.00, 3200.00, 0.00, (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)),
+    ('2024-12-18', 'Ginoo at Binibining iBITS 2025',
+        (SELECT id FROM events WHERE title = 'Ginoo at Binibining iBITS 2025' AND DATE(start_datetime) = '2024-12-18' LIMIT 1),
+        5000.00, 4800.00, 1500.00, (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)),
+    ('2025-01-11', 'iBITS Sportsfest 2025',
+        (SELECT id FROM events WHERE title = 'iBITS Sportsfest 2025' AND DATE(start_datetime) = '2025-01-11' LIMIT 1),
+        3000.00, 3500.00, 2000.00, (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)),
+    ('2026-08-25', 'IBITS Merchandise & Project Showcase',
+        (SELECT id FROM events WHERE title = 'IBITS Merchandise & Project Showcase' AND DATE(start_datetime) = '2026-08-25' LIMIT 1),
+        4000.00, 1500.00, 5500.00, (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)),
+    ('2026-08-26', 'iBITS Parents Orientation',
+        (SELECT id FROM events WHERE title = 'iBITS Parents Orientation' AND DATE(start_datetime) = '2026-08-26' LIMIT 1),
+        3000.00, 2800.00, 0.00, (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)),
+    ('2026-09-03', 'iBITS Turn Over Ceremony',
+        (SELECT id FROM events WHERE title = 'iBITS Turn Over Ceremony' AND DATE(start_datetime) = '2026-09-03' LIMIT 1),
+        2500.00, 2500.00, 0.00, (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)),
+    ('2026-09-03', 'iBITS General Assembly',
+        (SELECT id FROM events WHERE title = 'iBITS General Assembly' AND DATE(start_datetime) = '2026-09-03' LIMIT 1),
+        1000.00, 1000.00, 0.00, (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)),
+    ('2026-11-09', 'Screening for Mr. & Ms. iBITS',
+        (SELECT id FROM events WHERE title = 'Screening for Mr. & Ms. iBITS' AND DATE(start_datetime) = '2026-11-09' LIMIT 1),
+        8000.00, 7800.00, 0.00, (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)),
+    ('2026-12-01', 'Flag Raising Ceremony',
+        (SELECT id FROM events WHERE title = 'Flag Raising Ceremony' AND DATE(start_datetime) = '2026-12-01' LIMIT 1),
+        3000.00, 3000.00, 0.00, (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)),
+    ('2026-12-05', 'Hackathon: Build as One',
+        (SELECT id FROM events WHERE title = 'Hackathon: Build as One' AND DATE(start_datetime) = '2026-12-05' LIMIT 1),
+        5000.00, 4500.00, 0.00, (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)),
+    ('2026-12-19', 'Kamustahan 1.0 (End of 1st Sem Check-in)',
+        (SELECT id FROM events WHERE title = 'Kamustahan 1.0 (End of 1st Sem Check-in)' AND DATE(start_datetime) = '2026-12-19' LIMIT 1),
+        2000.00, 2000.00, 0.00, (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)),
+    ('2027-01-22', 'Monthly Zumba',
+        (SELECT id FROM events WHERE title = 'Monthly Zumba' AND DATE(start_datetime) = '2027-01-22' LIMIT 1),
+        2000.00, 1500.00, 0.00, (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)),
+    ('2027-01-23', 'iBITS General Assembly',
+        (SELECT id FROM events WHERE title = 'iBITS General Assembly' AND DATE(start_datetime) = '2027-01-23' LIMIT 1),
+        2500.00, 2500.00, 0.00, (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)),
+    ('2027-02-20', 'ICT Celebration (Organization Day & iBITS Night)',
+        (SELECT id FROM events WHERE title = 'ICT Celebration (Organization Day & iBITS Night)' AND DATE(start_datetime) = '2027-02-20' LIMIT 1),
+        45000.00, 42000.00, 5000.00, (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)),
+    ('2027-04-02', 'First Friday Holy Mass',
+        (SELECT id FROM events WHERE title = 'First Friday Holy Mass' AND DATE(start_datetime) = '2027-04-02' LIMIT 1),
+        5000.00, 5000.00, 0.00, (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)),
+    ('2027-04-08', 'Meeting De Avance',
+        (SELECT id FROM events WHERE title = 'Meeting De Avance' AND DATE(start_datetime) = '2027-04-08' LIMIT 1),
+        1000.00, 1000.00, 0.00, (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)),
+    ('2027-04-30', 'Turn Over Ceremony',
+        (SELECT id FROM events WHERE title = 'Turn Over Ceremony' AND DATE(start_datetime) = '2027-04-30' LIMIT 1),
+        5000.00, 5000.00, 0.00, (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1)),
+    ('2027-05-29', 'Kamustahan 2.0 (End of 2nd Sem Check-in)',
+        (SELECT id FROM events WHERE title = 'Kamustahan 2.0 (End of 2nd Sem Check-in)' AND DATE(start_datetime) = '2027-05-29' LIMIT 1),
+        2000.00, 2000.00, 0.00, (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1));
 
 -- ==========================================
 -- 6. INSERT TICKETS
 -- ==========================================
 INSERT INTO `tickets` (
-    `user_id`, 
-    `subject`, 
-    `category`, 
-    `description`, 
-    `status`
-) VALUES 
-(
-    (SELECT id FROM users WHERE id_number = '2026-00530-LQ-0' LIMIT 1), -- Santino Justin O. Aguilar
-    'Cannot login to the portal',
-    'Technical Issue',
-    'I am trying to login to the iBITS portal using my student ID and password, but it keeps saying invalid credentials. I already tried resetting my password but I did not receive an email.',
-    'open'
-),
-(
-    (SELECT id FROM users WHERE id_number = '2026-00465-LQ-0' LIMIT 1), -- Marian O. Basco
-    'Inquiry about membership fee',
-    'Finance',
-    'Hello! I would like to ask if the membership fee for this semester is already due. I also want to know if there are any installment options available for students who are struggling financially.',
-    'in_progress'
-),
-(
-    (SELECT id FROM users WHERE id_number = '2025-00589-LQ-0' LIMIT 1), -- Harvey S. Pumariga
-    'Request for event budget approval',
-    'Events',
-    'Good day! I am requesting approval for the budget of our upcoming Hackathon event. The total estimated cost is Php 5,000.00. I have attached the breakdown in the files section. Please let me know if this is approved.',
-    'resolved'
-);
+    `user_id`, `subject`, `category`, `description`, `status`
+) VALUES
+    (
+        (SELECT id FROM users WHERE id_number = '2026-00530-LQ-0' LIMIT 1), -- Santino Justin O. Aguilar
+        'Cannot login to the portal',
+        'Technical Issue',
+        'I am trying to login to the iBITS portal using my student ID and password, but it keeps saying invalid credentials. I already tried resetting my password but I did not receive an email.',
+        'open'
+    ),
+    (
+        (SELECT id FROM users WHERE id_number = '2026-00465-LQ-0' LIMIT 1), -- Marian O. Basco
+        'Inquiry about membership fee',
+        'Finance',
+        'Hello! I would like to ask if the membership fee for this semester is already due. I also want to know if there are any installment options available for students who are struggling financially.',
+        'in_progress'
+    ),
+    (
+        (SELECT id FROM users WHERE id_number = '2025-00589-LQ-0' LIMIT 1), -- Harvey S. Pumariga
+        'Request for event budget approval',
+        'Events',
+        'Good day! I am requesting approval for the budget of our upcoming Hackathon event. The total estimated cost is Php 5,000.00. I have attached the breakdown in the files section. Please let me know if this is approved.',
+        'resolved'
+    );
 
 -- ==========================================
 -- 7. INSERT TICKET REPLIES
 -- ==========================================
 INSERT INTO `ticket_replies` (
-    `ticket_id`, 
-    `user_id`, 
-    `message`
-) VALUES 
--- Reply to Ticket 1 (Cannot login)
-(
-    (SELECT id FROM tickets WHERE subject = 'Cannot login to the portal' LIMIT 1), 
-    (SELECT id FROM users WHERE id_number = '2024-00534-LQ-0' LIMIT 1), -- Allea Grace C. Ranillo (President)
-    'Hi Santino! We have received your ticket. Please try clearing your browser cache and cookies first. If the issue persists, please visit the iBITS office so we can manually reset your password in the system.'
-),
-(
-    (SELECT id FROM tickets WHERE subject = 'Cannot login to the portal' LIMIT 1), 
-    (SELECT id FROM users WHERE id_number = '2026-00530-LQ-0' LIMIT 1), -- Santino Justin O. Aguilar
-    'Thank you for the quick response! I will try clearing my cache and let you know if it works.'
-),
--- Reply to Ticket 2 (Inquiry about membership fee)
-(
-    (SELECT id FROM tickets WHERE subject = 'Inquiry about membership fee' LIMIT 1), 
-    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1), -- Irish Nicole J. Japone (Treasurer)
-    'Hi Marian! Yes, the membership fee for this semester is Php 300.00 and is due on the 15th. Unfortunately, we do not have an installment option, but you can pay in partial amounts as long as the full balance is settled before the deadline.'
-),
--- Reply to Ticket 3 (Event budget approval)
-(
-    (SELECT id FROM tickets WHERE subject = 'Request for event budget approval' LIMIT 1), 
-    (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1), -- Irish Nicole J. Japone (Treasurer)
-    'Hi Harvey! The budget for the Hackathon is approved. Please coordinate with the finance committee to process the reimbursement once the event is done. Make sure to keep all receipts.'
-);
+    `ticket_id`, `user_id`, `message`
+) VALUES
+    -- Reply to Ticket 1 (Cannot login)
+    (
+        (SELECT id FROM tickets WHERE subject = 'Cannot login to the portal' LIMIT 1),
+        (SELECT id FROM users WHERE id_number = '2024-00534-LQ-0' LIMIT 1), -- Allea Grace C. Ranillo (President)
+        'Hi Santino! We have received your ticket. Please try clearing your browser cache and cookies first. If the issue persists, please visit the iBITS office so we can manually reset your password in the system.'
+    ),
+    (
+        (SELECT id FROM tickets WHERE subject = 'Cannot login to the portal' LIMIT 1),
+        (SELECT id FROM users WHERE id_number = '2026-00530-LQ-0' LIMIT 1), -- Santino Justin O. Aguilar
+        'Thank you for the quick response! I will try clearing my cache and let you know if it works.'
+    ),
+
+    -- Reply to Ticket 2 (Inquiry about membership fee)
+    (
+        (SELECT id FROM tickets WHERE subject = 'Inquiry about membership fee' LIMIT 1),
+        (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1), -- Irish Nicole J. Japone (Treasurer)
+        'Hi Marian! Yes, the membership fee for this semester is Php 300.00 and is due on the 15th. Unfortunately, we do not have an installment option, but you can pay in partial amounts as long as the full balance is settled before the deadline.'
+    ),
+
+    -- Reply to Ticket 3 (Event budget approval)
+    (
+        (SELECT id FROM tickets WHERE subject = 'Request for event budget approval' LIMIT 1),
+        (SELECT id FROM users WHERE id_number = '2025-00127-LQ-0' LIMIT 1), -- Irish Nicole J. Japone (Treasurer)
+        'Hi Harvey! The budget for the Hackathon is approved. Please coordinate with the finance committee to process the reimbursement once the event is done. Make sure to keep all receipts.'
+    );
 
 -- ==========================================
 -- 8. VERIFY INSERTS
 -- ==========================================
-SELECT COUNT(*) AS total_users FROM `users`;
-SELECT COUNT(*) AS total_events FROM `events`;
-SELECT SUM(amount) AS total_fines_amount FROM `fines`;
+SELECT COUNT(*)  AS total_users           FROM `users`;
+SELECT COUNT(*)  AS total_events          FROM `events`;
+SELECT SUM(amount) AS total_fines_amount  FROM `fines`;
 SELECT SUM(budget) AS total_budget, SUM(expense) AS total_expense, SUM(inflow) AS total_inflow FROM `finances`;
-SELECT COUNT(*) AS total_tickets FROM `tickets`;
-SELECT COUNT(*) AS total_ticket_replies FROM `ticket_replies`;
+SELECT COUNT(*)  AS total_tickets         FROM `tickets`;
+SELECT COUNT(*)  AS total_ticket_replies  FROM `ticket_replies`;
