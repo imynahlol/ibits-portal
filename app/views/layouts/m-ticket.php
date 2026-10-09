@@ -1,1 +1,50 @@
-<div class="hidden fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4" id="m-ticket" onclick="if(event.target===this)closeM('m-ticket')"><form class="modal-in bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 space-y-3" onsubmit="saveTicket(event)"><h3 class="text-lg font-bold text-primary">Create New Ticket</h3><input class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" id="t-sub" placeholder="Subject" required=""/><select class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white" id="t-cat"><option>Internet / Portal Issue</option><option>Account Concern</option><option>Form Request</option><option>Fines Inquiry</option><option>Other</option></select><textarea class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm" id="t-desc" placeholder="Describe your concern" required="" rows="4"></textarea><div class="flex justify-end gap-2"><button class="px-4 py-2 border border-gray-200 rounded-lg text-sm" onclick="closeM('m-ticket')" type="button">Cancel</button><button class="btn-primary px-4 py-2 rounded-lg text-sm">Submit</button></div></form></div>
+<!-- ============================================================
+     Modal: Create Ticket
+     ============================================================ -->
+<div class="hidden fixed inset-0 z-50 bg-black/50
+            flex items-center justify-center p-4"
+     id="m-ticket"
+     onclick="if (event.target === this) closeM('m-ticket')">
+
+    <form class="modal-in bg-white rounded-2xl shadow-2xl
+                 w-full max-w-md p-6 space-y-3"
+          onsubmit="saveTicket(event)">
+
+        <h3 class="text-lg font-bold text-primary">Create New Ticket</h3>
+
+        <input class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm"
+               id="t-sub"
+               placeholder="Subject"
+               required>
+
+        <select class="w-full px-3 py-2 border border-gray-200 rounded-lg
+                       text-sm bg-white"
+                id="t-cat">
+            <option>Internet / Portal Issue</option>
+            <option>Account Concern</option>
+            <option>Form Request</option>
+            <option>Fines Inquiry</option>
+            <option>Other</option>
+        </select>
+
+        <textarea class="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm"
+                  id="t-desc"
+                  placeholder="Describe your concern"
+                  rows="4"
+                  required></textarea>
+
+        <div class="flex justify-end gap-2">
+
+            <button type="button"
+                    class="px-4 py-2 border border-gray-200 rounded-lg text-sm"
+                    onclick="closeM('m-ticket')">
+                Cancel
+            </button>
+
+            <button type="submit"
+                    class="btn-primary px-4 py-2 rounded-lg text-sm">
+                Submit
+            </button>
+        </div>
+    </form>
+</div>
