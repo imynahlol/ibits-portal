@@ -1,6 +1,4 @@
-<!-- ============================================================
-     PUBLIC HOME / LANDING
-     ============================================================ -->
+<!-- PUBLIC HOME / LANDING -->
 <div class="view-section active w-full min-h-full" id="view-public-home">
 
     <!-- ========================================================
@@ -15,7 +13,7 @@
 
             <!-- iBITS LOGO -->
             <div class="relative mb-0 animate-slide-up">
-                <div class="coin-wrap" style="width: min(360px, 76vw);">
+                <div class="coin-wrap" style="width: min(260px, 76vw);">
                     <div class="coin">
                         <img alt="iBITS Logo"
                              class="w-full h-auto rounded-full relative z-10"
@@ -57,7 +55,6 @@
 
             <!-- CTA BUTTONS -->
             <div class="flex gap-4 animate-slide-up" style="animation-delay: 0.3s;">
-
                 <a href="<?= asset('/register') ?>"
                    class="cta-register px-8 py-3 rounded-full text-lg font-semibold
                           inline-block text-center">
@@ -79,7 +76,7 @@
 
 
     <!-- ========================================================
-         WHO WE ARE · MISSION · VISION · EVENTS
+         WHO WE ARE (light section)
          ======================================================== -->
     <div class="wp wp-sec relative overflow-hidden py-16">
 
@@ -87,12 +84,11 @@
 
         <div class="relative z-10 container mx-auto px-6 max-w-5xl">
 
-            <!-- ---------- Who We Are ---------- -->
-            <h2 class="text-4xl font-bold text-center mb-10 text-primary">
+            <h2 class="text-4xl font-bold text-center mb-4 text-primary">
                 Who We Are
             </h2>
 
-            <div class="grid md:grid-cols-2 gap-10 items-center">
+            <div class="grid md:grid-cols-2 gap-6 items-center">
 
                 <!-- Copy block -->
                 <div class="tilt navy-card p-8">
@@ -117,28 +113,123 @@
                     </p>
                 </div>
 
-                <!-- Logo coin -->
-                <div class="coin-wrap">
-                    <div class="coin">
-                        <img alt="iBITS Logo"
-                             class="logo-img"
-                             src="<?= asset('assets/images/ibits-logo.png') ?>" />
-                    </div>
+                <!-- iBITS Mascot -->
+                <div class="mascot-wrap">
+                    <img alt="iBITS Mascot"
+                         class="mascot-img"
+                         src="<?= asset('assets/images/ibits-mascot.png') ?>" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ========================================================
+         OUR POPULATION (full-width dark section)
+         ======================================================== -->
+    <section class="pop-section relative overflow-hidden py-20"
+             style="background: #020a1c;">
+
+        <canvas class="rain absolute inset-0 w-full h-full" data-rain="dark"></canvas>
+
+        <div class="relative z-10 container mx-auto px-6 max-w-5xl">
+
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-3"
+                style="color: #ffffff;">
+                Our Population
+            </h2>
+
+            <p class="text-center text-sm mb-12" style="color: #a9b8d6;">
+                Live counts across every section and year level.
+            </p>
+
+            <?php
+            $bsit = [
+                'BSIT 1' => 48,
+                'BSIT 2' => 50,
+                'BSIT 3' => 49,
+                'BSIT 4' => 48,
+            ];
+            $dit = [
+                'DIT 1' => 44,
+                'DIT 2' => 40,
+                'DIT 3' => 32,
+            ];
+            $officers      = 38;
+            $bsitTotal     = array_sum($bsit);
+            $ditTotal      = array_sum($dit);
+            $studentsTotal = $bsitTotal + $ditTotal;
+            $overallTotal  = $studentsTotal + $officers;
+            ?>
+
+            <!-- Summary row -->
+            <div class="pop-grid">
+                <div class="pop-card pop-card-primary">
+                    <div class="pop-num" data-target="<?= $overallTotal ?>">0</div>
+                    <div class="pop-label">Total iBITS Members</div>
+                </div>
+                <div class="pop-card pop-card-primary">
+                    <div class="pop-num" data-target="<?= $bsitTotal ?>">0</div>
+                    <div class="pop-label">Total BSIT Students</div>
+                </div>
+                <div class="pop-card pop-card-primary">
+                    <div class="pop-num" data-target="<?= $ditTotal ?>">0</div>
+                    <div class="pop-label">Total DIT Students</div>
+                </div>
+                <div class="pop-card pop-card-primary">
+                    <div class="pop-num" data-target="<?= $officers ?>">0</div>
+                    <div class="pop-label">iBITS Org Officers</div>
                 </div>
             </div>
 
+            <!-- BSIT breakdown -->
+            <h3 class="pop-subhead">BSIT · By Year Level</h3>
+            <div class="pop-grid">
+                <?php foreach ($bsit as $label => $count): ?>
+                    <div class="pop-card pop-card-dark">
+                        <div class="pop-num" data-target="<?= (int)$count ?>">0</div>
+                        <div class="pop-label"><?= htmlspecialchars($label) ?></div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
 
-            <!-- ---------- Mission & Vision ---------- -->
-            <h2 class="text-4xl font-bold text-center mt-20 mb-12 text-primary">
+            <!-- DIT breakdown -->
+            <h3 class="pop-subhead">DIT · By Year Level</h3>
+            <div class="pop-grid pop-grid-3">
+                <?php foreach ($dit as $label => $count): ?>
+                    <div class="pop-card pop-card-dark">
+                        <div class="pop-num" data-target="<?= (int)$count ?>">0</div>
+                        <div class="pop-label"><?= htmlspecialchars($label) ?></div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ========================================================
+         MISSION · VISION · EVENTS (light section)
+         ======================================================== -->
+    <div class="wp wp-sec relative overflow-hidden py-16">
+
+        <canvas class="rain absolute inset-0 w-full h-full"></canvas>
+
+        <div class="relative z-10 container mx-auto px-6 max-w-5xl">
+
+            <!-- ---------- MISSION & VISION ---------- -->
+            <h2 class="text-4xl font-bold text-center mb-12 text-primary">
                 Mission &amp; Vision
             </h2>
 
             <div class="grid md:grid-cols-2 gap-12">
 
                 <!-- Mission -->
-                <div class="about-mv-card bg-surface p-8 rounded-3xl shadow-sm
+                <div class="about-mv-card p-8 rounded-3xl shadow-sm
                             border border-gray-100 animate-slide-up"
-                     style="animation-delay: 0.1s;">
+                     style="animation-delay: 0.1s;
+                            background: #ffffff;
+                            color: #1f2937;">
 
                     <div class="about-mv-icon about-mv-icon-navy
                                 w-14 h-14 rounded-xl
@@ -152,20 +243,24 @@
                         </svg>
                     </div>
 
-                    <h3 class="text-2xl font-bold text-primary">Our Mission</h3>
+                    <h3 style="color: #06215c; font-weight: 700; font-size: 1.875rem;">
+                        Our Mission
+                    </h3>
 
-                    <p class="text-textMuted leading-relaxed">
-                        To foster a collaborative environment where IT students
-                        can develop technical excellence, leadership skills, and
-                        ethical professionalism through innovative projects and
-                        community engagement.
+                    <p style="color: #475569; line-height: 1.7;">
+                        To foster a collaborative environment where IT students can
+                        develop technical excellence, leadership skills, and ethical
+                        professionalism through innovative projects and community
+                        engagement.
                     </p>
                 </div>
 
                 <!-- Vision -->
-                <div class="about-mv-card bg-surface p-8 rounded-3xl shadow-sm
+                <div class="about-mv-card p-8 rounded-3xl shadow-sm
                             border border-gray-100 animate-slide-up"
-                     style="animation-delay: 0.2s;">
+                     style="animation-delay: 0.2s;
+                            background: #ffffff;
+                            color: #1f2937;">
 
                     <div class="about-mv-icon about-mv-icon-gold
                                 w-14 h-14 rounded-xl
@@ -178,18 +273,19 @@
                         </svg>
                     </div>
 
-                    <h3 class="text-2xl font-bold text-primary">Our Vision</h3>
+                    <h3 style="color: #06215c; font-weight: 700; font-size: 1.875rem;">
+                        Our Vision
+                    </h3>
 
-                    <p class="text-textMuted leading-relaxed">
-                        To be the leading student organization that produces
-                        globally competitive technology professionals who drive
-                        digital transformation and social progress.
+                    <p style="color: #475569; line-height: 1.7;">
+                        To be the leading student organization that produces globally
+                        competitive technology professionals who drive digital
+                        transformation and social progress.
                     </p>
                 </div>
             </div>
 
-
-            <!-- ---------- Events ---------- -->
+            <!-- ---------- EVENTS ---------- -->
             <h2 class="text-4xl font-bold text-center mt-20 mb-8 text-primary">
                 Events
             </h2>
@@ -203,7 +299,7 @@
 
 
 <!-- ============================================================
-     INLINE CSS — rain canvas + Mission/Vision cards
+     INLINE CSS
      ============================================================ -->
 <style>
     /* ---------- Binary rain canvas ---------- */
@@ -263,6 +359,36 @@
         to { transform: scale(4); opacity: 0; }
     }
 
+    /* ---------- iBITS Mascot ---------- */
+    .mascot-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        perspective: 900px;
+    }
+
+    .mascot-img {
+        display: block;
+        width: 100%;
+        max-width: 480px;
+        height: auto;
+        object-fit: contain;
+        transform-style: preserve-3d;
+        animation: mascot-coin 9s ease-in-out infinite;
+        filter: drop-shadow(0 18px 30px rgba(6, 33, 92, 0.25));
+        will-change: transform;
+    }
+
+    @keyframes mascot-coin {
+        0%, 100% { transform: rotateY(-20deg) rotateX(6deg); }
+        50%      { transform: rotateY(20deg) rotateX(-4deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .mascot-img { animation: none; }
+    }
+
     /* ---------- Mission & Vision cards ---------- */
     .about-mv-card {
         display: grid;
@@ -283,7 +409,6 @@
                     0 8px 10px -6px rgba(6, 33, 92, .1);
     }
 
-    /* Top gold bar slides in on hover */
     .about-mv-card::before {
         content: "";
         position: absolute;
@@ -297,7 +422,6 @@
 
     .about-mv-card:hover::before { transform: scaleX(1); }
 
-    /* Diagonal shine sweep */
     .about-mv-card::after {
         content: "";
         position: absolute;
@@ -313,7 +437,6 @@
 
     .about-mv-card:hover::after { transform: translateX(120%); }
 
-    /* Floating icon */
     .about-mv-icon {
         margin: 0;
         box-shadow: 0 4px 0 rgba(0, 0, 0, .18);
@@ -336,7 +459,6 @@
         50%      { translate: 0 -4px; }
     }
 
-    /* Icon variants */
     .about-mv-icon-navy {
         background: linear-gradient(135deg, #06215c, #0a328c);
         color: #fad517;
@@ -348,14 +470,10 @@
         animation-delay: -2.5s;
     }
 
-    /* Title + paragraph layout */
     .about-mv-card h3 {
         margin: 0;
         transition: color .3s;
     }
-
-    .about-mv-card:hover h3 { color: #06215c; }
-    html.dark .about-mv-card:hover h3 { color: #fad517; }
 
     .about-mv-card p {
         grid-column: 1 / -1;
@@ -368,7 +486,7 @@
         display: block;
         width: 64px;
         height: 4px;
-        margin: 16px auto 0;
+        margin: 8px auto 0;
         border-radius: 4px;
         background: linear-gradient(90deg, #fad517, #fff4a8);
         animation: about-mv-grow .8s .35s cubic-bezier(.2, .7, .2, 1) both;
@@ -379,17 +497,130 @@
         to   { transform: scaleX(1); }
     }
 
-    /* Reduced motion */
     @media (prefers-reduced-motion: reduce) {
         .about-mv-icon { animation: none; }
         .about-mv-card * { transition-duration: .01ms !important; }
         .wp-sec h2.text-4xl.text-primary::after { animation: none; }
     }
+
+    /* =============================================================
+       Population summary — full-width dark section
+       ============================================================= */
+    .pop-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    @media (min-width: 768px) {
+        .pop-grid { grid-template-columns: repeat(4, 1fr); }
+        .pop-grid-3 { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* Base card */
+    .pop-card {
+        position: relative;
+        overflow: hidden;
+        padding: 24px 22px;
+        border-radius: 16px;
+        transition: transform .3s ease,
+                    border-color .3s ease,
+                    box-shadow .3s ease;
+    }
+
+    /* Dark variant — individual year levels */
+    .pop-card-dark {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(4px);
+    }
+
+    .pop-card-dark .pop-num {
+        color: #ffffff;
+    }
+
+    .pop-card-dark .pop-label {
+        color: #a9b8d6;
+    }
+
+    .pop-card-dark:hover {
+        transform: translateY(-4px);
+        border-color: rgba(250, 213, 23, 0.55);
+        box-shadow: 0 16px 32px -12px rgba(250, 213, 23, 0.2);
+    }
+
+    /* Primary variant — summary row */
+    .pop-card-primary {
+        background: linear-gradient(135deg, #06215c 0%, #0a328c 100%);
+        border: 1px solid rgba(250, 213, 23, 0.25);
+        box-shadow: 0 8px 24px -8px rgba(6, 33, 92, 0.55);
+    }
+
+    .pop-card-primary .pop-num {
+        color: #fad517;
+    }
+
+    .pop-card-primary .pop-label {
+        color: #cbd5e1;
+    }
+
+    .pop-card-primary:hover {
+        transform: translateY(-4px);
+        border-color: rgba(250, 213, 23, 0.6);
+        box-shadow: 0 16px 32px -10px rgba(250, 213, 23, 0.35);
+    }
+
+    /* Gold top bar slides in on hover */
+    .pop-card::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #fad517, rgba(250, 213, 23, 0));
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform .5s cubic-bezier(.2, .7, .2, 1);
+    }
+
+    .pop-card:hover::before { transform: scaleX(1); }
+
+    .pop-num {
+        font-size: 2.5rem;
+        font-weight: 800;
+        line-height: 1;
+        letter-spacing: -0.02em;
+        margin-bottom: 8px;
+        font-variant-numeric: tabular-nums;
+    }
+
+    @media (min-width: 768px) {
+        .pop-num { font-size: 3rem; }
+    }
+
+    .pop-label {
+        font-size: 0.8rem;
+        letter-spacing: 0.02em;
+        line-height: 1.4;
+    }
+
+    /* Subheadings between groups */
+    .pop-subhead {
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #a9b8d6;
+        margin: 36px 0 16px 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .pop-card { transition: none; }
+    }
 </style>
 
 
 <!-- ============================================================
-     BINARY RAIN + CTA RIPPLE — inline scripts
+     BINARY RAIN + CTA RIPPLE + COUNTERS
      ============================================================ -->
 <script>
 (function () {
@@ -424,7 +655,15 @@
             g.clearRect(0, 0, w, h);
             g.font = (f - 4) + 'px monospace';
 
-            var isLight = !!c.closest('.wp');
+            /* Respect data-rain attribute; fallback to .wp detection */
+            var isLight;
+            if (c.dataset.rain === 'dark') {
+                isLight = false;
+            } else if (c.dataset.rain === 'light') {
+                isLight = true;
+            } else {
+                isLight = !!c.closest('.wp');
+            }
 
             for (var col = 0; col < c._h.length; col++) {
                 var y = c._h[col];
@@ -475,11 +714,72 @@
         });
     }
 
+    /* ---------- Population counters ---------- */
+    function animateCounters() {
+        var counters = document.querySelectorAll('.pop-num[data-target]');
+        for (var i = 0; i < counters.length; i++) {
+            (function (el) {
+                if (el.dataset.animated) return;
+                el.dataset.animated = '1';
+
+                var target = parseInt(el.dataset.target, 10) || 0;
+                var duration = 1500;
+                var startTime = performance.now();
+
+                function tick(now) {
+                    var elapsed = now - startTime;
+                    var progress = Math.min(elapsed / duration, 1);
+                    var eased = 1 - Math.pow(1 - progress, 3);
+                    var value = Math.round(target * eased);
+                    el.textContent = value.toLocaleString();
+
+                    if (progress < 1) {
+                        requestAnimationFrame(tick);
+                    } else {
+                        el.textContent = target.toLocaleString();
+                    }
+                }
+                requestAnimationFrame(tick);
+            })(counters[i]);
+        }
+    }
+
+    function setupPopObserver() {
+        var section = document.querySelector('.pop-section');
+        if (!section) return;
+
+        if (!('IntersectionObserver' in window)) {
+            animateCounters();
+            return;
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    observer.disconnect();
+                }
+            });
+        }, { threshold: 0.15 });
+
+        observer.observe(section);
+
+        /* Safety net: if already visible on load */
+        setTimeout(function () {
+            var rect = section.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+                animateCounters();
+                observer.disconnect();
+            }
+        }, 400);
+    }
+
     /* ---------- Boot ---------- */
     function start() {
         drawRain();
         setInterval(drawRain, 90);
         bindCtaRipples();
+        setupPopObserver();
     }
 
     if (document.readyState === 'loading') {
