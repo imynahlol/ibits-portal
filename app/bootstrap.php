@@ -8,12 +8,19 @@ $envFile = ROOT_DIR . '/.env';
 if (is_file($envFile)) {
     foreach (file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
         $line = trim($line);
-        if ($line === '' || $line[0] === '#' || !str_contains($line, '=')) continue;
+        if ($line === '' || $line[0] === '#' || !str_contains($line, '=')) {
+            continue;
+        }
+
         [$k, $v] = explode('=', $line, 2);
-        if (getenv(trim($k)) === false) putenv(trim($k) . '=' . trim($v));
+        if (getenv(trim($k)) === false) {
+            putenv(trim($k) . '=' . trim($v));
+        }
     }
 }
-function env(string $key, string $default = ''): string {
+
+function env(string $key, string $default = ''): string
+{
     $v = getenv($key);
     return $v === false ? $default : $v;
 }
@@ -23,10 +30,12 @@ if (env('APP_DEBUG', 'false') === 'true') {
     error_reporting(E_ALL);
 }
 
-// Base URL of the public/ folder (works at the web root or in a sub-folder).
 $docRoot = realpath($_SERVER['DOCUMENT_ROOT'] ?? '') ?: '';
 $pub     = realpath(PUBLIC_DIR) ?: PUBLIC_DIR;
-$base    = $docRoot !== '' && str_starts_with($pub, $docRoot) ? substr($pub, strlen($docRoot)) : '';
+$base    = $docRoot !== '' && str_starts_with($pub, $docRoot)
+    ? substr($pub, strlen($docRoot))
+    : '';
+
 define('BASE_URL', rtrim(str_replace('\\', '/', $base), '/'));
 
 session_set_cookie_params(['httponly' => true, 'samesite' => 'Lax']);
