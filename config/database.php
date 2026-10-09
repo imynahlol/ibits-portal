@@ -1,5 +1,6 @@
 <?php
-function loadEnv(string $path): void {
+function loadEnv(string $path): void
+{
     if (!file_exists($path)) {
         die("Environment file not found: $path");
     }
@@ -7,22 +8,27 @@ function loadEnv(string $path): void {
     $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     foreach ($lines as $line) {
         $line = trim($line);
+
         if ($line === '' || str_starts_with($line, '#')) {
             continue;
         }
         if (!str_contains($line, '=')) {
             continue;
         }
+
         [$name, $value] = explode('=', $line, 2);
+
         $name  = trim($name);
         $value = trim($value, " \t\n\r\0\x0B\"'");
+
         $_ENV[$name] = $value;
     }
 }
 
-loadEnv(__DIR__ . '/../.env');c
+loadEnv(__DIR__ . '/../.env');
 
-function db(): PDO {
+function db(): PDO
+{
     static $pdo = null;
 
     if ($pdo === null) {
